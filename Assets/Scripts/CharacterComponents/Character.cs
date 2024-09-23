@@ -1,0 +1,72 @@
+using Definitions;
+using UnityEngine;
+using UnityEngine.Serialization;
+
+namespace CharacterComponents
+{
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class Character : BaseComponent
+    {
+        [SerializeField, HideInInspector] public Rigidbody2D rb2D;
+        [SerializeField] private PlayerControllable playerControllable;
+        [SerializeField] private LumpMeatMovable lumpMeatMovable;
+        [SerializeField] private CameraTarget cameraTarget;
+        [SerializeField] private Shooter shooter;
+
+        public PlayerControllable PlayerControllable => playerControllable;
+        public LumpMeatMovable LumpMeatMovable => lumpMeatMovable;
+        public CameraTarget CameraTarget => cameraTarget;
+        public Shooter Shooter => shooter;
+
+        private float _gravityScale;
+        public CharacterDefinition characterDefinition;
+
+        public void Init(CharacterDefinition characterDefinition)
+        {
+            rb2D.bodyType = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyType2D;
+            rb2D.gravityScale = characterDefinition.Rigidbody2DDefinitionPack.gravityScale;
+            rb2D.constraints = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyConstraints2D;
+            rb2D.freezeRotation = characterDefinition.Rigidbody2DDefinitionPack.freezRotation;
+
+            this.characterDefinition = characterDefinition;
+
+            if (characterDefinition.CameraTargetPriority > 0)
+            {
+                cameraTarget.Init(characterDefinition.CameraTargetPriority);
+            }
+
+            if (characterDefinition.ShooterPack.isShooter)
+            {
+                shooter.Init(characterDefinition.ShooterPack, characterDefinition.Fraction);
+            }
+
+            if (characterDefinition.LumpMeatMovablePack.isLumpMeatMovable)
+            {
+                lumpMeatMovable.Init(
+                    characterDefinition.LumpMeatMovablePack
+                    , characterDefinition.Rigidbody2DDefinitionPack.gravityScale
+                );
+            }
+
+            if (characterDefinition.IsPlayerControllable)
+            {
+                playerControllable.enabled = characterDefinition.IsPlayerControllable;
+            }
+        }
+
+        public override void OnValidate()
+        {
+            base.OnValidate();
+            if (rb2D == null) rb2D = GetComponent<Rigidbody2D>();
+            if (playerControllable == null) playerControllable = GetComponent<PlayerControllable>();
+            if (cameraTarget == null) cameraTarget = GetComponent<CameraTarget>();
+            if (shooter == null) shooter = GetComponent<Shooter>();
+            if (lumpMeatMovable == null) lumpMeatMovable = GetComponent<LumpMeatMovable>();
+        }
+
+        public void Off()
+        {
+            gameObject.SetActive(false);
+        }
+    }
+}

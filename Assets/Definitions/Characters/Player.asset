@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3553281fe6d58b343a5bd2d1142c6705, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2611898077980423418, guid: 1fa1d7a478d13df4fb8ca514c19cff9c, type: 3}
+  fraction: 0
+  cameraTargetPriority: 1
+  rigidbody2DDefinitionPack:
+    rigidbodyType2D: 0
+    gravityScale: 0
+  isPlayerControllable: 1
+  lumpMeatMovablePack:
+    isLumpMeatMovable: 1
+    rotationSpeed: 10
+    decelerationRate: 0.95
+    powerDash: 10
+  shooterPack:
+    isShooter: 1
+    projectileDefinition: {fileID: 11400000, guid: c551011fee7266846ae59a4db1794f3d, type: 2}
+    speed: 1
+    rotationSpeed: 25
+    shootDelay: 0
