@@ -32,36 +32,27 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""c8331030-b478-4329-b087-c4bce8d02b61"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone(min=0.05,max=1)"",
+                    ""processors"": ""StickDeadzone(min=0.02,max=1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""TouchScreenPc"",
-                    ""type"": ""Value"",
-                    ""id"": ""fc91e788-e5eb-4b6c-a8dd-c46f45f2e830"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""TouchScreenMobile"",
-                    ""type"": ""Value"",
-                    ""id"": ""7b0a82af-582f-41fb-ac08-80869e4ffb69"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""DetouchScreenMobile"",
+                    ""name"": ""LeftButton"",
                     ""type"": ""Button"",
-                    ""id"": ""85a2bc11-8579-40f6-aaa7-b4d4824f669a"",
+                    ""id"": ""fc91e788-e5eb-4b6c-a8dd-c46f45f2e830"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ScreenPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""486cc4a7-9ee8-4279-a34e-f0a0e33dde91"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -78,34 +69,45 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""affc4a3b-ae04-4c1a-9be8-ed812c2da520"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TouchScreenPc"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""600640de-a591-4333-887f-b5c648069939"",
                     ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchScreenMobile"",
+                    ""action"": ""ScreenPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""08f6fb03-5ec4-47d2-96fd-8ef6141b6a4e"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""id"": ""efeb2749-889a-4f05-ac29-d2f8f28c4961"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""DetouchScreenMobile"",
+                    ""action"": ""ScreenPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b2f1a68-c4b0-4fc6-b91b-d720290fc7af"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a165a9c4-0003-4926-aec8-a55cf45af4ca"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -117,9 +119,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // PlayerMovable
         m_PlayerMovable = asset.FindActionMap("PlayerMovable", throwIfNotFound: true);
         m_PlayerMovable_Joystick = m_PlayerMovable.FindAction("Joystick", throwIfNotFound: true);
-        m_PlayerMovable_TouchScreenPc = m_PlayerMovable.FindAction("TouchScreenPc", throwIfNotFound: true);
-        m_PlayerMovable_TouchScreenMobile = m_PlayerMovable.FindAction("TouchScreenMobile", throwIfNotFound: true);
-        m_PlayerMovable_DetouchScreenMobile = m_PlayerMovable.FindAction("DetouchScreenMobile", throwIfNotFound: true);
+        m_PlayerMovable_LeftButton = m_PlayerMovable.FindAction("LeftButton", throwIfNotFound: true);
+        m_PlayerMovable_ScreenPosition = m_PlayerMovable.FindAction("ScreenPosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -182,17 +183,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerMovable;
     private List<IPlayerMovableActions> m_PlayerMovableActionsCallbackInterfaces = new List<IPlayerMovableActions>();
     private readonly InputAction m_PlayerMovable_Joystick;
-    private readonly InputAction m_PlayerMovable_TouchScreenPc;
-    private readonly InputAction m_PlayerMovable_TouchScreenMobile;
-    private readonly InputAction m_PlayerMovable_DetouchScreenMobile;
+    private readonly InputAction m_PlayerMovable_LeftButton;
+    private readonly InputAction m_PlayerMovable_ScreenPosition;
     public struct PlayerMovableActions
     {
         private @Controls m_Wrapper;
         public PlayerMovableActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Joystick => m_Wrapper.m_PlayerMovable_Joystick;
-        public InputAction @TouchScreenPc => m_Wrapper.m_PlayerMovable_TouchScreenPc;
-        public InputAction @TouchScreenMobile => m_Wrapper.m_PlayerMovable_TouchScreenMobile;
-        public InputAction @DetouchScreenMobile => m_Wrapper.m_PlayerMovable_DetouchScreenMobile;
+        public InputAction @LeftButton => m_Wrapper.m_PlayerMovable_LeftButton;
+        public InputAction @ScreenPosition => m_Wrapper.m_PlayerMovable_ScreenPosition;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovable; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -205,15 +204,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Joystick.started += instance.OnJoystick;
             @Joystick.performed += instance.OnJoystick;
             @Joystick.canceled += instance.OnJoystick;
-            @TouchScreenPc.started += instance.OnTouchScreenPc;
-            @TouchScreenPc.performed += instance.OnTouchScreenPc;
-            @TouchScreenPc.canceled += instance.OnTouchScreenPc;
-            @TouchScreenMobile.started += instance.OnTouchScreenMobile;
-            @TouchScreenMobile.performed += instance.OnTouchScreenMobile;
-            @TouchScreenMobile.canceled += instance.OnTouchScreenMobile;
-            @DetouchScreenMobile.started += instance.OnDetouchScreenMobile;
-            @DetouchScreenMobile.performed += instance.OnDetouchScreenMobile;
-            @DetouchScreenMobile.canceled += instance.OnDetouchScreenMobile;
+            @LeftButton.started += instance.OnLeftButton;
+            @LeftButton.performed += instance.OnLeftButton;
+            @LeftButton.canceled += instance.OnLeftButton;
+            @ScreenPosition.started += instance.OnScreenPosition;
+            @ScreenPosition.performed += instance.OnScreenPosition;
+            @ScreenPosition.canceled += instance.OnScreenPosition;
         }
 
         private void UnregisterCallbacks(IPlayerMovableActions instance)
@@ -221,15 +217,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Joystick.started -= instance.OnJoystick;
             @Joystick.performed -= instance.OnJoystick;
             @Joystick.canceled -= instance.OnJoystick;
-            @TouchScreenPc.started -= instance.OnTouchScreenPc;
-            @TouchScreenPc.performed -= instance.OnTouchScreenPc;
-            @TouchScreenPc.canceled -= instance.OnTouchScreenPc;
-            @TouchScreenMobile.started -= instance.OnTouchScreenMobile;
-            @TouchScreenMobile.performed -= instance.OnTouchScreenMobile;
-            @TouchScreenMobile.canceled -= instance.OnTouchScreenMobile;
-            @DetouchScreenMobile.started -= instance.OnDetouchScreenMobile;
-            @DetouchScreenMobile.performed -= instance.OnDetouchScreenMobile;
-            @DetouchScreenMobile.canceled -= instance.OnDetouchScreenMobile;
+            @LeftButton.started -= instance.OnLeftButton;
+            @LeftButton.performed -= instance.OnLeftButton;
+            @LeftButton.canceled -= instance.OnLeftButton;
+            @ScreenPosition.started -= instance.OnScreenPosition;
+            @ScreenPosition.performed -= instance.OnScreenPosition;
+            @ScreenPosition.canceled -= instance.OnScreenPosition;
         }
 
         public void RemoveCallbacks(IPlayerMovableActions instance)
@@ -250,8 +243,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IPlayerMovableActions
     {
         void OnJoystick(InputAction.CallbackContext context);
-        void OnTouchScreenPc(InputAction.CallbackContext context);
-        void OnTouchScreenMobile(InputAction.CallbackContext context);
-        void OnDetouchScreenMobile(InputAction.CallbackContext context);
+        void OnLeftButton(InputAction.CallbackContext context);
+        void OnScreenPosition(InputAction.CallbackContext context);
     }
 }

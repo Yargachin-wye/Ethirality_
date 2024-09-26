@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArrowProjectile
   m_EditorClassIdentifier: 
   prefab: {fileID: 6653563369106539948, guid: 5f505f6a58290144999bf75cf7a3c088, type: 3}
-  speedMultiply: 15
+  speedMultiply: 10
   lifeDelay: 2
   rigidbodyType2D: 0
   gravityScale: 0

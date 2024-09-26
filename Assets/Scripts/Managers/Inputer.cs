@@ -23,6 +23,7 @@ namespace Managers
         private Vector2 _touchPosition;
         private Vector2 _detouchPosition;
         private Vector2 _lookDirection;
+        private Vector2 _screenPosition;
 
         private void Awake()
         {
@@ -35,43 +36,21 @@ namespace Managers
             Instance = this;
             _controls = new Controls();
         }
-
-        private void Update()
-        {
-            if (!_pressed) return;
-            
-            OnInputLook?.Invoke(_detouchPosition);
-            
-            if (_taped) return;
-            _tapTimer -= Time.deltaTime;
-            if (_tapTimer <= 0)
-            {
-                _taped = true;
-                OnInputFreeze?.Invoke(true, _touchPosition);
-            }
-        }
-
         private void OnEnable()
         {
             _controls.Enable();
             _controls.PlayerMovable.Joystick.performed += Joystick;
-
-            _controls.PlayerMovable.TouchScreenPc.started += LmPresed;
-            _controls.PlayerMovable.TouchScreenPc.canceled += ReleasedTouch;
-
-            _controls.PlayerMovable.TouchScreenMobile.performed += Touch;
-            _controls.PlayerMovable.DetouchScreenMobile.canceled += ReleasedTouch;
+            _controls.PlayerMovable.LeftButton.started += Touch;
+            _controls.PlayerMovable.LeftButton.canceled += ReleasedTouch;
+            _controls.PlayerMovable.ScreenPosition.performed += ReadScreenPosition;
         }
 
         private void OnDisable()
         {
             _controls.PlayerMovable.Joystick.performed -= Joystick;
-
-            _controls.PlayerMovable.TouchScreenPc.started -= LmPresed;
-            _controls.PlayerMovable.TouchScreenPc.canceled -= ReleasedTouch;
-
-            _controls.PlayerMovable.TouchScreenMobile.performed -= Touch;
-            _controls.PlayerMovable.DetouchScreenMobile.canceled -= ReleasedTouch;
+            _controls.PlayerMovable.LeftButton.started -= Touch;
+            _controls.PlayerMovable.LeftButton.canceled -= ReleasedTouch;
+            _controls.PlayerMovable.ScreenPosition.performed -= ReadScreenPosition;
 
             _controls.Disable();
         }
@@ -80,20 +59,15 @@ namespace Managers
         {
             if (_pressed) return;
             _taped = false;
-            _tapTimer = tapDelay;
             _pressed = true;
-            _touchPosition = context.ReadValue<Vector2>();
+            _tapTimer = tapDelay;
+            _touchPosition = _screenPosition;
             _detouchPosition = Vector2.zero;
         }
 
-        public void LmPresed(InputAction.CallbackContext context)
+        public void ReadScreenPosition(InputAction.CallbackContext context)
         {
-            if (_pressed) return;
-            _taped = false;
-            _tapTimer = tapDelay;
-            _pressed = true;
-            _touchPosition = Input.mousePosition;
-            _detouchPosition = Vector2.zero;
+            _screenPosition = context.ReadValue<Vector2>();
         }
 
         public void ReleasedTouch(InputAction.CallbackContext context)
@@ -107,16 +81,30 @@ namespace Managers
                 return;
             }
 
-            if (_detouchPosition.magnitude > joysickMinMagnitude) OnInputDash?.Invoke(_detouchPosition);
-
-
+            if (_detouchPosition.magnitude > joysickMinMagnitude) OnInputDash?.Invoke(_screenPosition);
+            
             OnInputFreeze?.Invoke(false, Vector2.zero);
         }
 
         public void Joystick(InputAction.CallbackContext context)
         {
-            // if (!context.control.IsActuated()) return;
+            if (!context.control.IsActuated()) return;
             _detouchPosition = context.ReadValue<Vector2>();
+        }
+        
+        private void Update()
+        {
+            if (!_pressed) return;
+
+            OnInputLook?.Invoke(_detouchPosition);
+
+            if (_taped) return;
+            _tapTimer -= Time.deltaTime;
+            if (_tapTimer <= 0)
+            {
+                _taped = true;
+                OnInputFreeze?.Invoke(true, _touchPosition);
+            }
         }
     }
 }

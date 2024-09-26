@@ -17,7 +17,7 @@ MonoBehaviour:
   cameraTargetPriority: -1
   rigidbody2DDefinitionPack:
     rigidbodyType2D: 0
-    rigidbodyConstraints2D: 0
+    rigidbodyConstraints2D: 3
     freezRotation: 0
     gravityScale: 0
   isPlayerControllable: 0

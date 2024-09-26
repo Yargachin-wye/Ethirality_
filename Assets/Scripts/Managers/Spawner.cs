@@ -18,7 +18,6 @@ namespace Managers
 
         private void StartSpawn()
         {
-            Debug.Log($"Spawnr {gameObject.name} spawn");
             if (isSpawnOnStart)
             {
                 Spawn();
