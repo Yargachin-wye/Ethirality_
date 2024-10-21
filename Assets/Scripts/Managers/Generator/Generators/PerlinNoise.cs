@@ -30,7 +30,7 @@ namespace Managers.Generator.Generators
         [SerializeField] private bool isOutWaypointsPath1;
         [SerializeField] private bool isInWaypointsPath2;
         [SerializeField] private bool isOutWaypointsPath2;
-
+        [SerializeField] private float maxY;
         [SerializeField] private WaypointsPath waypointsPath1;
         [SerializeField] private WaypointsPath waypointsPath2;
         [SerializeField, Range(0, 100)] private int chancePointType2;
@@ -53,7 +53,7 @@ namespace Managers.Generator.Generators
                 float perlinNoise2 = Mathf.PerlinNoise(yCoord, xCoord);
                 float perlinNoise = (perlinNoise1 + perlinNoise2) / 2.0f;
 
-                if (
+                if (randomPosition.y > maxY ||
                     isInWaypointsPath1 && !waypointsPath1.IsPointInsideContour(randomPosition) ||
                     isOutWaypointsPath1 && waypointsPath1.IsPointInsideContour(randomPosition) ||
                     isInWaypointsPath2 && !waypointsPath2.IsPointInsideContour(randomPosition) ||
@@ -81,6 +81,7 @@ namespace Managers.Generator.Generators
                     yield return null;
                 }
             }
+
             Debug.Log("PerlinNoise Inited");
             yield return null;
         }

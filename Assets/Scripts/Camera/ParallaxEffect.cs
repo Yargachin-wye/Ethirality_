@@ -25,7 +25,7 @@ namespace Camera
             }
         }
 
-        void FixedUpdate()
+        void Update()
         {
             Vector2 moveTo = camera.position - _cameraTransformLasPos;
             _cameraTransformLasPos = camera.position;

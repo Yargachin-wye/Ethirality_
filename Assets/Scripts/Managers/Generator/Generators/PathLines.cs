@@ -23,12 +23,10 @@ namespace Managers.Generator.Generators
             Transform[] nodes1 = generatorShell1.waypointsPath.GetNodes();
             Transform[] nodes2 = generatorShell2.waypointsPath.GetNodes();
 
-            int min1 = 1;
-            int max1 = nodes1.Length / 2;
+            int min1 = nodes1.Length / 2 + 2;
+            int max1 = nodes1.Length;
 
-            int count = Random.Next(min1, max1);
-
-            for (int i = 0; i < 3; i++)
+            for (int i = min1; i < max1; i++)
             {
                 Vector2[] line = wormLikeLineGenerator.GetPath(Random,
                     nodes1[i].position,
