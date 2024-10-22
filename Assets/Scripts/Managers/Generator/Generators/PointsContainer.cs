@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using CharacterComponents;
 using Definitions;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Managers.Pools
 {
@@ -21,30 +22,30 @@ namespace Managers.Pools
         Type10,
     }
 
-    public class PointsContainer : MonoBehaviour
+    public class PointsContainer : Generator.Generator
     {
-#if UNITY_EDITOR
         [SerializeField] private List<PointsContainerPack> pointsContainerPackList;
-        private Dictionary<PointsTypes, PointsContainerPack> _pointsListEditr = new();
-#endif
+        [SerializeField] private ChunksController chunksController;
+        private Dictionary<PointsTypes, PointsContainerPack> _pointsDict = new();
+
         [SerializeField] private float distToPlayerForSpawn = 10;
         [SerializeField] private int chunkSize = 10;
+        public int ChunkSize => chunkSize;
 
         public static PointsContainer Instance;
 
-        private Dictionary<Vector2Int, List<Vector2>> _chunks = new Dictionary<Vector2Int, List<Vector2>>();
+        public Dictionary<Vector2Int, List<ChunksController.SpawnPoint>> Chunks = new Dictionary<Vector2Int, List<ChunksController.SpawnPoint>>();
         private Dictionary<Vector2, PointsTypes> _pointsList = new Dictionary<Vector2, PointsTypes>();
 
 
         private void Awake()
         {
-#if UNITY_EDITOR
-            _pointsListEditr = new();
+            _pointsDict = new();
             foreach (var point in pointsContainerPackList)
             {
-                _pointsListEditr.Add(point.name, point);
+                _pointsDict.Add(point.name, point);
             }
-#endif
+
             if (Instance != null)
             {
                 Debug.LogError("PointsContainer Instance != null !!!");
@@ -57,9 +58,9 @@ namespace Managers.Pools
         public IEnumerator Clear()
         {
             _pointsList.Clear();
-            _chunks.Clear();
+            Chunks.Clear();
             _pointsList = new();
-            _chunks = new();
+            Chunks = new();
             yield return null;
         }
 
@@ -75,29 +76,53 @@ namespace Managers.Pools
 
             Vector2Int chunkCoords = GetChunkCoords(position);
 
-            if (!_chunks.ContainsKey(chunkCoords))
+            if (!Chunks.ContainsKey(chunkCoords))
             {
-                _chunks[chunkCoords] = new List<Vector2>();
+                Chunks[chunkCoords] = new List<ChunksController.SpawnPoint>();
             }
 
-            _chunks[chunkCoords].Add(position);
+            ChunksController.SpawnPoint sp = new ChunksController.SpawnPoint
+            {
+                Position = position,
+                Type = pointType
+            };
+
+            Chunks[chunkCoords].Add(sp);
         }
 
-        private Vector2Int GetChunkCoords(Vector2 position)
+        public Vector2Int GetChunkCoords(Vector2 position)
         {
             return new Vector2Int(Mathf.FloorToInt(position.x / chunkSize), Mathf.FloorToInt(position.y / chunkSize));
         }
 
-        public List<Vector2> GetPointsInChunk(Vector2Int chunkCoords)
+        public List<ChunksController.SpawnPoint> GetPointsInChunk(Vector2Int chunkCoords)
         {
-            if (_chunks.ContainsKey(chunkCoords))
+            if (Chunks.ContainsKey(chunkCoords))
             {
-                return _chunks[chunkCoords];
+                return Chunks[chunkCoords];
             }
-            else
+
+            return new List<ChunksController.SpawnPoint>();
+        }
+
+        
+
+        public override IEnumerator Init(Random random, Vector2 position)
+        {
+            yield return base.Init(random, position);
+            foreach (var chunk in Chunks)
             {
-                return new List<Vector2>();
+                foreach (var spawnPoint in chunk.Value)
+                {
+                    PointsContainerPack pack = _pointsDict[spawnPoint.Type];
+
+                    spawnPoint.CharacterDefinition =
+                        SelectRandomWithProbability(pack.characterDefinitionsPool, pack.probabilities, Random);
+                }
             }
+
+            chunksController.Init();
+            yield return null;
         }
 
         private void OnDrawGizmos()
@@ -106,13 +131,13 @@ namespace Managers.Pools
 
             foreach (var point in _pointsList)
             {
-                PointsContainerPack pack = _pointsListEditr[point.Value];
+                PointsContainerPack pack = _pointsDict[point.Value];
                 Gizmos.color = pack.color;
                 Gizmos.DrawSphere(point.Key, pack.radius);
             }
 
             Gizmos.color = Color.green;
-            foreach (var chunk in _chunks)
+            foreach (var chunk in Chunks)
             {
                 Vector2Int chunkCoords = chunk.Key;
                 Vector2 chunkWorldPosition = new Vector2(chunkCoords.x * chunkSize, chunkCoords.y * chunkSize);
@@ -128,7 +153,28 @@ namespace Managers.Pools
             public PointsTypes name;
             public Color color = Color.white;
             public float radius = 1;
-            public List<CharacterDefinition> characterDefinitionsPool;
+            public float[] probabilities;
+            public CharacterDefinition[] characterDefinitionsPool;
+        }
+
+        private static CharacterDefinition SelectRandomWithProbability(CharacterDefinition[] elements,
+            float[] probabilities, Random rand)
+        {
+            double randomValue = rand.NextDouble();
+
+            double cumulativeProbability = 0.0;
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                cumulativeProbability += probabilities[i];
+
+                if (randomValue <= cumulativeProbability)
+                {
+                    return elements[i];
+                }
+            }
+
+            return elements[elements.Length - 1];
         }
     }
 }

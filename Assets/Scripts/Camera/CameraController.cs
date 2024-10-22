@@ -12,6 +12,7 @@ namespace Camera
 
         private List<CameraTarget> _cameraTargetsList;
         private CameraTarget _nowTarget;
+        public CameraTarget NowTarget=>_nowTarget;
         private float _z = 0;
         private float _size = 0;
         public static CameraController Instance;

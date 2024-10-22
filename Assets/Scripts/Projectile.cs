@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
     private bool _isAttached;
     private bool _isForceOnAttached = false;
     private bool _isJoined = false;
+    private bool _isTrigered = false;
 
     public void Init(ProjectileDefinition projectileDefinition)
     {
@@ -90,6 +91,7 @@ public class Projectile : MonoBehaviour
         _inited = true;
         _owner = owner;
         _fraction = fraction;
+        _isTrigered = false;
 
         if (rb2D.bodyType == RigidbodyType2D.Dynamic)
         {
@@ -107,6 +109,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (_isTrigered) return;
         Character character = other.GetComponent<Character>();
         if (character == null ||
             character.characterDefinition.Fraction == _fraction &&
@@ -120,7 +123,9 @@ public class Projectile : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-
+        
+        
+        _isTrigered = true;
         _isAttached = false;
         _isForceOnAttached = false;
         _trigger = other.gameObject;
