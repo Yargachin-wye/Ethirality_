@@ -66,7 +66,7 @@ namespace CharacterComponents
 
         public void Init(LumpMeatMovablePack lumpMeatMovablePack, float gravityScale)
         {
-            enabled = lumpMeatMovablePack.isLumpMeatMovable;
+            enabled = lumpMeatMovablePack.isEnable;
 
             _lumpMeatMovablePack = lumpMeatMovablePack;
             _gravityScale = gravityScale;

@@ -30,11 +30,29 @@ public class ChunksController : MonoBehaviour
         character.gameObject.SetActive(true);
         character.transform.position = spawnPoint.Position;
         spawnPoint.GameObject = character.gameObject;
+        character.Init(spawnPoint.CharacterDefinition);
     }
 
-    private void Despawn(SpawnPoint spawnPoint)
+    private void Despawn(Vector2Int chunk, SpawnPoint spawnPoint)
     {
-        spawnPoint.GameObject.SetActive(false);
+        Vector2Int newChunk = pointsContainer.GetChunkCoords(spawnPoint.GameObject.transform.position);
+        if (chunk != newChunk)
+        {
+            Chunks[chunk].Remove(spawnPoint);
+            if (Chunks.ContainsKey(newChunk))
+            {
+                Chunks[newChunk].Add(spawnPoint);
+            }
+            else
+            {
+                List<SpawnPoint> list = new List<SpawnPoint>();
+                list.Add(spawnPoint);
+                Chunks.Add(newChunk, list);
+            }
+        }
+
+        spawnPoint.Position = spawnPoint.GameObject.transform.position;
+        if (!_loadedChunks.Contains(newChunk)) spawnPoint.GameObject.SetActive(false);
     }
 
     public void Init()
@@ -42,10 +60,13 @@ public class ChunksController : MonoBehaviour
         _inited = true;
     }
 
+    private List<Vector2Int> deloadChunks = new List<Vector2Int>();
     private void FixedUpdate()
     {
         if (!_inited) return;
-
+        
+        deloadChunks.Clear();
+        
         foreach (var chunk in Chunks)
         {
             if (Vector2.Distance(
@@ -64,9 +85,15 @@ public class ChunksController : MonoBehaviour
                 if (_loadedChunks.Contains(chunk.Key))
                 {
                     _loadedChunks.Remove(chunk.Key);
-                    foreach (var spawnPoint in chunk.Value) Despawn(spawnPoint);
+                    deloadChunks.Add(chunk.Key);
                 }
             }
+        }
+
+        foreach (var key in deloadChunks)
+        {
+            List<SpawnPoint> despawnPoints = new List<SpawnPoint>(Chunks[key]);
+            foreach (var p in despawnPoints) Despawn(key, p);
         }
     }
 

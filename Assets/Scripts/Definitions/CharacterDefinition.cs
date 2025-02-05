@@ -13,6 +13,7 @@ namespace Definitions
         [SerializeField] private Rigidbody2DDefinitionPack rigidbody2DDefinitionPack;
         [SerializeField] private bool isPlayerControllable;
         [SerializeField] private LumpMeatMovablePack lumpMeatMovablePack;
+        [SerializeField] private ReachingToStartMovablePack reachingToStartMovablePack;
 
         [FormerlySerializedAs("shootablePack")] [SerializeField]
         private ShooterPack shooterPack;
@@ -24,6 +25,7 @@ namespace Definitions
         public bool IsPlayerControllable => isPlayerControllable;
         public ShooterPack ShooterPack => shooterPack;
         public LumpMeatMovablePack LumpMeatMovablePack => lumpMeatMovablePack;
+        public ReachingToStartMovablePack ReachingToStartMovablePack => reachingToStartMovablePack;
     }
 
     [Serializable]
@@ -49,10 +51,16 @@ namespace Definitions
     [Serializable]
     public struct LumpMeatMovablePack
     {
-        public bool isLumpMeatMovable;
+        public bool isEnable;
         public float rotationSpeed;
         public float decelerationRate;
         public float powerDash;
+    }
+    [Serializable]
+    public struct ReachingToStartMovablePack
+    {
+        public bool isEnable;
+        public float speed;
     }
 
     public enum Fraction

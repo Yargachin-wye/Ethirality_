@@ -22,10 +22,13 @@ MonoBehaviour:
     gravityScale: 0
   isPlayerControllable: 0
   lumpMeatMovablePack:
-    isLumpMeatMovable: 0
+    isEnable: 0
     rotationSpeed: 0
     decelerationRate: 0
     powerDash: 0
+  reachingToStartMovablePack:
+    isEnable: 1
+    speed: 10
   shooterPack:
     isShooter: 0
     projectileDefinition: {fileID: 0}

@@ -28,6 +28,7 @@ namespace Managers
             Character character = _charactersPool.GetPooledObject(characterDefinition);
             character.gameObject.SetActive(true);
             character.transform.position = transform.position;
+            character.Init(characterDefinition);
         }
     }
 }

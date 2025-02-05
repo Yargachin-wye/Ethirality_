@@ -10,11 +10,13 @@ namespace CharacterComponents
         [SerializeField, HideInInspector] public Rigidbody2D rb2D;
         [SerializeField] private PlayerControllable playerControllable;
         [SerializeField] private LumpMeatMovable lumpMeatMovable;
+        [SerializeField] private ReachingToStartMovable reachingToStartMovable;
         [SerializeField] private CameraTarget cameraTarget;
         [SerializeField] private Shooter shooter;
 
         public PlayerControllable PlayerControllable => playerControllable;
         public LumpMeatMovable LumpMeatMovable => lumpMeatMovable;
+        public ReachingToStartMovable ReachingToStartMovable => reachingToStartMovable;
         public CameraTarget CameraTarget => cameraTarget;
         public Shooter Shooter => shooter;
 
@@ -40,12 +42,17 @@ namespace CharacterComponents
                 shooter.Init(characterDefinition.ShooterPack, characterDefinition.Fraction);
             }
 
-            if (characterDefinition.LumpMeatMovablePack.isLumpMeatMovable)
+            if (characterDefinition.LumpMeatMovablePack.isEnable)
             {
                 lumpMeatMovable.Init(
                     characterDefinition.LumpMeatMovablePack
                     , characterDefinition.Rigidbody2DDefinitionPack.gravityScale
                 );
+            }
+
+            if (characterDefinition.ReachingToStartMovablePack.isEnable)
+            {
+                reachingToStartMovable.Init(characterDefinition.ReachingToStartMovablePack);
             }
 
             if (characterDefinition.IsPlayerControllable)

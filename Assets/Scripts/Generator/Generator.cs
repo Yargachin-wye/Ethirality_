@@ -5,15 +5,13 @@ namespace Managers.Generator
 {
     public abstract class Generator : MonoBehaviour
     {
-        private Vector2 _position;
-        private System.Random _random;
-        public System.Random Random => _random;
-        public Vector2 Position => _position;
+        protected System.Random Random;
+        protected Vector2 Position;
 
         public virtual IEnumerator Init(System.Random random, Vector2 position)
         {
-            _random = random;
-            _position = position;
+            Random = random;
+            Position = position;
             
             yield return null;
         }

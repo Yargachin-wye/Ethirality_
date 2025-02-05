@@ -57,14 +57,12 @@ namespace Managers.Pools
                         {
                             Character characterFromPool = pool.objectsList[i].GetComponent<Character>();
                             pool.objectsList[i].SetActive(true);
-                            characterFromPool.Init(characterDefinition);
                             return characterFromPool;
                         }
                     }
 
                     GameObject obj = Instantiate(characterDefinition.Prefab);
                     Character characterNew = obj.GetComponent<Character>();
-                    characterNew.Init(characterDefinition);
                     pool.objectsList.Add(obj);
                     return characterNew;
                 }

@@ -17,16 +17,21 @@ MonoBehaviour:
   cameraTargetPriority: 1
   rigidbody2DDefinitionPack:
     rigidbodyType2D: 0
-    gravityScale: 0
+    rigidbodyConstraints2D: 0
+    freezRotation: 0
+    gravityScale: 0.5
   isPlayerControllable: 1
   lumpMeatMovablePack:
-    isLumpMeatMovable: 1
+    isEnable: 1
     rotationSpeed: 10
     decelerationRate: 0.95
     powerDash: 10
+  reachingToStartMovablePack:
+    isEnable: 0
+    speed: 2
   shooterPack:
     isShooter: 1
     projectileDefinition: {fileID: 11400000, guid: c551011fee7266846ae59a4db1794f3d, type: 2}
     speed: 1
     rotationSpeed: 25
-    shootDelay: 0
+    shootDelay: 1
