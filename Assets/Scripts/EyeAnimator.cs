@@ -15,10 +15,6 @@ namespace DefaultNamespace
             BlinkEye
         }
 
-        public const string OpenEye = "open_eye";
-        public const string CloseEye = "close_eye";
-        public const string BlinkEye = "blink_eye";
-
         [SerializeField] private SpriteRenderer image;
         [SerializeField] private float frameDelay = 0.1f;
         [Space] [SerializeField] private Sprite eyeOpenJawOpen;
@@ -28,9 +24,9 @@ namespace DefaultNamespace
 
         [SerializeField] private List<Sprite> closingEye;
 
-        [SerializeField] private Sprite[] closingF;
-        [SerializeField] private Sprite[] openingF;
-        [SerializeField] private Sprite[] blinkingF;
+        [SerializeField, HideInInspector] private Sprite[] closingF;
+        [SerializeField, HideInInspector] private Sprite[] openingF;
+        [SerializeField, HideInInspector] private Sprite[] blinkingF;
 
         private Animations _animation;
         private float _timer = 0.1f;

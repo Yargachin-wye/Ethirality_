@@ -1072,11 +1072,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eye0:
     image: {fileID: 169899556}
-    frameDelay: 0.1
+    frameDelay: 0.5
     eyeOpenJawOpen: {fileID: -163265146, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     eyeCloseJawOpen: {fileID: 890546646, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     eyeOpenJawClose: {fileID: 1178503475, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
-    eyeCloseJawClose: {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    eyeCloseJawClose: {fileID: 1597381715, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     closingEye:
     - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
@@ -1086,9 +1086,9 @@ MonoBehaviour:
     - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
-    - {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1597381715, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     openingF:
-    - {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1597381715, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
@@ -1098,7 +1098,7 @@ MonoBehaviour:
     - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
-    - {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1597381715, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
     - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
