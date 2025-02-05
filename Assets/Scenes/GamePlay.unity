@@ -361,7 +361,6 @@ GameObject:
   m_Component:
   - component: {fileID: 169899554}
   - component: {fileID: 169899556}
-  - component: {fileID: 169899555}
   m_Layer: 0
   m_Name: eye0
   m_TagString: Untagged
@@ -384,24 +383,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 759264574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!111 &169899555
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169899553}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 54ece9dd8caa60f4187c2fe1c57648c0, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: e58ab7e75a24cd240a125b0435e83293, type: 2}
-  - {fileID: 7400000, guid: 5c4b0298112997e4187b5896add30d16, type: 2}
-  - {fileID: 7400000, guid: 54ece9dd8caa60f4187c2fe1c57648c0, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!212 &169899556
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1089,26 +1070,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1397f8db528864f47a8dd29017ab71ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionDuration: 0
-  eyes0Animator: {fileID: 169899555}
-  eyes1Animator: {fileID: 0}
-  eyes2Animator: {fileID: 0}
-  eyes3Animator: {fileID: 0}
-  eyes4Animator: {fileID: 0}
-  eyes5Animator: {fileID: 0}
-  eyes6Animator: {fileID: 0}
-  eyes7Animator: {fileID: 0}
-  eyes8Animator: {fileID: 0}
-  animators:
-  - {fileID: 169899555}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  eye0:
+    image: {fileID: 169899556}
+    frameDelay: 0.1
+    eyeOpenJawOpen: {fileID: -163265146, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    eyeCloseJawOpen: {fileID: 890546646, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    eyeOpenJawClose: {fileID: 1178503475, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    eyeCloseJawClose: {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    closingEye:
+    - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    closingF:
+    - {fileID: 1178503475, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    openingF:
+    - {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1178503475, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    blinkingF:
+    - {fileID: 1178503475, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 493592699, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -1701002563, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: -15890190, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1214359521, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
+    - {fileID: 1178503475, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
 --- !u!1 &839287353
 GameObject:
   m_ObjectHideFlags: 0
