@@ -7,6 +7,13 @@ using UnityEngine;
 public class EyesAnimator : MonoBehaviour
 {
     [SerializeField] private EyeAnimator eye0;
+    [SerializeField] private EyeAnimator eye1;
+    [SerializeField] private EyeAnimator eye2;
+    [SerializeField] private EyeAnimator eye3;
+    [SerializeField] private EyeAnimator eye4;
+    [SerializeField] private EyeAnimator eye5;
+    [SerializeField] private EyeAnimator eye6;
+    [SerializeField] private EyeAnimator eye7;
 
     private void OnValidate()
     {

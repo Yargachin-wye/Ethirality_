@@ -17,9 +17,12 @@ namespace DefaultNamespace
 
         [SerializeField] private SpriteRenderer image;
         [SerializeField] private float frameDelay = 0.1f;
-        [Space] [SerializeField] private Sprite eyeOpenJawOpen;
-        [SerializeField] private Sprite eyeCloseJawOpen;
+        [Space]
+        [SerializeField] private Sprite eyeOpenJawOpen;
+        [SerializeField] private Sprite eyeOpenJawMid;
         [SerializeField] private Sprite eyeOpenJawClose;
+        [SerializeField] private Sprite eyeCloseJawOpen;
+        [SerializeField] private Sprite eyeCloseJawMid;
         [SerializeField] private Sprite eyeCloseJawClose;
 
         [SerializeField] private List<Sprite> closingEye;
