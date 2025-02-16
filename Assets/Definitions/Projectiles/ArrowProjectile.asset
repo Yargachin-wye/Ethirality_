@@ -17,9 +17,10 @@ MonoBehaviour:
   lifeDelay: 2
   rigidbodyType2D: 0
   gravityScale: 0
-  recoil: -1
+  recoil: 0
   isDestroyOnTrigger: 0
   isAttachedOnTrigger: 1
   attachedForceDelay: 0.1
   targetForce: -15
   ownerForce: -20
+  hasRope: 1

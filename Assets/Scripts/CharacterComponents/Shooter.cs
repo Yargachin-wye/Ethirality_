@@ -51,7 +51,7 @@ namespace CharacterComponents
             if (angleDifference < 0.5f)
             {
                 var pooledObject = _projectilePool.GetPooledObject(_shooterPack.projectileDefinition);
-                pooledObject.transform.position = transform.position;
+                pooledObject.transform.position = transform.position + transform.right;
                 pooledObject.Shoot(transform.right, _shooterPack.speed, gameObject, fraction);
 
                 _shoots.Remove(_shoots[0]);

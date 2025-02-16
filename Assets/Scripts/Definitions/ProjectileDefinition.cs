@@ -12,11 +12,15 @@ namespace Definitions
         [Header("Физика")] [SerializeField] private RigidbodyType2D rigidbodyType2D;
         [SerializeField] private float gravityScale;
         [Header("Выстрел")] [SerializeField] private float recoil;
-        [Header("Столкновение")] [SerializeField] private bool isDestroyOnTrigger;
+
+        [Header("Столкновение")] [SerializeField]
+        private bool isDestroyOnTrigger;
+
         [SerializeField] private bool isAttachedOnTrigger;
         [SerializeField] private float attachedForceDelay = 0;
         [SerializeField] private float targetForce = 0;
         [SerializeField] private float ownerForce = 0;
+        [SerializeField] private bool hasRope = false;
         public GameObject Prefab => prefab;
         public float SpeedMultiply => speedMultiply;
         public RigidbodyType2D RigidbodyType2D => rigidbodyType2D;
@@ -28,6 +32,7 @@ namespace Definitions
         public float AttachedForceDelay => attachedForceDelay;
         public float TargetForce => targetForce;
         public float OwnerForce => ownerForce;
+        public bool HasRope => hasRope;
     }
 
     public struct RopePack

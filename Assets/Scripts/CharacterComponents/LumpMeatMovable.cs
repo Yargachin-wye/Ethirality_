@@ -1,4 +1,5 @@
 ﻿using System;
+using CharacterComponents.Animations;
 using Definitions;
 using UnityEngine;
 
@@ -6,8 +7,10 @@ namespace CharacterComponents
 {
     public class LumpMeatMovable : BaseComponent
     {
+        [SerializeField] private LumpMeatAnimator lumpMeatAnimator;
         private LumpMeatMovablePack _lumpMeatMovablePack;
         private bool _isFreeze;
+        private bool _isFirstFreeze = true;
         private float _gravityScale;
         private Vector2 _lookDirection;
         
@@ -47,20 +50,36 @@ namespace CharacterComponents
         public void Freeze(bool freeze, Vector2 v2)
         {
             _isFreeze = freeze;
+            
             if (_isFreeze)
             {
                 character.rb2D.gravityScale = 0;
+                if (_isFirstFreeze)
+                {
+                    lumpMeatAnimator.OpenJaw();
+                    _isFirstFreeze = false;
+                }
             }
-            else character.rb2D.gravityScale = _gravityScale;
+            else
+            {
+                if (!_isFirstFreeze)
+                {
+                    lumpMeatAnimator.CloseJaw();
+                    _isFirstFreeze = true;
+                }
+                character.rb2D.gravityScale = _gravityScale;
+            }
         }
 
         public void Dash(Vector2 v2, float power)
         {
+            character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * power, ForceMode2D.Impulse);
         }
 
         public void Dash(Vector2 v2)
         {
+            character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * _lumpMeatMovablePack.powerDash, ForceMode2D.Impulse);
         }
 

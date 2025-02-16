@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterComponents;
+using CharacterComponents.Animations;
 using Definitions;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Projectile : MonoBehaviour
     private GameObject _trigger;
     private FixedJoint2D joint;
 
+    [SerializeField] private Rope2D rope2D;
 
     private float _timer;
     private float _attachedForceTimer;
@@ -97,13 +99,22 @@ public class Projectile : MonoBehaviour
         {
             float angle = -Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90));
-            rb2D.AddForce(direction.normalized * speed * _projectileDefinition.SpeedMultiply, ForceMode2D.Impulse);
+            rb2D.AddForce(speed * _projectileDefinition.SpeedMultiply * direction.normalized, ForceMode2D.Impulse);
         }
 
         if (_projectileDefinition.Recoil != 0)
         {
             LumpMeatMovable lumpMeatMovable = owner.GetComponent<LumpMeatMovable>();
             if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, _projectileDefinition.Recoil);
+        }
+
+        if (!_projectileDefinition.HasRope)
+        {
+            //rope2D.Off();
+        }
+        else
+        {
+            rope2D.Set(_owner.transform);
         }
     }
 
@@ -123,8 +134,8 @@ public class Projectile : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-        
-        
+
+
         _isTrigered = true;
         _isAttached = false;
         _isForceOnAttached = false;
