@@ -5,7 +5,7 @@ using Managers.Pools;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Managers.Generator
+namespace Generator
 {
     public class GeneratorsManager : MonoBehaviour
     {
@@ -43,7 +43,7 @@ namespace Managers.Generator
         [Serializable]
         public struct GeneratorPack
         {
-            public Generator generator;
+            public Managers.Generator.Generator generator;
             public bool generate;
         }
     }

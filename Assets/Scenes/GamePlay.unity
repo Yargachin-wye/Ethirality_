@@ -300,6 +300,7 @@ MonoBehaviour:
     characterDefinitionsPool:
     - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
   chunksController: {fileID: 64613905}
+  playerSpawner: {fileID: 839287355}
   distToPlayerForSpawn: 10
   chunkSize: 20
 --- !u!114 &64613905
@@ -951,7 +952,6 @@ GameObject:
   m_Component:
   - component: {fileID: 839287354}
   - component: {fileID: 839287355}
-  - component: {fileID: 839287356}
   m_Layer: 3
   m_Name: PlayerSpawner
   m_TagString: Untagged
@@ -968,7 +968,7 @@ Transform:
   m_GameObject: {fileID: 839287353}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 75, y: -75, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -983,64 +983,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 839287353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816f2270fcccafc4f8b2b7802ad72988, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ec6d9e2da4f4b3298d03c38d0f3659a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterDefinition: {fileID: 11400000, guid: 4bb0ad560fa7ce547b9e8533cdbbe3bf, type: 2}
-  isSpawnOnStart: 1
+  isSpawnOnStart: 0
   _charactersPool: {fileID: 1534139515}
---- !u!212 &839287356
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839287353}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &859693267
 GameObject:
   m_ObjectHideFlags: 0

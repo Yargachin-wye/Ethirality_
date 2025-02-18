@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using CharacterComponents;
 using Definitions;
+using Pools;
+using Spawner;
 using UnityEngine;
 using Random = System.Random;
 
@@ -26,6 +28,7 @@ namespace Managers.Pools
     {
         [SerializeField] private List<PointsContainerPack> pointsContainerPackList;
         [SerializeField] private ChunksController chunksController;
+        [SerializeField] private PlayerSpawner playerSpawner;
         private Dictionary<PointsTypes, PointsContainerPack> _pointsDict = new();
 
         [SerializeField] private float distToPlayerForSpawn = 10;
@@ -34,7 +37,9 @@ namespace Managers.Pools
 
         public static PointsContainer Instance;
 
-        public Dictionary<Vector2Int, List<ChunksController.SpawnPoint>> Chunks = new Dictionary<Vector2Int, List<ChunksController.SpawnPoint>>();
+        public Dictionary<Vector2Int, List<ChunksController.SpawnPoint>> Chunks =
+            new Dictionary<Vector2Int, List<ChunksController.SpawnPoint>>();
+
         private Dictionary<Vector2, PointsTypes> _pointsList = new Dictionary<Vector2, PointsTypes>();
 
 
@@ -72,6 +77,12 @@ namespace Managers.Pools
                 return;
             }
 
+            if (pointType == PointsTypes.PlayerSpawn)
+            {
+                playerSpawner.AddSpawnPoint(position);
+                return;
+            }
+
             _pointsList.Add(position, pointType);
 
             Vector2Int chunkCoords = GetChunkCoords(position);
@@ -105,7 +116,6 @@ namespace Managers.Pools
             return new List<ChunksController.SpawnPoint>();
         }
 
-        
 
         public override IEnumerator Init(Random random, Vector2 position)
         {
@@ -122,6 +132,7 @@ namespace Managers.Pools
             }
 
             chunksController.Init();
+            playerSpawner.Spawn();
             yield return null;
         }
 

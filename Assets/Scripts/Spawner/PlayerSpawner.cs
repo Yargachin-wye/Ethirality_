@@ -1,34 +1,31 @@
+﻿using System.Collections.Generic;
 using CharacterComponents;
 using Definitions;
 using Managers.Pools;
 using UnityEngine;
 
-namespace Managers
+namespace Spawner
 {
-    public class Spawner : MonoBehaviour
+    public class PlayerSpawner : MonoBehaviour
     {
         [SerializeField] private CharacterDefinition characterDefinition;
         [SerializeField] private bool isSpawnOnStart;
         [SerializeField] private CharactersPool _charactersPool;
-    
-        private void Start()
-        {
-            StartSpawn();
-        }
 
-        private void StartSpawn()
-        {
-            if (isSpawnOnStart)
-            {
-                Spawn();
-            }
-        }
+        private List<Vector2> _spawnPoints = new();
         public void Spawn()
         {
             Character character = _charactersPool.GetPooledObject(characterDefinition);
             character.gameObject.SetActive(true);
-            character.transform.position = transform.position;
+            character.transform.position = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
             character.Init(characterDefinition);
+
+            _spawnPoints.Clear();
+        }
+
+        public void AddSpawnPoint(Vector2 position)
+        {
+            _spawnPoints.Add(position);
         }
     }
 }
