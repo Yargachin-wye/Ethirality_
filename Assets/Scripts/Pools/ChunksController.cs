@@ -16,7 +16,7 @@ namespace Pools
         private Dictionary<Vector2Int, List<SpawnPoint>> Chunks => pointsContainer.Chunks;
         private float ChunkSize => pointsContainer.ChunkSize;
         private List<Vector2Int> _loadedChunks = new();
-
+        private List<Vector2Int> deloadChunks = new List<Vector2Int>();
         private bool _inited;
 
         private void Awake()
@@ -30,11 +30,25 @@ namespace Pools
             {
                 return;
             }
+
             Character character = _charactersPool.GetPooledObject(spawnPoint.CharacterDefinition);
             character.gameObject.SetActive(true);
             character.transform.position = spawnPoint.Position;
             spawnPoint.GameObject = character.gameObject;
             character.Init(spawnPoint.CharacterDefinition);
+            character.OnDeadAction += () => ForgetSpawnPoint(spawnPoint);
+        }
+
+        public void ForgetSpawnPoint(SpawnPoint spawnPoint)
+        {
+            foreach (var chunk in Chunks)
+            {
+                if (chunk.Value.Contains(spawnPoint))
+                {
+                    chunk.Value.Remove(spawnPoint);
+                    return;
+                }
+            }
         }
 
         private void Despawn(Vector2Int chunk, SpawnPoint spawnPoint)
@@ -43,6 +57,7 @@ namespace Pools
             if (chunk != newChunk)
             {
                 Chunks[chunk].Remove(spawnPoint);
+
                 if (Chunks.ContainsKey(newChunk))
                 {
                     Chunks[newChunk].Add(spawnPoint);
@@ -64,13 +79,13 @@ namespace Pools
             _inited = true;
         }
 
-        private List<Vector2Int> deloadChunks = new List<Vector2Int>();
+
         private void FixedUpdate()
         {
             if (!_inited) return;
-        
+
             deloadChunks.Clear();
-        
+
             foreach (var chunk in Chunks)
             {
                 if (Vector2.Distance(

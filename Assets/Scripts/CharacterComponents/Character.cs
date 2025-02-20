@@ -1,4 +1,7 @@
+using System;
 using Definitions;
+using Pools;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,18 +16,21 @@ namespace CharacterComponents
         [SerializeField] private ReachingToStartMovable reachingToStartMovable;
         [SerializeField] private CameraTarget cameraTarget;
         [SerializeField] private Shooter shooter;
+        [SerializeField] private Stats stats;
 
         public PlayerControllable PlayerControllable => playerControllable;
         public LumpMeatMovable LumpMeatMovable => lumpMeatMovable;
         public ReachingToStartMovable ReachingToStartMovable => reachingToStartMovable;
         public CameraTarget CameraTarget => cameraTarget;
         public Shooter Shooter => shooter;
+        public Action OnDeadAction;
 
         private float _gravityScale;
         public CharacterDefinition characterDefinition;
 
         public void Init(CharacterDefinition characterDefinition)
         {
+            stats.Init(characterDefinition.StatsPack,characterDefinition.Fraction);
             rb2D.bodyType = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyType2D;
             rb2D.gravityScale = characterDefinition.Rigidbody2DDefinitionPack.gravityScale;
             rb2D.constraints = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyConstraints2D;
@@ -59,8 +65,14 @@ namespace CharacterComponents
             {
                 playerControllable.enabled = characterDefinition.IsPlayerControllable;
             }
+
+            stats.OnDeadAction += OnDead;
         }
 
+        private void OnDead()
+        {
+            
+        }
         public override void OnValidate()
         {
             base.OnValidate();

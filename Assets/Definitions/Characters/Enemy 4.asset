@@ -29,6 +29,9 @@ MonoBehaviour:
   reachingToStartMovablePack:
     isEnable: 1
     speed: 10
+  statsPack:
+    startHp: 1
+    maxHp: 1
   shooterPack:
     isShooter: 0
     projectileDefinition: {fileID: 0}

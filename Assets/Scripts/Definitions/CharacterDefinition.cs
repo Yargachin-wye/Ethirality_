@@ -14,10 +14,12 @@ namespace Definitions
         [SerializeField] private bool isPlayerControllable;
         [SerializeField] private LumpMeatMovablePack lumpMeatMovablePack;
         [SerializeField] private ReachingToStartMovablePack reachingToStartMovablePack;
+        [SerializeField] private StatsPack statsPack;
 
         [FormerlySerializedAs("shootablePack")] [SerializeField]
         private ShooterPack shooterPack;
 
+        public StatsPack StatsPack => statsPack;
         public GameObject Prefab => prefab;
         public Fraction Fraction => fraction;
         public int CameraTargetPriority => cameraTargetPriority;
@@ -56,11 +58,18 @@ namespace Definitions
         public float decelerationRate;
         public float powerDash;
     }
+
     [Serializable]
     public struct ReachingToStartMovablePack
     {
         public bool isEnable;
         public float speed;
+    }
+    [Serializable]
+    public struct StatsPack
+    {
+        public int startHp;
+        public int maxHp;
     }
 
     public enum Fraction

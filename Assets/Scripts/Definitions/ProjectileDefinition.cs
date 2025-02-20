@@ -8,6 +8,7 @@ namespace Definitions
     {
         [SerializeField] private GameObject prefab;
         [SerializeField] private float speedMultiply = 2;
+        [SerializeField] private int damage = 1;
         [SerializeField] private float lifeDelay = 1;
         [Header("Физика")] [SerializeField] private RigidbodyType2D rigidbodyType2D;
         [SerializeField] private float gravityScale;
@@ -33,6 +34,7 @@ namespace Definitions
         public float TargetForce => targetForce;
         public float OwnerForce => ownerForce;
         public bool HasRope => hasRope;
+        public int Damage => damage;
     }
 
     public struct RopePack

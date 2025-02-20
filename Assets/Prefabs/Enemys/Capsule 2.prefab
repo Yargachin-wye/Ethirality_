@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2692462021808953985}
   - component: {fileID: 8403955774680081991}
   - component: {fileID: 8274520558709118211}
+  - component: {fileID: 3113167696032994566}
   m_Layer: 0
   m_Name: Capsule 2
   m_TagString: Untagged
@@ -179,6 +180,7 @@ MonoBehaviour:
   reachingToStartMovable: {fileID: 8274520558709118211}
   cameraTarget: {fileID: 0}
   shooter: {fileID: 0}
+  stats: {fileID: 3113167696032994566}
   characterDefinition: {fileID: 0}
 --- !u!114 &8274520558709118211
 MonoBehaviour:
@@ -193,3 +195,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
+--- !u!114 &3113167696032994566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a4fa2c3efa432abab69c27ff445c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

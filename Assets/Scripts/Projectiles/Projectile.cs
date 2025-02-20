@@ -121,13 +121,15 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (_isTrigered) return;
-        Character character = other.GetComponent<Character>();
-        if (character == null ||
-            character.characterDefinition.Fraction == _fraction &&
+        Stats stats = other.GetComponent<Stats>();
+        if (stats == null ||
+            stats.Fraction == _fraction &&
             _fraction != Fraction.All)
         {
             return;
         }
+
+        stats.Damage(_projectileDefinition.Damage);
 
         if (_projectileDefinition.IsDestroyOnTrigger)
         {
