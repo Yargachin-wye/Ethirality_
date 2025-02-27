@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2878480116372725535}
   - component: {fileID: 8403955774680081991}
   - component: {fileID: 7863888071420104655}
+  - component: {fileID: -8403810917303142040}
   m_Layer: 0
   m_Name: Capsule 1
   m_TagString: Untagged
@@ -169,6 +170,7 @@ MonoBehaviour:
   reachingToStartMovable: {fileID: 0}
   cameraTarget: {fileID: 0}
   shooter: {fileID: 0}
+  eater: {fileID: 0}
   stats: {fileID: 7863888071420104655}
   characterDefinition: {fileID: 0}
 --- !u!114 &7863888071420104655
@@ -183,3 +185,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a4fa2c3efa432abab69c27ff445c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 8403955774680081991}
+--- !u!114 &-8403810917303142040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a162fc01ff448a8528fd10fc860f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 1

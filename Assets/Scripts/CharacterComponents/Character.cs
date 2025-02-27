@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 namespace CharacterComponents
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Character : BaseComponent
+    public class Character : BaseCharacterComponent
     {
         [SerializeField, HideInInspector] public Rigidbody2D rb2D;
         [SerializeField] private PlayerControllable playerControllable;
@@ -16,13 +16,16 @@ namespace CharacterComponents
         [SerializeField] private ReachingToStartMovable reachingToStartMovable;
         [SerializeField] private CameraTarget cameraTarget;
         [SerializeField] private Shooter shooter;
+        [SerializeField] private Eater eater;
         [SerializeField] private Stats stats;
 
+        public Stats Stats => stats;
         public PlayerControllable PlayerControllable => playerControllable;
         public LumpMeatMovable LumpMeatMovable => lumpMeatMovable;
         public ReachingToStartMovable ReachingToStartMovable => reachingToStartMovable;
         public CameraTarget CameraTarget => cameraTarget;
         public Shooter Shooter => shooter;
+        public Eater Eater => eater;
         public Action OnDeadAction;
 
         private float _gravityScale;
@@ -30,7 +33,7 @@ namespace CharacterComponents
 
         public void Init(CharacterDefinition characterDefinition)
         {
-            stats.Init(characterDefinition.StatsPack,characterDefinition.Fraction);
+            stats.Init(characterDefinition.StatsPack, characterDefinition.Fraction);
             rb2D.bodyType = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyType2D;
             rb2D.gravityScale = characterDefinition.Rigidbody2DDefinitionPack.gravityScale;
             rb2D.constraints = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyConstraints2D;
@@ -71,8 +74,8 @@ namespace CharacterComponents
 
         private void OnDead()
         {
-            
         }
+
         public override void OnValidate()
         {
             base.OnValidate();
@@ -80,6 +83,8 @@ namespace CharacterComponents
             if (playerControllable == null) playerControllable = GetComponent<PlayerControllable>();
             if (cameraTarget == null) cameraTarget = GetComponent<CameraTarget>();
             if (shooter == null) shooter = GetComponent<Shooter>();
+            if (eater == null) eater = GetComponent<Eater>();
+            if (stats == null) stats = GetComponent<Stats>();
             if (lumpMeatMovable == null) lumpMeatMovable = GetComponent<LumpMeatMovable>();
         }
 

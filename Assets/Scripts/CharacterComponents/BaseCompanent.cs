@@ -4,13 +4,13 @@ using UnityEngine.Serialization;
 
 namespace CharacterComponents
 {
-    public class BaseComponent : MonoBehaviour
+    public class BaseCharacterComponent : MonoBehaviour
     {
         [SerializeField, HideInInspector] public Character character;
 
         public virtual void OnValidate()
         {
-            if (character == null) character = GetComponent<Character>();
+            if (character == null) character = transform.root.GetComponent<Character>();
         }
     }
 }

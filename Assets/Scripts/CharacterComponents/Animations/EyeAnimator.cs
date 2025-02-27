@@ -170,10 +170,6 @@ namespace CharacterComponents.Animations
                     break;
                 case Animations.BlinkEye:
                     nextSprite = blinkingF[_index++];
-
-                    if (_index == 2 || _index == 3) IsEyeClosed = true;
-                    else IsEyeClosed = false;
-
                     if (_index >= blinkingF.Length) _isAnimating = false;
                     break;
                 case Animations.CloseJaw:

@@ -25,13 +25,13 @@ MonoBehaviour:
     isEnable: 1
     rotationSpeed: 10
     decelerationRate: 0.95
-    powerDash: 10
+    powerDash: 20
   reachingToStartMovablePack:
     isEnable: 0
     speed: 2
   statsPack:
     startHp: 1
-    maxHp: 1
+    maxHp: 8
   shooterPack:
     isShooter: 1
     projectileDefinition: {fileID: 11400000, guid: c551011fee7266846ae59a4db1794f3d, type: 2}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CharacterComponents
 {
-    public class CameraTarget : BaseComponent
+    public class CameraTarget : BaseCharacterComponent
     {
         [SerializeField] private int priority = 0;
         [SerializeField] private bool setOnStart = true;

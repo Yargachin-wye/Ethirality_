@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace CharacterComponents
 {
-    public class PlayerControllable : BaseComponent
+    public class PlayerControllable : BaseCharacterComponent
     {
         [SerializeField] private UnityEvent<bool, Vector2> onFreezeEvent;
         [SerializeField] private UnityEvent<Vector2> onDashEvent;

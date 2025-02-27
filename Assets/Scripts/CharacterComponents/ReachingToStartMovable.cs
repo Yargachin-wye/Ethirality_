@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CharacterComponents
 {
-    public class ReachingToStartMovable : BaseComponent
+    public class ReachingToStartMovable : BaseCharacterComponent
     {
         private ReachingToStartMovablePack _reachingToStartMovablePack;
         private Vector2 _startPosition;

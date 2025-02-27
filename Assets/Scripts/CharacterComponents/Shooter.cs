@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 namespace CharacterComponents
 {
-    public class Shooter : BaseComponent
+    public class Shooter : BaseCharacterComponent
     {
         [SerializeField] private bool _hasLumpMeatMovable;
 
