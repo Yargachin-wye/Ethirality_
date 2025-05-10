@@ -6,11 +6,17 @@ using UnityEngine;
 
 namespace CharacterComponents
 {
+    [RequireComponent(typeof(Eater))]
     public class LumpMeatMovable : BaseCharacterComponent
     {
         [SerializeField] private LumpMeatAnimator lumpMeatAnimator;
         [SerializeField] private float dashTime;
-        private LumpMeatMovablePack _lumpMeatMovablePack;
+        [SerializeField] private float rotationSpeed;
+        [SerializeField] private float decelerationRate;
+        [SerializeField] private float powerDash;
+        [Space]
+        [SerializeField] private Eater eater;
+        
         private bool _isFreeze;
         private bool _isDash;
         private bool _isFirstFreeze = true;
@@ -23,6 +29,7 @@ namespace CharacterComponents
         public override void OnValidate()
         {
             base.OnValidate();
+            if(eater == null) eater = GetComponent<Eater>(); 
         }
 
         private void OnDrawGizmos()
@@ -49,10 +56,10 @@ namespace CharacterComponents
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 character.rb2D.angularVelocity = 0;
                 character.rb2D.SetRotation(Quaternion.Slerp(transform.rotation, rotation,
-                    Time.deltaTime * _lumpMeatMovablePack.rotationSpeed));
+                    Time.deltaTime * rotationSpeed));
 
                 character.rb2D.velocity = Vector2.Lerp(character.rb2D.velocity, Vector2.zero,
-                    1 - _lumpMeatMovablePack.decelerationRate);
+                    1 - decelerationRate);
             }
         }
 
@@ -97,15 +104,12 @@ namespace CharacterComponents
         {
             _dashTimer = dashTime;
             character.rb2D.velocity = Vector2.zero;
-            character.rb2D.AddForce(transform.right.normalized * _lumpMeatMovablePack.powerDash, ForceMode2D.Impulse);
+            character.rb2D.AddForce(transform.right.normalized * powerDash, ForceMode2D.Impulse);
         }
 
-        public void Init(LumpMeatMovablePack lumpMeatMovablePack, float gravityScale)
+        public override void Init()
         {
-            enabled = lumpMeatMovablePack.isEnable;
-
-            _lumpMeatMovablePack = lumpMeatMovablePack;
-            _gravityScale = gravityScale;
+            _gravityScale = character.rb2D.gravityScale;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -115,7 +119,7 @@ namespace CharacterComponents
             BaseFood food = other.GetComponent<BaseFood>();
             if (food == null) return;
 
-            character.Eater.Eat(food);
+            eater.Eat(food);
         }
     }
 }

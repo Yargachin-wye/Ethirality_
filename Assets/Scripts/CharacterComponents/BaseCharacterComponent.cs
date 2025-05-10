@@ -1,16 +1,24 @@
 ﻿using System;
+using Definitions;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace CharacterComponents
 {
-    public class BaseCharacterComponent : MonoBehaviour
+    public abstract class BaseCharacterComponent : MonoBehaviour
     {
         [SerializeField, HideInInspector] public Character character;
 
         public virtual void OnValidate()
         {
             if (character == null) character = transform.root.GetComponent<Character>();
+        }
+
+        public abstract void Init();
+
+        public virtual void Init(CharacterDefinition characterDefinition)
+        {
+            
         }
     }
 }

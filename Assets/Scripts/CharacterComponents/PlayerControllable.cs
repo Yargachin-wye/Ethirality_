@@ -20,6 +20,10 @@ namespace CharacterComponents
             Inputer.Instance.OnInputLook += OnLook;
         }
 
+        public override void Init()
+        {
+        }
+
         private void OnShot(Vector2 v2)
         {
             onShotEvent?.Invoke(v2 - (Vector2)transform.position);

@@ -17,7 +17,7 @@ namespace CharacterComponents.Animations
         [Space] [SerializeField] private JawAnimator jaw;
         [SerializeField, HideInInspector] private EyeAnimator[] eyes;
         private Stats Stats => character.Stats;
-        private float timerBlink = 0;
+        private float _timerBlink = 0;
 
         public override void OnValidate()
         {
@@ -29,6 +29,11 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Validate();
+        }
+
+        public override void Init()
+        {
+            
         }
 
         private void Start()
@@ -52,7 +57,7 @@ namespace CharacterComponents.Animations
             }
 
             ResetEyes(0);
-            timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
+            _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
         }
 
         private void ResetEyes(int num)
@@ -91,13 +96,13 @@ namespace CharacterComponents.Animations
 
             jaw.Update(Time.fixedDeltaTime);
 
-            if (timerBlink > 0)
+            if (_timerBlink > 0)
             {
-                timerBlink -= Time.fixedDeltaTime;
+                _timerBlink -= Time.fixedDeltaTime;
                 return;
             }
 
-            timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
+            _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
             BlinkEyes();
         }
 

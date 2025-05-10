@@ -13,9 +13,8 @@ namespace CharacterComponents
         private CameraController _cameraController;
         public int Priority => priority;
 
-        public void Init(int priority)
+        public override void Init()
         {
-            this.priority = priority;
             _cameraController = CameraController.Instance;
             Set();
         }

@@ -1253,7 +1253,7 @@ MonoBehaviour:
   reachingToStartMovable: {fileID: 0}
   cameraTarget: {fileID: 6013639443292881599}
   shooter: {fileID: 8802847718263648532}
-  eater: {fileID: 0}
+  eater: {fileID: 3981084429929533095}
   stats: {fileID: 3309784423320760736}
   characterDefinition: {fileID: 0}
 --- !u!114 &6013639443292881599
@@ -1359,6 +1359,9 @@ MonoBehaviour:
   character: {fileID: 2281339711963540066}
   lumpMeatAnimator: {fileID: 5018167926291272715}
   dashTime: 0.7
+  rotationSpeed: 10
+  decelerationRate: 0.95
+  powerDash: 20
 --- !u!114 &8802847718263648532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1372,7 +1375,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
-  _hasLumpMeatMovable: 1
+  hasLumpMeatMovable: 1
+  projectileDefinition: {fileID: 11400000, guid: c551011fee7266846ae59a4db1794f3d, type: 2}
+  speed: 1
+  rotationSpeed: 25
+  shootDelay: 1
 --- !u!114 &3309784423320760736
 MonoBehaviour:
   m_ObjectHideFlags: 0

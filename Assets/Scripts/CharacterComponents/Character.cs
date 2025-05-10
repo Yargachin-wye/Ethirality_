@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Definitions;
 using Pools;
 using Unity.VisualScripting;
@@ -7,66 +8,31 @@ using UnityEngine.Serialization;
 
 namespace CharacterComponents
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Stats))]
     public class Character : BaseCharacterComponent
     {
         [SerializeField, HideInInspector] public Rigidbody2D rb2D;
         [SerializeField] private PlayerControllable playerControllable;
-        [SerializeField] private LumpMeatMovable lumpMeatMovable;
-        [SerializeField] private ReachingToStartMovable reachingToStartMovable;
-        [SerializeField] private CameraTarget cameraTarget;
-        [SerializeField] private Shooter shooter;
-        [SerializeField] private Eater eater;
+        [SerializeField] private BaseCharacterComponent[] baseCharacterComponent;
         [SerializeField] private Stats stats;
 
-        public Stats Stats => stats;
-        public PlayerControllable PlayerControllable => playerControllable;
-        public LumpMeatMovable LumpMeatMovable => lumpMeatMovable;
-        public ReachingToStartMovable ReachingToStartMovable => reachingToStartMovable;
-        public CameraTarget CameraTarget => cameraTarget;
-        public Shooter Shooter => shooter;
-        public Eater Eater => eater;
+        public Fraction Fraction { get; private set; }
         public Action OnDeadAction;
-
         private float _gravityScale;
-        public CharacterDefinition characterDefinition;
-
-        public void Init(CharacterDefinition characterDefinition)
+        
+        public Stats Stats => stats;
+        public override void Init()
         {
-            stats.Init(characterDefinition.StatsPack, characterDefinition.Fraction);
-            rb2D.bodyType = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyType2D;
-            rb2D.gravityScale = characterDefinition.Rigidbody2DDefinitionPack.gravityScale;
-            rb2D.constraints = characterDefinition.Rigidbody2DDefinitionPack.rigidbodyConstraints2D;
-            rb2D.freezeRotation = characterDefinition.Rigidbody2DDefinitionPack.freezRotation;
+        }
 
-            this.characterDefinition = characterDefinition;
+        public override void Init(CharacterDefinition characterDefinition)
+        {
+            Fraction = characterDefinition.Fraction;
 
-            if (characterDefinition.CameraTargetPriority > 0)
+            foreach (var component in baseCharacterComponent)
             {
-                cameraTarget.Init(characterDefinition.CameraTargetPriority);
-            }
-
-            if (characterDefinition.ShooterPack.isShooter)
-            {
-                shooter.Init(characterDefinition.ShooterPack, characterDefinition.Fraction);
-            }
-
-            if (characterDefinition.LumpMeatMovablePack.isEnable)
-            {
-                lumpMeatMovable.Init(
-                    characterDefinition.LumpMeatMovablePack
-                    , characterDefinition.Rigidbody2DDefinitionPack.gravityScale
-                );
-            }
-
-            if (characterDefinition.ReachingToStartMovablePack.isEnable)
-            {
-                reachingToStartMovable.Init(characterDefinition.ReachingToStartMovablePack);
-            }
-
-            if (characterDefinition.IsPlayerControllable)
-            {
-                playerControllable.enabled = characterDefinition.IsPlayerControllable;
+                if (component is Character) continue;
+                component.Init();
             }
 
             stats.OnDeadAction += OnDead;
@@ -74,18 +40,14 @@ namespace CharacterComponents
 
         private void OnDead()
         {
+            OnDeadAction?.Invoke();
         }
 
         public override void OnValidate()
         {
             base.OnValidate();
-            if (rb2D == null) rb2D = GetComponent<Rigidbody2D>();
-            if (playerControllable == null) playerControllable = GetComponent<PlayerControllable>();
-            if (cameraTarget == null) cameraTarget = GetComponent<CameraTarget>();
-            if (shooter == null) shooter = GetComponent<Shooter>();
-            if (eater == null) eater = GetComponent<Eater>();
-            if (stats == null) stats = GetComponent<Stats>();
-            if (lumpMeatMovable == null) lumpMeatMovable = GetComponent<LumpMeatMovable>();
+            baseCharacterComponent = GetComponentsInChildren<BaseCharacterComponent>(true);
+            if (stats) stats = GetComponentInChildren<Stats>();
         }
 
         public void Off()

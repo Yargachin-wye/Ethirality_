@@ -1662,7 +1662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolsCharacterPack:
   - characterDefinition: {fileID: 11400000, guid: 4bb0ad560fa7ce547b9e8533cdbbe3bf, type: 2}
-    numOnStart: 5
+    numOnStart: 1
     objectsList: []
   - characterDefinition: {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
     numOnStart: 5

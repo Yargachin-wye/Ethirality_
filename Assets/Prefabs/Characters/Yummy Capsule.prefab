@@ -10,14 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6267830930521368476}
   - component: {fileID: 5101899230425316025}
-  - component: {fileID: 7881010753786175846}
   - component: {fileID: 2692462021808953985}
+  - component: {fileID: 2878480116372725535}
   - component: {fileID: 8403955774680081991}
-  - component: {fileID: 8274520558709118211}
-  - component: {fileID: 3113167696032994566}
-  - component: {fileID: -7674425659892400314}
+  - component: {fileID: 7863888071420104655}
+  - component: {fileID: -8403810917303142040}
   m_Layer: 0
-  m_Name: Capsule 2
+  m_Name: Yummy Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5177388603050735206, guid: cc35afd292fc349128b36a291fb3a165, type: 3}
+  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -90,8 +89,35 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7881010753786175846
-BoxCollider2D:
+--- !u!50 &2692462021808953985
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 3
+--- !u!70 &2878480116372725535
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -123,45 +149,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.984375, y: 0.984375}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.85, y: 0.85}
-  m_EdgeRadius: 0
---- !u!50 &2692462021808953985
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839964847734336693}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 3
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
 --- !u!114 &8403955774680081991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,27 +166,14 @@ MonoBehaviour:
   character: {fileID: 8403955774680081991}
   rb2D: {fileID: 2692462021808953985}
   playerControllable: {fileID: 0}
-  lumpMeatMovable: {fileID: 0}
-  reachingToStartMovable: {fileID: 8274520558709118211}
   cameraTarget: {fileID: 0}
-  shooter: {fileID: 0}
-  eater: {fileID: 0}
-  stats: {fileID: 3113167696032994566}
-  characterDefinition: {fileID: 0}
---- !u!114 &8274520558709118211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839964847734336693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b0eb13c9b634b01af29197a251889d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 8403955774680081991}
---- !u!114 &3113167696032994566
+  lumpMeatMovable: {fileID: 0}
+  reachingToStartMovable: {fileID: 0}
+  stats: {fileID: 7863888071420104655}
+  baseCharacterComponent:
+  - {fileID: 8403955774680081991}
+  - {fileID: 7863888071420104655}
+--- !u!114 &7863888071420104655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,7 +186,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
---- !u!114 &-7674425659892400314
+  startHp: 0
+  maxHp: 0
+--- !u!114 &-8403810917303142040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

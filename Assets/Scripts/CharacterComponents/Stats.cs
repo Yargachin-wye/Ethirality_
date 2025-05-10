@@ -7,21 +7,22 @@ namespace CharacterComponents
 {
     public class Stats : BaseCharacterComponent
     {
+        [SerializeField] private int startHp;
+        [SerializeField] private int maxHp;
         private int _currentHealth;
         private int _maxHealth;
-        public Fraction Fraction { get;private set; }
+        public Fraction Fraction => character.Fraction;
         public Action OnDeadAction;
         public Action<int> OnDmgAction;
         public Action<int> OnCureAction;
-        
+
         public int CurrentHealth => _currentHealth;
         public int MaxHealth => _maxHealth;
-        
-        public void Init(StatsPack statsPack, Fraction fraction)
+
+        public override void Init()
         {
-            _currentHealth = statsPack.startHp;
-            _maxHealth = statsPack.maxHp;
-            Fraction = fraction;
+            _currentHealth = startHp;
+            _maxHealth = maxHp;
         }
 
         public bool Damage(int val)
@@ -32,16 +33,17 @@ namespace CharacterComponents
                 OnDeadAction?.Invoke();
                 return true;
             }
+
             OnDmgAction?.Invoke(val);
             return false;
         }
-        
+
         public void Cure(int val)
         {
             _currentHealth += val;
-            
+
             if (_currentHealth >= _maxHealth) return;
-            
+
             OnCureAction?.Invoke(val);
         }
     }
