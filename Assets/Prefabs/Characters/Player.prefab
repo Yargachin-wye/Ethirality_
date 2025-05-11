@@ -1249,13 +1249,16 @@ MonoBehaviour:
   character: {fileID: 2281339711963540066}
   rb2D: {fileID: 3179083261365987097}
   playerControllable: {fileID: 9126845972879832545}
-  lumpMeatMovable: {fileID: 295954416802910781}
-  reachingToStartMovable: {fileID: 0}
-  cameraTarget: {fileID: 6013639443292881599}
-  shooter: {fileID: 8802847718263648532}
-  eater: {fileID: 3981084429929533095}
+  baseCharacterComponent:
+  - {fileID: 2281339711963540066}
+  - {fileID: 6013639443292881599}
+  - {fileID: 9126845972879832545}
+  - {fileID: 295954416802910781}
+  - {fileID: 8802847718263648532}
+  - {fileID: 3309784423320760736}
+  - {fileID: 3981084429929533095}
+  - {fileID: 5018167926291272715}
   stats: {fileID: 3309784423320760736}
-  characterDefinition: {fileID: 0}
 --- !u!114 &6013639443292881599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1362,6 +1365,7 @@ MonoBehaviour:
   rotationSpeed: 10
   decelerationRate: 0.95
   powerDash: 20
+  eater: {fileID: 3981084429929533095}
 --- !u!114 &8802847718263648532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,11 +1379,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
-  hasLumpMeatMovable: 1
   projectileDefinition: {fileID: 11400000, guid: c551011fee7266846ae59a4db1794f3d, type: 2}
   speed: 1
   rotationSpeed: 25
-  shootDelay: 1
+  shootDelay: 0.2
+  lumpMeatMovable: {fileID: 295954416802910781}
+  hasLumpMeatMovable: 1
 --- !u!114 &3309784423320760736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1393,6 +1398,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
+  startHp: 1
+  maxHp: 8
 --- !u!114 &3981084429929533095
 MonoBehaviour:
   m_ObjectHideFlags: 0

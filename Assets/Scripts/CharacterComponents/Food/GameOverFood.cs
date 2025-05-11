@@ -11,7 +11,12 @@ namespace CharacterComponents.Food
             if (characterEater.Fraction == Fraction.Player)
             {
                 GameOver.Instance.GameIsOver();
+                character.Stats.Damage(character.Stats.MaxHealth);
             }
+        }
+
+        public override void Init()
+        {
         }
     }
 }

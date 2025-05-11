@@ -2,7 +2,7 @@
 
 namespace CharacterComponents.Food
 {
-    public abstract class BaseFood : MonoBehaviour
+    public abstract class BaseFood : BaseCharacterComponent
     {
         public virtual void OnEaten(Character characterEater)
         {

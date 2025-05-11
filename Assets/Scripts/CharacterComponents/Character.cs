@@ -19,8 +19,9 @@ namespace CharacterComponents
         public Fraction Fraction { get; private set; }
         public Action OnDeadAction;
         private float _gravityScale;
-        
+
         public Stats Stats => stats;
+
         public override void Init()
         {
         }
@@ -41,6 +42,7 @@ namespace CharacterComponents
         private void OnDead()
         {
             OnDeadAction?.Invoke();
+            gameObject.SetActive(false);
         }
 
         public override void OnValidate()

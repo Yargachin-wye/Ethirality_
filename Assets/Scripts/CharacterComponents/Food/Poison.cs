@@ -10,6 +10,11 @@ namespace CharacterComponents.Food
         {
             base.OnEaten(characterEater);
             characterEater.Stats.Damage(dmg);
+            character.Stats.Damage(character.Stats.MaxHealth);
+        }
+
+        public override void Init()
+        {
         }
     }
 }

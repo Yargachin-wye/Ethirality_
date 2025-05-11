@@ -166,13 +166,11 @@ MonoBehaviour:
   character: {fileID: 8403955774680081991}
   rb2D: {fileID: 2692462021808953985}
   playerControllable: {fileID: 0}
-  cameraTarget: {fileID: 0}
-  lumpMeatMovable: {fileID: 0}
-  reachingToStartMovable: {fileID: 0}
-  stats: {fileID: 7863888071420104655}
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
   - {fileID: 7863888071420104655}
+  - {fileID: -8403810917303142040}
+  stats: {fileID: 7863888071420104655}
 --- !u!114 &7863888071420104655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,8 +184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  startHp: 0
-  maxHp: 0
+  startHp: 2
+  maxHp: 2
 --- !u!114 &-8403810917303142040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,4 +198,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a162fc01ff448a8528fd10fc860f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 8403955774680081991}
   hp: 1
