@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3553281fe6d58b343a5bd2d1142c6705, type: 3}
-  m_Name: Enemy 2
+  m_Name: LvlExit
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4839964847734336693, guid: c1f37cc2347c23543a74041aec29cd06, type: 3}
+  prefab: {fileID: 4839964847734336693, guid: 84956a238edbf674f90c744e28d9b389, type: 3}
   fraction: 1
   cameraTargetPriority: -1
   isPlayerControllable: 0
