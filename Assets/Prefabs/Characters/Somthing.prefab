@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8403955774680081991}
   - component: {fileID: -8568434519397170154}
   m_Layer: 0
-  m_Name: GameOverFood 1
+  m_Name: Somthing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
