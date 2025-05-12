@@ -128,9 +128,16 @@ namespace CharacterComponents.Animations
             };
         }
 
-        public void Play(Animations animation)
+        public void Play(Animations animation, bool isJawOpen)
         {
             if (animation != Animations.OpenJaw && animation != Animations.CloseJaw && isBlocked) return;
+            if (!isBlocked && isJawOpen && animation == Animations.OpenEye)
+            {
+                image.sprite = eyeOpenJawOpen;
+                IsEyeClosed = false;
+                return;
+            }
+
             _index = 0;
             _isAnimating = true;
             _animation = animation;

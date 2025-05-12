@@ -16,7 +16,7 @@ namespace CharacterComponents
         [SerializeField] private float powerDash;
         [Space]
         [SerializeField] private Eater eater;
-        
+
         private bool _isFreeze;
         private bool _isDash;
         private bool _isFirstFreeze = true;
@@ -29,7 +29,7 @@ namespace CharacterComponents
         public override void OnValidate()
         {
             base.OnValidate();
-            if(eater == null) eater = GetComponent<Eater>(); 
+            if (eater == null) eater = GetComponent<Eater>();
         }
 
         private void OnDrawGizmos()
@@ -44,6 +44,10 @@ namespace CharacterComponents
             {
                 _dashTimer -= Time.fixedDeltaTime;
                 _isDash = true;
+                if (_dashTimer <= 0)
+                {
+                    lumpMeatAnimator.CloseJaw();
+                }
             }
             else
             {
@@ -85,7 +89,6 @@ namespace CharacterComponents
             {
                 if (!_isFirstFreeze)
                 {
-                    lumpMeatAnimator.CloseJaw();
                     _isFirstFreeze = true;
                 }
 

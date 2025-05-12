@@ -42,7 +42,7 @@ namespace CharacterComponents
         {
             _currentHealth += val;
 
-            if (_currentHealth >= _maxHealth) return;
+            // if (_currentHealth >= _maxHealth) return;
 
             OnCureAction?.Invoke(val);
         }

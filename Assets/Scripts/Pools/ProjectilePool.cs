@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Definitions;
+using Projectiles;
 using UnityEngine;
 
 namespace Managers.Pools
@@ -8,7 +9,7 @@ namespace Managers.Pools
     public class ProjectilePool : MonoBehaviour
     {
         [SerializeField] private List<PoolsProjectilrPack> poolsProjectilePack;
-        private List<Projectile> _pool = new ();
+        private List<HarpoonProjectile> _pool = new ();
         public Action AfterStart;
         public static ProjectilePool Instance;
 
@@ -36,28 +37,28 @@ namespace Managers.Pools
                 for (int i = 0; i < pool.numOnStart; i++)
                 {
                     GameObject obj = Instantiate(pool.projectileDefinitiop.Prefab);
-                    Projectile characterNew = obj.GetComponent<Projectile>();
+                    HarpoonProjectile characterNew = obj.GetComponent<HarpoonProjectile>();
                     obj.SetActive(false);
                     _pool.Add(characterNew);
                 }
             }
         }
 
-        public Projectile GetPooledObject(ProjectileDefinition projectileDefinitiop)
+        public HarpoonProjectile GetPooledObject(ProjectileDefinition projectileDefinitiop)
         {
             for (int i = 0; i < _pool.Count; i++)
             {
                 if (!_pool[i].gameObject.activeSelf)
                 {
-                    Projectile projectile = _pool[i];
+                    HarpoonProjectile harpoonProjectile = _pool[i];
                     _pool[i].gameObject.SetActive(true);
-                    projectile.Init(projectileDefinitiop);
-                    return projectile;
+                    harpoonProjectile.Init(projectileDefinitiop);
+                    return harpoonProjectile;
                 }
             }
 
             GameObject obj = Instantiate(projectileDefinitiop.Prefab);
-            Projectile characterNew = obj.GetComponent<Projectile>();
+            HarpoonProjectile characterNew = obj.GetComponent<HarpoonProjectile>();
             characterNew.Init(projectileDefinitiop);
             _pool.Add(characterNew);
             return characterNew;

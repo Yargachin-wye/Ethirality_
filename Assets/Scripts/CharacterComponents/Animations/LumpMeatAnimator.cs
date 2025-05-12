@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CharacterComponents.Animations
 {
@@ -6,7 +8,8 @@ namespace CharacterComponents.Animations
     {
         [SerializeField] private float blinkEyeDelayMin = 2;
         [SerializeField] private float blinkEyeDelayMax = 7;
-        [Space] [SerializeField] private EyeAnimator eye0;
+        [Space]
+        [SerializeField] private EyeAnimator eye0;
         [SerializeField] private EyeAnimator eye1;
         [SerializeField] private EyeAnimator eye2;
         [SerializeField] private EyeAnimator eye3;
@@ -14,10 +17,12 @@ namespace CharacterComponents.Animations
         [SerializeField] private EyeAnimator eye5;
         [SerializeField] private EyeAnimator eye7;
         [SerializeField] private EyeAnimator eye8;
-        [Space] [SerializeField] private JawAnimator jaw;
+        [Space]
+        [SerializeField] private JawAnimator jaw;
         [SerializeField, HideInInspector] private EyeAnimator[] eyes;
         private Stats Stats => character.Stats;
         private float _timerBlink = 0;
+        private bool isJawOpen = false;
 
         public override void OnValidate()
         {
@@ -33,14 +38,13 @@ namespace CharacterComponents.Animations
 
         public override void Init()
         {
-            
         }
 
         private void Start()
         {
-            if (Stats.MaxHealth != 8)
+            if (Stats.MaxHealth != 7)
             {
-                Debug.LogWarning($"Max health is {Stats.MaxHealth}, should be {8}");
+                Debug.LogWarning($"Max health is {Stats.MaxHealth}, should be {7}");
             }
 
             Stats.OnCureAction += ResetEyes;
@@ -60,6 +64,14 @@ namespace CharacterComponents.Animations
             _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
         }
 
+        public void OpenEyes()
+        {
+            foreach (var eye in eyes)
+            {
+                if (eye.IsEyeClosed && !isJawOpen) eye.Play(EyeAnimator.Animations.OpenEye, isJawOpen);
+            }
+        }
+
         private void ResetEyes(int num)
         {
             int flag = 0;
@@ -68,21 +80,14 @@ namespace CharacterComponents.Animations
             {
                 if (flag < Stats.CurrentHealth)
                 {
-                    if (eye.isBlocked)
-                    {
-                        eye.isBlocked = false;
-                        eye.Play(EyeAnimator.Animations.OpenEye);
-                    }
+                    eye.isBlocked = false;
+                    if (eye.IsEyeClosed) eye.Play(EyeAnimator.Animations.OpenEye, isJawOpen);
                     flag++;
                 }
                 else
                 {
-                    if (!eye.isBlocked)
-                    {
-                        eye.Play(EyeAnimator.Animations.CloseEye);
-                        eye.isBlocked = true;
-                    }
-                    
+                    if (!eye.IsEyeClosed) eye.Play(EyeAnimator.Animations.CloseEye, isJawOpen);
+                    eye.isBlocked = true;
                 }
             }
         }
@@ -106,11 +111,13 @@ namespace CharacterComponents.Animations
             BlinkEyes();
         }
 
+
         public void OpenJaw()
         {
+            isJawOpen = true;
             foreach (var eye in eyes)
             {
-                eye.Play(EyeAnimator.Animations.OpenJaw);
+                eye.Play(EyeAnimator.Animations.OpenJaw, isJawOpen);
             }
 
             jaw.Play(JawAnimator.Animations.OpenJaw);
@@ -118,9 +125,10 @@ namespace CharacterComponents.Animations
 
         public void CloseJaw()
         {
+            isJawOpen = false;
             foreach (var eye in eyes)
             {
-                eye.Play(EyeAnimator.Animations.CloseJaw);
+                eye.Play(EyeAnimator.Animations.CloseJaw, isJawOpen);
             }
 
             jaw.Play(JawAnimator.Animations.CloseJaw);
@@ -128,9 +136,10 @@ namespace CharacterComponents.Animations
 
         public void BlinkEyes()
         {
+            if (isJawOpen) return;
             foreach (var eye in eyes)
             {
-                eye.Play(EyeAnimator.Animations.BlinkEye);
+                eye.Play(EyeAnimator.Animations.BlinkEye, isJawOpen);
             }
         }
     }

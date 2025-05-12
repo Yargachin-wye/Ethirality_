@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
   startHp: 1
-  maxHp: 8
+  maxHp: 7
 --- !u!114 &3981084429929533095
 MonoBehaviour:
   m_ObjectHideFlags: 0
