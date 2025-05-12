@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GameAnalyticsSDK;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Bootstrappers
@@ -9,25 +11,55 @@ namespace Bootstrappers
     public class GameAnalyticsBeh : MonoBehaviour
     {
         [SerializeField] private TMP_Text debugText;
+        public static GameAnalyticsBeh Instance;
 
-        void Start()
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError("More than one instance of GameAnalyticsBeh found!");
+                return;
+            }
+
+            Instance = this;
+        }
+
+        private void Start()
         {
             StartCoroutine(StartIE());
         }
 
-        IEnumerator StartIE()
+        private IEnumerator StartIE()
         {
             GameAnalytics.Initialize();
-            yield return new WaitForSeconds(1); // Подождать, пока инициализация завершится
+
+            yield return new WaitForNextFrameUnit();
+
             if (GameAnalytics.Initialized)
             {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "round");
                 debugText.text = "V";
+                GameAnalytics.NewDesignEvent("TestEvent"); // Просто для проверки
             }
             else
             {
                 debugText.text = "Game Analytics not initialized";
             }
         }
+
+        private void OnApplicationQuit()
+        {
+        }
+        
+        public void StartRound()
+        {
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "round");
+        }
+        
+        public void CompleteRound()
+        {
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "round");
+        }
+
+        
     }
 }
