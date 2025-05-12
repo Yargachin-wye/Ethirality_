@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using GameAnalyticsSDK;
 using TMPro;
 using Unity.VisualScripting;
@@ -59,7 +57,5 @@ namespace Bootstrappers
         {
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "round");
         }
-
-        
     }
 }
