@@ -20,18 +20,8 @@ namespace Bootstrappers
             }
 
             Instance = this;
-        }
 
-        private void Start()
-        {
-            StartCoroutine(StartIE());
-        }
-
-        private IEnumerator StartIE()
-        {
             GameAnalytics.Initialize();
-
-            yield return new WaitForNextFrameUnit();
 
             if (GameAnalytics.Initialized)
             {
@@ -44,15 +34,16 @@ namespace Bootstrappers
             }
         }
 
+
         private void OnApplicationQuit()
         {
         }
-        
+
         public void StartRound()
         {
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "round");
         }
-        
+
         public void CompleteRound()
         {
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "round");

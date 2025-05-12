@@ -1,3 +1,4 @@
+using System;
 using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +7,11 @@ namespace Bootstrappers
 {
     public class SceneLoader : MonoBehaviour
     {
-        
+        private void Start()
+        {
+            OpenLobby();
+        }
+
         public void OpenGamePlay()
         {
             SceneManager.LoadScene("GamePlay");
@@ -15,7 +20,7 @@ namespace Bootstrappers
         
         public void OpenLobby()
         {
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("Menu");
             GameAnalyticsBeh.Instance.CompleteRound();
         }
     }
