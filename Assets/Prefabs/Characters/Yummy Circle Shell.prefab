@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6025074687716835840}
   - component: {fileID: 4543981621907744304}
   m_Layer: 0
-  m_Name: Yummy Circle
+  m_Name: Yummy Circle Shell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -52,11 +52,13 @@ namespace Projectiles
                 _isAttached = true;
                 Rigidbody2D rb2Down = _owner.GetComponent<Rigidbody2D>();
                 Rigidbody2D rb2Dtr = _trigger.GetComponent<Rigidbody2D>();
-                
+
                 _triggerStats.Damage(_projectileDefinition.Damage);
-                
+
                 if (rb2Down != null)
                 {
+                    rb2Down.velocity = Vector2.zero;
+                    rb2Down.angularVelocity = 0f;
                     rb2Down.AddForce(
                         (_owner.transform.position - _trigger.transform.position).normalized *
                         _projectileDefinition.TargetForce,
@@ -70,6 +72,8 @@ namespace Projectiles
                         _projectileDefinition.TargetForce,
                         ForceMode2D.Impulse);
                 }
+
+                rope2D.UnpinFirstPos();
             }
 
             _attachedForceTimer -= Time.fixedDeltaTime;
@@ -116,14 +120,7 @@ namespace Projectiles
                 if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, _projectileDefinition.Recoil);
             }
 
-            if (!_projectileDefinition.HasRope)
-            {
-                //rope2D.Off();
-            }
-            else
-            {
-                rope2D.Set(_owner.transform);
-            }
+            rope2D.Set(_owner.transform);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -143,7 +140,7 @@ namespace Projectiles
                 gameObject.SetActive(false);
                 return;
             }
-            
+
             _isTrigered = true;
             _isAttached = false;
             _isForceOnAttached = false;

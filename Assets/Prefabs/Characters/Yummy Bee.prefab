@@ -181,6 +181,7 @@ MonoBehaviour:
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
   - {fileID: 3113167696032994566}
+  - {fileID: -7674425659892400314}
   - {fileID: 4613400794377811674}
   stats: {fileID: 3113167696032994566}
 --- !u!114 &3113167696032994566
@@ -210,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a162fc01ff448a8528fd10fc860f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 8403955774680081991}
   hp: 1
 --- !u!114 &4613400794377811674
 MonoBehaviour:

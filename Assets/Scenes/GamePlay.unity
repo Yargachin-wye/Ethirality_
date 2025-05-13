@@ -274,57 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsContainerPackList:
-  - name: 0
-    color: {r: 0, g: 1, b: 0.18899345, a: 0.7058824}
-    radius: 0.93
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
-  - name: 1
-    color: {r: 1, g: 0, b: 0, a: 0.69803923}
-    radius: 1.64
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 116c564ab468ae04e9f2877d04282448, type: 2}
-  - name: 2
-    color: {r: 0.49081802, g: 0, b: 1, a: 0.7058824}
-    radius: 2.65
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
-  - name: 4
-    color: {r: 0, g: 0.80884147, b: 1, a: 0.7058824}
-    radius: 0.99
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
-  - name: 5
-    color: {r: 1, g: 0.96826196, b: 0, a: 0.7058824}
-    radius: 0.87
-    probabilities:
-    - 0.5
-    - 0.5
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
-    - {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
-  - name: 6
-    color: {r: 0.022774696, g: 0, b: 1, a: 0.7058824}
-    radius: 1.52
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
-  - name: 8
-    color: {r: 0.11533308, g: 0.6226415, b: 0, a: 0.7058824}
-    radius: 1
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
   - name: 7
     color: {r: 1, g: 0, b: 0.9345741, a: 0.7058824}
     radius: 1
@@ -332,6 +281,57 @@ MonoBehaviour:
     - 1
     characterDefinitionsPool:
     - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
+  - name: 1
+    color: {r: 1, g: 0, b: 0, a: 0.69803923}
+    radius: 1.64
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 60f41c75712fc4d4cb166e486e429d7e, type: 2}
+  - name: 2
+    color: {r: 0.49081802, g: 0, b: 1, a: 0.7058824}
+    radius: 2.65
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 1c8b3d65d0ed37647b7ec5a96f606255, type: 2}
+  - name: 0
+    color: {r: 0, g: 1, b: 0.18899345, a: 0.7058824}
+    radius: 0.93
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
+  - name: 4
+    color: {r: 0, g: 0.80884147, b: 1, a: 0.7058824}
+    radius: 0.99
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 3e52d05909a0c1d4e8232abe1cedfb39, type: 2}
+  - name: 5
+    color: {r: 1, g: 0.96826196, b: 0, a: 0.7058824}
+    radius: 0.87
+    probabilities:
+    - 0.5
+    - 0.5
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
+    - {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
+  - name: 8
+    color: {r: 1, g: 1, b: 1, a: 0.7058824}
+    radius: 3
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
+  - name: 6
+    color: {r: 0.022774696, g: 0, b: 1, a: 0.7058824}
+    radius: 1.52
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 4bb0ad560fa7ce547b9e8533cdbbe3bf, type: 2}
   chunksController: {fileID: 64613905}
   playerSpawner: {fileID: 839287355}
   distToPlayerForSpawn: 10
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 225821428}
   - component: {fileID: 225821427}
   m_Layer: 0
-  m_Name: GeneratorShell2
+  m_Name: GeneratorShell1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1520,7 +1520,7 @@ GameObject:
   - component: {fileID: 1300514384}
   - component: {fileID: 1300514383}
   m_Layer: 0
-  m_Name: GeneratorShell1
+  m_Name: GeneratorShell0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1708,22 +1708,34 @@ MonoBehaviour:
   - characterDefinition: {fileID: 11400000, guid: 4bb0ad560fa7ce547b9e8533cdbbe3bf, type: 2}
     numOnStart: 1
     objectsList: []
-  - characterDefinition: {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
+  - characterDefinition: {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
     numOnStart: 5
     objectsList: []
   - characterDefinition: {fileID: 11400000, guid: 116c564ab468ae04e9f2877d04282448, type: 2}
     numOnStart: 5
     objectsList: []
-  - characterDefinition: {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
-    numOnStart: 5
-    objectsList: []
   - characterDefinition: {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
     numOnStart: 5
     objectsList: []
-  - characterDefinition: {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
+  - characterDefinition: {fileID: 11400000, guid: 3e52d05909a0c1d4e8232abe1cedfb39, type: 2}
+    numOnStart: 5
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
     numOnStart: 5
     objectsList: []
   - characterDefinition: {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
+    numOnStart: 5
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: a147420c4964aac4a962867e1aac50da, type: 2}
+    numOnStart: 5
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
+    numOnStart: 5
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 60f41c75712fc4d4cb166e486e429d7e, type: 2}
+    numOnStart: 5
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 1c8b3d65d0ed37647b7ec5a96f606255, type: 2}
     numOnStart: 5
     objectsList: []
 --- !u!1 &1552641044
@@ -1801,7 +1813,7 @@ GameObject:
   - component: {fileID: 1668294003}
   - component: {fileID: 1668294002}
   m_Layer: 0
-  m_Name: GeneratorShell3
+  m_Name: GeneratorShell2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2418,7 +2430,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraMain: {fileID: 1480323615}
   tapDelay: 0.15
-  joysickMinMagnitude: 0.99
 --- !u!1 &2119202648
 GameObject:
   m_ObjectHideFlags: 0

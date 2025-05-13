@@ -23,6 +23,7 @@ namespace CharacterComponents.Animations
         [SerializeField] private float lerpDuration = 1f; // Время, за которое точки должны достичь целевых позиций
 
         public int segmentsPerInterval = 100;
+        bool isUnpinLastPos = false;
 
         private void OnDisable()
         {
@@ -40,6 +41,7 @@ namespace CharacterComponents.Animations
             target = s;
             _waveSize = startWaveSize;
             elapsedTime = 0;
+            isUnpinLastPos = false;
 
             rope.StartBetween2Positions(start.position, target.position);
             rope2DPhisics = rope.UpdateRopePhysics();
@@ -75,10 +77,16 @@ namespace CharacterComponents.Animations
             return length;
         }
 
+        public void UnpinFirstPos()
+        {
+            isUnpinLastPos = true;
+            rope.UnpinFirstPos();
+        }
+
         private void FixedUpdate()
         {
             _waveSize = Mathf.Max(0, _waveSize - Time.fixedDeltaTime * wavesProgressionSpeed);
-            rope.SetFirstSectionPos(start.position);
+            if (!isUnpinLastPos) rope.SetFirstSectionPos(start.position);
             rope.SetLastSectionPos(target.position);
             rope2DPhisics = rope.UpdateRopePhysics();
             DrawRopeWaves();

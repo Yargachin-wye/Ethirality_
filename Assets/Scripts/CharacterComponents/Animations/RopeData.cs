@@ -21,6 +21,11 @@ namespace CharacterComponents.Animations
 
         public int SegmentCount => segmentCount;
 
+        public void UnpinFirstPos()
+        {
+            _isFirstNailed = false;
+        }
+
         private void StartFromFirst(Vector2 position)
         {
             _currentPos = new();
