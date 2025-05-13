@@ -8,7 +8,7 @@ namespace Managers
     {
         [SerializeField] private UnityEngine.Camera _cameraMain;
         [SerializeField] private float tapDelay;
-        [SerializeField] private float joysickMinMagnitude = 0.99f;
+        public static float JoysickMinMagnitude = 0.9f;
         public event Action<bool, Vector2> OnInputFreeze;
         public event Action<Vector2> OnInputDash;
         public event Action<Vector2> OnInputShot;
@@ -36,6 +36,7 @@ namespace Managers
             Instance = this;
             _controls = new Controls();
         }
+        
         private void OnEnable()
         {
             _controls.Enable();
@@ -81,7 +82,7 @@ namespace Managers
                 return;
             }
 
-            if (_detouchPosition.magnitude > joysickMinMagnitude) OnInputDash?.Invoke(_screenPosition);
+            if (_detouchPosition.magnitude > JoysickMinMagnitude) OnInputDash?.Invoke(_screenPosition);
             
             OnInputFreeze?.Invoke(false, Vector2.zero);
         }

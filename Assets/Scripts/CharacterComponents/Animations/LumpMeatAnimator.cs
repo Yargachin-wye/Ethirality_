@@ -22,7 +22,8 @@ namespace CharacterComponents.Animations
         [SerializeField, HideInInspector] private EyeAnimator[] eyes;
         private Stats Stats => character.Stats;
         private float _timerBlink = 0;
-        private bool isJawOpen = false;
+        private bool _isJawOpen = false;
+        public bool IsJawOpen => _isJawOpen;
 
         public override void OnValidate()
         {
@@ -38,6 +39,7 @@ namespace CharacterComponents.Animations
 
         public override void Init()
         {
+            
         }
 
         private void Start()
@@ -64,14 +66,6 @@ namespace CharacterComponents.Animations
             _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
         }
 
-        public void OpenEyes()
-        {
-            foreach (var eye in eyes)
-            {
-                if (eye.IsEyeClosed && !isJawOpen) eye.Play(EyeAnimator.Animations.OpenEye, isJawOpen);
-            }
-        }
-
         private void ResetEyes(int num)
         {
             int flag = 0;
@@ -81,12 +75,12 @@ namespace CharacterComponents.Animations
                 if (flag < Stats.CurrentHealth)
                 {
                     eye.isBlocked = false;
-                    if (eye.IsEyeClosed) eye.Play(EyeAnimator.Animations.OpenEye, isJawOpen);
+                    if (eye.IsEyeClosed) eye.Play(EyeAnimator.Animations.OpenEye, _isJawOpen);
                     flag++;
                 }
                 else
                 {
-                    if (!eye.IsEyeClosed) eye.Play(EyeAnimator.Animations.CloseEye, isJawOpen);
+                    if (!eye.IsEyeClosed) eye.Play(EyeAnimator.Animations.CloseEye, _isJawOpen);
                     eye.isBlocked = true;
                 }
             }
@@ -114,10 +108,10 @@ namespace CharacterComponents.Animations
 
         public void OpenJaw()
         {
-            isJawOpen = true;
+            _isJawOpen = true;
             foreach (var eye in eyes)
             {
-                eye.Play(EyeAnimator.Animations.OpenJaw, isJawOpen);
+                eye.Play(EyeAnimator.Animations.OpenJaw, _isJawOpen);
             }
 
             jaw.Play(JawAnimator.Animations.OpenJaw);
@@ -125,21 +119,21 @@ namespace CharacterComponents.Animations
 
         public void CloseJaw()
         {
-            isJawOpen = false;
+            _isJawOpen = false;
             foreach (var eye in eyes)
             {
-                eye.Play(EyeAnimator.Animations.CloseJaw, isJawOpen);
+                eye.Play(EyeAnimator.Animations.CloseJaw, _isJawOpen);
             }
 
             jaw.Play(JawAnimator.Animations.CloseJaw);
         }
 
-        public void BlinkEyes()
+        private void BlinkEyes()
         {
-            if (isJawOpen) return;
+            if (_isJawOpen) return;
             foreach (var eye in eyes)
             {
-                eye.Play(EyeAnimator.Animations.BlinkEye, isJawOpen);
+                eye.Play(EyeAnimator.Animations.BlinkEye, _isJawOpen);
             }
         }
     }

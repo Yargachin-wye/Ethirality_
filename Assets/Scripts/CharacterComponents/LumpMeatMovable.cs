@@ -2,6 +2,7 @@
 using CharacterComponents.Animations;
 using CharacterComponents.Food;
 using Definitions;
+using Managers;
 using UnityEngine;
 
 namespace CharacterComponents
@@ -46,7 +47,7 @@ namespace CharacterComponents
                 _isDash = true;
                 if (_dashTimer <= 0)
                 {
-                    lumpMeatAnimator.CloseJaw();
+                    if (lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.CloseJaw();
                 }
             }
             else
@@ -70,6 +71,16 @@ namespace CharacterComponents
         public void Look(Vector2 direction)
         {
             _lookDirection = -direction;
+            if (_lookDirection.magnitude < Inputer.JoysickMinMagnitude)
+            {
+                if (lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.CloseJaw();
+            }
+            else
+            {
+                if (!lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
+            }
+
+            Debug.Log($"lookDirection   :{_lookDirection}");
         }
 
         public void Freeze(bool freeze, Vector2 v2)
@@ -81,7 +92,6 @@ namespace CharacterComponents
                 character.rb2D.gravityScale = 0;
                 if (_isFirstFreeze)
                 {
-                    lumpMeatAnimator.OpenJaw();
                     _isFirstFreeze = false;
                 }
             }

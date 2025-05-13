@@ -691,7 +691,6 @@ GameObject:
   - component: {fileID: 680497582}
   - component: {fileID: 680497581}
   - component: {fileID: 680497580}
-  - component: {fileID: 680497579}
   m_Layer: 5
   m_Name: GenerateBtn
   m_TagString: Untagged
@@ -719,26 +718,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &680497579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 680497577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: 30
-  m_FlexibleWidth: 1
-  m_FlexibleHeight: 1
-  m_LayoutPriority: 1
 --- !u!114 &680497580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,7 +1090,6 @@ GameObject:
   - component: {fileID: 923174366}
   - component: {fileID: 923174365}
   - component: {fileID: 923174364}
-  - component: {fileID: 923174367}
   m_Layer: 5
   m_Name: Debug
   m_TagString: Untagged
@@ -1137,7 +1115,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 0}
+  m_SizeDelta: {x: 446.29, y: 97.11}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &923174364
 MonoBehaviour:
@@ -1203,20 +1181,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 923174362}
   m_CullTransparentMesh: 1
---- !u!114 &923174367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 923174362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!1 &935836869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1822,7 +1786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 1552641045}
-  camera: {fileID: 0}
+  camera: {fileID: 1480323615}
   imageStick: {fileID: 216226195}
   imageStickBg: {fileID: 56195801}
 --- !u!1 &1668294000
@@ -2672,8 +2636,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 48.6
+  m_fontSizeBase: 48.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
