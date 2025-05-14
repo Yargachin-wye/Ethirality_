@@ -21,7 +21,6 @@ namespace Definitions
         [SerializeField] private float attachedForceDelay = 0;
         [SerializeField] private float targetForce = 0;
         [SerializeField] private float ownerForce = 0;
-        [SerializeField] private bool hasRope = false;
         public GameObject Prefab => prefab;
         public float SpeedMultiply => speedMultiply;
         public RigidbodyType2D RigidbodyType2D => rigidbodyType2D;
@@ -33,7 +32,6 @@ namespace Definitions
         public float AttachedForceDelay => attachedForceDelay;
         public float TargetForce => targetForce;
         public float OwnerForce => ownerForce;
-        public bool HasRope => hasRope;
         public int Damage => damage;
     }
 

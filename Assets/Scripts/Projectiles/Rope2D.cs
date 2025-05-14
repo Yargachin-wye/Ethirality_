@@ -24,6 +24,9 @@ namespace CharacterComponents.Animations
 
         public int segmentsPerInterval = 100;
         bool isUnpinLastPos = false;
+        bool isUnpinFirstPos = false;
+        public float EndColorAlpha => lineRend.endColor.a;
+        public float StartColorAlpha => lineRend.startColor.a;
 
         private void OnDisable()
         {
@@ -35,13 +38,15 @@ namespace CharacterComponents.Animations
             lineRend.enabled = false;
         }
 
-        public void Set(Transform s)
+        public void Set(Transform first, Transform last)
         {
-            start = transform;
-            target = s;
+            UpdateAlpha(1);
+            start = first;
+            target = last;
             _waveSize = startWaveSize;
             elapsedTime = 0;
             isUnpinLastPos = false;
+            isUnpinFirstPos = false;
 
             rope.StartBetween2Positions(start.position, target.position);
             rope2DPhisics = rope.UpdateRopePhysics();
@@ -77,17 +82,35 @@ namespace CharacterComponents.Animations
             return length;
         }
 
-        public void UnpinFirstPos()
+        public void UnpinLastPos()
         {
             isUnpinLastPos = true;
+            rope.UnpinLastPos();
+        }
+
+        public void UnpinFirstPos()
+        {
+            isUnpinFirstPos = true;
             rope.UnpinFirstPos();
+        }
+
+        public void UpdateAlpha(float alpha)
+        {
+            Color startColor = lineRend.endColor;
+            Color endColor = lineRend.endColor;
+
+            startColor.a = alpha;
+            endColor.a = alpha;
+
+            lineRend.startColor = startColor;
+            lineRend.endColor = endColor;
         }
 
         private void FixedUpdate()
         {
             _waveSize = Mathf.Max(0, _waveSize - Time.fixedDeltaTime * wavesProgressionSpeed);
-            if (!isUnpinLastPos) rope.SetFirstSectionPos(start.position);
-            rope.SetLastSectionPos(target.position);
+            if (!isUnpinFirstPos) rope.SetFirstSectionPos(start.position);
+            if (!isUnpinLastPos) rope.SetLastSectionPos(target.position);
             rope2DPhisics = rope.UpdateRopePhysics();
             DrawRopeWaves();
             elapsedTime += Time.fixedDeltaTime;
@@ -95,8 +118,8 @@ namespace CharacterComponents.Animations
 
         private void DrawRopeWaves()
         {
-            Vector2 endP = target.position;
             Vector2 startP = start.position;
+            Vector2 endP = target.position;
             Vector2 startToEnd = endP - startP;
             lineRend.positionCount = rope2DPhisics.Count;
             for (int i = 0, j = rope2DPhisics.Count - 1; i < rope2DPhisics.Count; i++, j--)

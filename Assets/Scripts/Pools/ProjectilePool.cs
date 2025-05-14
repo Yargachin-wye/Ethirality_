@@ -4,7 +4,7 @@ using Definitions;
 using Projectiles;
 using UnityEngine;
 
-namespace Managers.Pools
+namespace Pools
 {
     public class ProjectilePool : MonoBehaviour
     {

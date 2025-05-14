@@ -110,8 +110,8 @@ Transform:
   m_GameObject: {fileID: 559457535299938908}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 1.5, y: 0, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 1}
+  m_LocalPosition: {x: 2.75, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4583826394884011551}
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.5686275}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1470,8 +1470,9 @@ MonoBehaviour:
   speed: 1
   rotationSpeed: 25
   shootDelay: 0.2
+  maxDistanceToProjectile: 25
+  ropeDecaySpeed: 0.1
   lumpMeatMovable: {fileID: 295954416802910781}
-  hasLumpMeatMovable: 1
 --- !u!114 &3309784423320760736
 MonoBehaviour:
   m_ObjectHideFlags: 0

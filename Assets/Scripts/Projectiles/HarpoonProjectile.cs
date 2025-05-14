@@ -1,4 +1,5 @@
-﻿using CharacterComponents;
+﻿using System;
+using CharacterComponents;
 using CharacterComponents.Animations;
 using Definitions;
 using UnityEngine;
@@ -16,8 +17,8 @@ namespace Projectiles
         private GameObject _trigger;
         private Stats _triggerStats;
         private FixedJoint2D joint;
-
-        [SerializeField] private Rope2D rope2D;
+        public Action<HarpoonProjectile> OnBreakAway;
+        public Action<HarpoonProjectile> OnDied;
 
         private float _timer;
         private float _attachedForceTimer;
@@ -27,8 +28,12 @@ namespace Projectiles
         private bool _isJoined = false;
         private bool _isTrigered = false;
 
+        public bool isFarAwayFromOwner = false;
+
         public void Init(ProjectileDefinition projectileDefinition)
         {
+            isFarAwayFromOwner = false;
+            _isForceOnAttached = false;
             _projectileDefinition = projectileDefinition;
             rb2D.bodyType = _projectileDefinition.RigidbodyType2D;
             rb2D.gravityScale = _projectileDefinition.GravityScale;
@@ -47,6 +52,7 @@ namespace Projectiles
             _timer -= Time.fixedDeltaTime;
 
             if (!_isForceOnAttached) return;
+            if (isFarAwayFromOwner) return;
             if (_attachedForceTimer <= 0 && !_isAttached)
             {
                 _isAttached = true;
@@ -73,7 +79,7 @@ namespace Projectiles
                         ForceMode2D.Impulse);
                 }
 
-                rope2D.UnpinFirstPos();
+                OnBreakAway?.Invoke(this);
             }
 
             _attachedForceTimer -= Time.fixedDeltaTime;
@@ -93,6 +99,8 @@ namespace Projectiles
 
         private void OnDisable()
         {
+            if (_isTrigered) _triggerStats.OnDeadAction -= OnTriggerDead;
+            OnDied?.Invoke(this);
             if (_isJoined)
             {
                 _isJoined = false;
@@ -106,6 +114,8 @@ namespace Projectiles
             _owner = owner;
             _fraction = fraction;
             _isTrigered = false;
+            _isAttached = false;
+            _isForceOnAttached = false;
 
             if (rb2D.bodyType == RigidbodyType2D.Dynamic)
             {
@@ -119,28 +129,26 @@ namespace Projectiles
                 LumpMeatMovable lumpMeatMovable = owner.GetComponent<LumpMeatMovable>();
                 if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, _projectileDefinition.Recoil);
             }
-
-            rope2D.Set(_owner.transform);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (_isTrigered) return;
             _triggerStats = other.GetComponent<Stats>();
-            _triggerStats.OnDeadAction += OnTriggerDead;
+            
             if (_triggerStats == null ||
                 _triggerStats.Fraction == _fraction &&
                 _fraction != Fraction.All)
             {
                 return;
             }
-
+            
             if (_projectileDefinition.IsDestroyOnTrigger)
             {
                 gameObject.SetActive(false);
                 return;
             }
-
+            _triggerStats.OnDeadAction += OnTriggerDead;
             _isTrigered = true;
             _isAttached = false;
             _isForceOnAttached = false;

@@ -21,6 +21,10 @@ namespace CharacterComponents.Animations
 
         public int SegmentCount => segmentCount;
 
+        public void UnpinLastPos()
+        {
+            _isLastNailed = false;
+        }
         public void UnpinFirstPos()
         {
             _isFirstNailed = false;
