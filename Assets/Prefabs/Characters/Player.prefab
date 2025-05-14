@@ -1471,7 +1471,7 @@ MonoBehaviour:
   rotationSpeed: 25
   shootDelay: 0.2
   maxDistanceToProjectile: 25
-  ropeDecaySpeed: 0.1
+  ropeDecaySpeed: 0.25
   lumpMeatMovable: {fileID: 295954416802910781}
 --- !u!114 &3309784423320760736
 MonoBehaviour:

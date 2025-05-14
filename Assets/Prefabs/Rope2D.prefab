@@ -48,7 +48,7 @@ MonoBehaviour:
   start: {fileID: 0}
   target: {fileID: 0}
   speed: 10
-  startWaveSize: 1.24
+  startWaveSize: 1.5
   wavesProgressionSpeed: 3
   animationCurve:
     serializedVersion: 2
@@ -157,7 +157,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   lineRend: {fileID: 3123891729209604684}
   rope:
-    segmentCount: 50
+    segmentCount: 100
     segmentLength: 0.1
     gravity: {x: 0, y: -10}
     verletIterations: 64
