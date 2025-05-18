@@ -11,7 +11,7 @@ namespace CharacterComponents
         {
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             if (indicator == null)
                 return;
