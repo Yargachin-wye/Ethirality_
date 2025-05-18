@@ -118,7 +118,7 @@ TextureImporter:
         width: 26
         height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,7 +139,7 @@ TextureImporter:
         width: 26
         height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -160,7 +160,7 @@ TextureImporter:
         width: 26
         height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,7 +181,7 @@ TextureImporter:
         width: 26
         height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,7 +202,7 @@ TextureImporter:
         width: 26
         height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -210,6 +210,195 @@ TextureImporter:
       bones: []
       spriteID: e7cf5a7823c517e478f92dc6c2f16b0a
       internalID: 506725195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_5
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 36
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f295f003a37efa740a0f3d0482a3f5ff
+      internalID: -159422135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_6
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 15
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 287a99ef44500744895e1f27f37cc15c
+      internalID: 1263099769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_7
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 18
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f97b235ade4f6740962b8b8d0a3d67d
+      internalID: -1276019266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_8
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 2
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fcf2d614ee334e4a917613f60bdcbf2
+      internalID: -1669104678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_9
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b0958172f7a9c34894a0e354b23e860
+      internalID: 2057098676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_10
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 1
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a816c13b4aca4da48bd6ef1e5e5cc132
+      internalID: -809122501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_11
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 21
+        width: 4
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10643224b1be882428dac01f74d5af8f
+      internalID: -715025109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_12
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 38
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e7963c5bfa31864f856f657c07b6d9e
+      internalID: 950180298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pear_13
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 17
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f5cce3eecfbd124899ca343d53db24b
+      internalID: 443321915
       vertices: []
       indices: 
       edges: []
@@ -227,9 +416,18 @@ TextureImporter:
     nameFileIdTable:
       pear_0: 1035140716
       pear_1: -868830155
+      pear_10: -809122501
+      pear_11: -715025109
+      pear_12: 950180298
+      pear_13: 443321915
       pear_2: -2119012182
       pear_3: -1027450080
       pear_4: 506725195
+      pear_5: -159422135
+      pear_6: 1263099769
+      pear_7: -1276019266
+      pear_8: -1669104678
+      pear_9: 2057098676
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

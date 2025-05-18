@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2692462021808953985}
   - component: {fileID: 2878480116372725535}
   - component: {fileID: 8403955774680081991}
-  - component: {fileID: -8568434519397170154}
+  - component: {fileID: 7863888071420104655}
+  - component: {fileID: -8403810917303142040}
   m_Layer: 0
-  m_Name: Somthing
+  m_Name: Yummy pear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +34,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3837351701926834794}
+  - {fileID: 3547433003539698168}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2692462021808953985
@@ -95,8 +96,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.0131}
-  m_Size: {x: 1.76, y: 3.368}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.25, y: 3}
   m_Direction: 0
 --- !u!114 &8403955774680081991
 MonoBehaviour:
@@ -115,9 +116,10 @@ MonoBehaviour:
   playerControllable: {fileID: 0}
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
-  - {fileID: -8568434519397170154}
-  stats: {fileID: -8568434519397170154}
---- !u!114 &-8568434519397170154
+  - {fileID: 7863888071420104655}
+  - {fileID: -8403810917303142040}
+  stats: {fileID: 7863888071420104655}
+--- !u!114 &7863888071420104655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,9 +132,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  startHp: 1
-  maxHp: 1
---- !u!1 &8851353043842542535
+  startHp: 2
+  maxHp: 2
+--- !u!114 &-8403810917303142040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a162fc01ff448a8528fd10fc860f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 8403955774680081991}
+  hp: 1
+--- !u!1 &5014159035460615691
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,37 +156,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3837351701926834794}
-  - component: {fileID: 7430208108823013727}
+  - component: {fileID: 3547433003539698168}
+  - component: {fileID: 7204961860442423665}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3837351701926834794
+--- !u!4 &3547433003539698168
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8851353043842542535}
+  m_GameObject: {fileID: 5014159035460615691}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6267830930521368476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7430208108823013727
+--- !u!212 &7204961860442423665
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8851353043842542535}
+  m_GameObject: {fileID: 5014159035460615691}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -205,12 +221,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 933241145, guid: 27f1d0c826beaf745a48469225429e2a, type: 3}
+  m_Sprite: {fileID: 506725195, guid: d437957e1bc681644aaa33705c48d709, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

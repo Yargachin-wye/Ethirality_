@@ -9,26 +9,31 @@ namespace CharacterComponents
     {
         [SerializeField] private int startHp;
         [SerializeField] private int maxHp;
+        [SerializeField] private bool isImmortal;
+        [SerializeField] private bool isInvulnerable;
+        [Space]
+        [SerializeField] private DeadBodyInfo deadBodyInfo;
+
         private int _currentHealth;
-        private int _maxHealth;
         public Fraction Fraction => character.Fraction;
         public Action OnDeadAction;
         public Action<int> OnDmgAction;
         public Action<int> OnCureAction;
 
         public int CurrentHealth => _currentHealth;
-        public int MaxHealth => _maxHealth;
+        public int MaxHealth => maxHp;
 
         public override void Init()
         {
             _currentHealth = startHp;
-            _maxHealth = maxHp;
         }
 
         public bool Damage(int val)
         {
+            if (isInvulnerable) return false;
             _currentHealth -= val;
-            if (_currentHealth <= 0)
+
+            if (_currentHealth <= 0 && !isImmortal)
             {
                 OnDeadAction?.Invoke();
                 return true;
