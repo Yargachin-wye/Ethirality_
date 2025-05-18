@@ -719,17 +719,17 @@ MonoBehaviour:
   jaw:
     image: {fileID: 4697537995792579094}
     openJawFrames:
-    - {fileID: 19886752, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
-    - {fileID: -219621150, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
-    - {fileID: -286777739, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
+    - {fileID: -24251519, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
+    - {fileID: 1211081841, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
+    - {fileID: 439055352, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
     openJaw:
-    - {fileID: 19886752, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
-    - {fileID: -219621150, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
-    - {fileID: -286777739, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
+    - {fileID: -24251519, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
+    - {fileID: 1211081841, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
+    - {fileID: 439055352, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
     closeJaw:
-    - {fileID: -286777739, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
-    - {fileID: -219621150, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
-    - {fileID: 19886752, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
+    - {fileID: 439055352, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
+    - {fileID: 1211081841, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
+    - {fileID: -24251519, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
   eyes:
   - image: {fileID: 6765235491791898588}
     eyeOpenJawOpen: {fileID: -163265146, guid: caafe165cfe8b684fb2f71ef83340e92, type: 3}
@@ -1172,7 +1172,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 19886752, guid: 0176c9f93ebc696409b4db054b74a0ab, type: 3}
+  m_Sprite: {fileID: -24251519, guid: 14edb67077acef140a0ccd1725d0c7ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1488,6 +1488,9 @@ MonoBehaviour:
   character: {fileID: 2281339711963540066}
   startHp: 1
   maxHp: 7
+  isImmortal: 0
+  isInvulnerable: 0
+  deadBodyInfo: {fileID: 0}
 --- !u!114 &3981084429929533095
 MonoBehaviour:
   m_ObjectHideFlags: 0

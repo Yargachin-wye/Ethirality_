@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2d05657c8f24c614ebfe0f80d742f59a
+guid: 14edb67077acef140a0ccd1725d0c7ba
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ZXC_0
+      name: meet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 80
-        height: 96
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b81c24e5ef31da41b4e25d6047c4614
-      internalID: -78339403
+      spriteID: 87b763358af1a08429b0bda920bb4227
+      internalID: 439055352
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ZXC_1
+      name: meet_1
       rect:
         serializedVersion: 2
-        x: 80
+        x: 30
         y: 0
-        width: 80
-        height: 96
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ceafc7376238f04a8d35f6effc9fdf3
-      internalID: 190079485
+      spriteID: 121721a4f8a39a64b924f50ecd8c737d
+      internalID: 1211081841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ZXC_2
+      name: meet_2
       rect:
         serializedVersion: 2
-        x: 160
+        x: 60
         y: 0
-        width: 80
-        height: 96
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,50 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a231f30bfac7cc4dad46427f155810e
-      internalID: -507109997
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ZXC_3
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 0
-        width: 80
-        height: 96
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 14d1f9ef964676547a36b8156dc3fb80
-      internalID: 376128513
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ZXC_4
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 80
-        height: 96
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0955fe91474c1fd4daf4d55a0a705583
-      internalID: 1104214021
+      spriteID: 711dab4da6d57414e9c684806bc1ab4b
+      internalID: -24251519
       vertices: []
       indices: 
       edges: []
@@ -225,11 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ZXC_0: -78339403
-      ZXC_1: 190079485
-      ZXC_2: -507109997
-      ZXC_3: 376128513
-      ZXC_4: 1104214021
+      meet_0: 439055352
+      meet_1: 1211081841
+      meet_2: -24251519
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
