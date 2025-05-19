@@ -453,6 +453,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2747870657997618868}
+  - component: {fileID: -336202550334534926}
   m_Layer: 0
   m_Name: Dead Bee
   m_TagString: Untagged
@@ -481,6 +482,19 @@ Transform:
   - {fileID: 8259821900999197080}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-336202550334534926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386142665617210617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3459472c824888a1c122658df44ab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  durationTime: 1
 --- !u!1 &4579336942890896764
 GameObject:
   m_ObjectHideFlags: 0

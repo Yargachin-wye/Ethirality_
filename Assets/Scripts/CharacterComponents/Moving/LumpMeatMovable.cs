@@ -79,8 +79,6 @@ namespace CharacterComponents
             {
                 if (!lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
             }
-
-            Debug.Log($"lookDirection   :{_lookDirection}");
         }
 
         public void Freeze(bool freeze, Vector2 v2)
@@ -108,6 +106,7 @@ namespace CharacterComponents
 
         public void Dash(Vector2 v2, float power)
         {
+            if (!lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
             _dashTimer = dashTime;
             character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * power, ForceMode2D.Impulse);

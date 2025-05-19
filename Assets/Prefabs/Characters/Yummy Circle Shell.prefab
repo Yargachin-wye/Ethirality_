@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6554938153170486306}
   - component: {fileID: 6025074687716835840}
   - component: {fileID: 4543981621907744304}
+  - component: {fileID: -7214759170712506246}
   m_Layer: 0
   m_Name: Yummy Circle Shell
   m_TagString: Untagged
@@ -35,6 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7443132011061277851}
+  - {fileID: 3117665367366024793}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2692462021808953985
@@ -83,6 +85,7 @@ MonoBehaviour:
   - {fileID: 8403955774680081991}
   - {fileID: 6025074687716835840}
   - {fileID: 4543981621907744304}
+  - {fileID: -7214759170712506246}
   stats: {fileID: 6025074687716835840}
 --- !u!58 &-6554938153170486306
 CircleCollider2D:
@@ -132,8 +135,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  startHp: 2
-  maxHp: 2
+  startHp: 4
+  maxHp: 4
+  isImmortal: 0
+  isInvulnerable: 0
+  deadBodyInfo: {fileID: 11400000, guid: 25bab1b084f29524db6669fbd5326111, type: 2}
 --- !u!114 &4543981621907744304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +154,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
   hp: 1
+--- !u!114 &-7214759170712506246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  dmgParticleSystem: {fileID: 8766870815052671473}
+  spriteRenderer: {fileID: 7491541779285213804}
+  hpSprites:
+  - {fileID: 1044142038, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
+  - {fileID: -471389239, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
+  - {fileID: -782700749, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
+  - {fileID: 1787213750, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
+  stats: {fileID: 6025074687716835840}
 --- !u!1 &6406940150580029162
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +248,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1787213750, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
+  m_Sprite: {fileID: 1044142038, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -232,3 +259,70 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &6318270890492943251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6267830930521368476}
+    m_Modifications:
+    - target: {fileID: 7214244515938730939, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_Name
+      value: Particle System Dmg
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+--- !u!4 &3117665367366024793 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9001338600484660682, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+  m_PrefabInstance: {fileID: 6318270890492943251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8766870815052671473 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3316108826573402722, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+  m_PrefabInstance: {fileID: 6318270890492943251}
+  m_PrefabAsset: {fileID: 0}

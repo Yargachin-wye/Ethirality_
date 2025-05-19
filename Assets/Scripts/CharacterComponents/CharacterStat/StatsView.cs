@@ -5,11 +5,13 @@ using UnityEngine;
 namespace CharacterComponents.CharacterStat
 {
     [RequireComponent(typeof(Stats))]
-    public class StatsView : MonoBehaviour
+    public class StatsView : BaseCharacterComponent
     {
+        [SerializeField] private ParticleSystem dmgParticleSystem;
+        [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Sprite[] hpSprites;
         [SerializeField, HideInInspector] private Stats stats;
-        
+
 
         private void OnValidate() => Validate();
 
@@ -30,6 +32,10 @@ namespace CharacterComponents.CharacterStat
             stats.OnDeadAction += OnDeadAction;
         }
 
+        public override void Init()
+        {
+            spriteRenderer.sprite = hpSprites[0];
+        }
 
         private void OnCure(int obj)
         {
@@ -37,6 +43,8 @@ namespace CharacterComponents.CharacterStat
 
         private void OnDmg(int obj)
         {
+            dmgParticleSystem.Play();
+            spriteRenderer.sprite = hpSprites[stats.MaxHealth - stats.CurrentHealth];
         }
 
         private void OnDeadAction()

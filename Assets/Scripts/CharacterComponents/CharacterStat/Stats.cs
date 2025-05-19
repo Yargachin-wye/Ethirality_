@@ -1,5 +1,6 @@
 ﻿using System;
 using Definitions;
+using Pools;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -28,6 +29,15 @@ namespace CharacterComponents
             _currentHealth = startHp;
         }
 
+        public void Dead()
+        {
+            OnDeadAction?.Invoke();
+            DeadBody dbi = DeadBodiesPool.Instance.GetPooledObject(deadBodyInfo);
+            dbi.gameObject.SetActive(true);
+            dbi.transform.position = transform.position;
+            dbi.transform.rotation = transform.rotation;
+        }
+
         public bool Damage(int val)
         {
             if (isInvulnerable) return false;
@@ -35,7 +45,7 @@ namespace CharacterComponents
 
             if (_currentHealth <= 0 && !isImmortal)
             {
-                OnDeadAction?.Invoke();
+                Dead();
                 return true;
             }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CharacterComponents;
 using Definitions;
@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Pools
 {
-    public class CharactersPool : MonoBehaviour
+    public class DeadBodiesPool : MonoBehaviour
     {
-        [SerializeField] private List<PoolsCharacterPack> poolsCharacterPack;
+        [SerializeField] private List<PoolsBodyPack> poolsCharacterPack;
         private List<GameObject> _pool = new List<GameObject>();
         public Action AfterStart;
-        public static CharactersPool Instance;
+        public static DeadBodiesPool Instance;
 
         private void Awake()
         {
@@ -37,31 +37,31 @@ namespace Pools
             {
                 for (int i = 0; i < pool.numOnStart; i++)
                 {
-                    GameObject obj = Instantiate(pool.characterDefinition.Prefab);
-                    obj.SetActive(false);
-                    pool.objectsList.Add(obj);
+                    GameObject gobj = Instantiate(pool.deadBodyInfo.prefab);
+                    gobj.SetActive(false);
+                    pool.objectsList.Add(gobj);
                 }
             }
         }
 
-        public Character GetPooledObject(CharacterDefinition characterDefinition)
+        public DeadBody GetPooledObject(DeadBodyInfo deadBodyInfo)
         {
             foreach (var pool in poolsCharacterPack)
             {
-                if (pool.characterDefinition == characterDefinition)
+                if (pool.deadBodyInfo == deadBodyInfo)
                 {
                     for (int i = 0; i < pool.objectsList.Count; i++)
                     {
                         if (!pool.objectsList[i].activeInHierarchy)
                         {
-                            Character characterFromPool = pool.objectsList[i].GetComponent<Character>();
+                            DeadBody characterFromPool = pool.objectsList[i].GetComponent<DeadBody>();
                             pool.objectsList[i].SetActive(true);
                             return characterFromPool;
                         }
                     }
 
-                    GameObject obj = Instantiate(characterDefinition.Prefab);
-                    Character characterNew = obj.GetComponent<Character>();
+                    GameObject obj = Instantiate(deadBodyInfo.prefab);
+                    DeadBody characterNew = obj.GetComponent<DeadBody>();
                     pool.objectsList.Add(obj);
                     return characterNew;
                 }
@@ -71,9 +71,9 @@ namespace Pools
     }
 
     [Serializable]
-    public struct PoolsCharacterPack
+    public struct PoolsBodyPack
     {
-        public CharacterDefinition characterDefinition;
+        public DeadBodyInfo deadBodyInfo;
         public int numOnStart;
         [HideInInspector] public List<GameObject> objectsList;
     }
