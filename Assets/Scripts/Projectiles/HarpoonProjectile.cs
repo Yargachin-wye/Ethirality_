@@ -67,7 +67,7 @@ namespace Projectiles
                     rb2Down.angularVelocity = 0f;
                     rb2Down.AddForce(
                         (_owner.transform.position - _trigger.transform.position).normalized *
-                        _projectileDefinition.TargetForce,
+                        _projectileDefinition.OwnerForce,
                         ForceMode2D.Impulse);
                 }
 

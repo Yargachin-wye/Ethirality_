@@ -12,7 +12,6 @@ namespace CharacterComponents
         {
             food.OnEaten(character);
         }
-
         
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8403955774680081991}
   - component: {fileID: -8568434519397170154}
   - component: {fileID: 8045720563924149115}
+  - component: {fileID: 2683601554335297750}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -119,6 +120,7 @@ MonoBehaviour:
   - {fileID: 8403955774680081991}
   - {fileID: -8568434519397170154}
   - {fileID: 8045720563924149115}
+  - {fileID: 2683601554335297750}
   stats: {fileID: -8568434519397170154}
 --- !u!114 &-8568434519397170154
 MonoBehaviour:
@@ -160,6 +162,20 @@ MonoBehaviour:
   - {fileID: -623383775, guid: 27f1d0c826beaf745a48469225429e2a, type: 3}
   - {fileID: 837262756, guid: 27f1d0c826beaf745a48469225429e2a, type: 3}
   stats: {fileID: -8568434519397170154}
+--- !u!114 &2683601554335297750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338de773d72aa9c4aa956ecbbbccfda1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 8403955774680081991}
+  _rotationSpeed: 1
 --- !u!1 &8851353043842542535
 GameObject:
   m_ObjectHideFlags: 0
