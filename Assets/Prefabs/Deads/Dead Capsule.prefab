@@ -56,6 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durationTime: 1
+  forceMagnitude: 3
 --- !u!1 &2928328227266368083
 GameObject:
   m_ObjectHideFlags: 0

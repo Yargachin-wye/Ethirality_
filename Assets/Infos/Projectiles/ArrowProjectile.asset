@@ -22,6 +22,5 @@ MonoBehaviour:
   isDestroyOnTrigger: 0
   isAttachedOnTrigger: 1
   attachedForceDelay: 0.1
-  targetForce: -15
-  ownerForce: -40
-  hasRope: 1
+  targetForce: -50
+  ownerForce: -15
