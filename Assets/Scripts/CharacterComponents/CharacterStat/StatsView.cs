@@ -44,7 +44,10 @@ namespace CharacterComponents.CharacterStat
         private void OnDmg(int obj)
         {
             dmgParticleSystem.Play();
-            spriteRenderer.sprite = hpSprites[stats.MaxHealth - stats.CurrentHealth];
+            int id = stats.MaxHealth - stats.CurrentHealth;
+            if (id < 0) id = 0;
+            if (id >= hpSprites.Length) id = hpSprites.Length - 1;
+            spriteRenderer.sprite = hpSprites[id];
         }
 
         private void OnDeadAction()

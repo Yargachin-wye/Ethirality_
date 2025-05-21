@@ -171,6 +171,7 @@ MonoBehaviour:
   - {fileID: 8274520558709118211}
   - {fileID: 3113167696032994566}
   - {fileID: -7674425659892400314}
+  - {fileID: 5752868437295147089}
   stats: {fileID: 3113167696032994566}
 --- !u!114 &8274520558709118211
 MonoBehaviour:
@@ -265,11 +266,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   dmgParticleSystem: {fileID: 3644327263742624798}
   spriteRenderer: {fileID: 4578453699144805799}
   hpSprites:
-  - {fileID: 1651888220, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
-  - {fileID: 1651888220, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   stats: {fileID: 3113167696032994566}
 --- !u!1001 &2059956191728465532
 PrefabInstance:

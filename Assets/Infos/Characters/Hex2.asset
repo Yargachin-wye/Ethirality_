@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3553281fe6d58b343a5bd2d1142c6705, type: 3}
-  m_Name: CoreEnemies
+  m_Name: Hex2
   m_EditorClassIdentifier: 
   prefab: {fileID: 4839964847734336693, guid: 83781b7dfa8d54f4dba829ebeb3b8fbd, type: 3}
   fraction: 1
