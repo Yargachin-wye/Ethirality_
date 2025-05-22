@@ -161,8 +161,7 @@ MonoBehaviour:
     segmentLength: 0.1
     gravity: {x: 0, y: -10}
     verletIterations: 64
-  lerpDuration: 1
-  segmentsPerInterval: 100
+  lerpDuration: 0.5
 --- !u!120 &3123891729209604684
 LineRenderer:
   serializedVersion: 2
@@ -228,9 +227,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.47450984, b: 0.4901961, a: 1}
-      key1: {r: 0.3254902, g: 0.75294125, b: 0.8470589, a: 1}
-      key2: {r: 0, g: 0.5529412, b: 0.57254905, a: 0}
+      key0: {r: 0.22352943, g: 0, b: 0, a: 1}
+      key1: {r: 0.7019608, g: 0.06666667, b: 0.023529414, a: 1}
+      key2: {r: 0.9245283, g: 0.7847277, b: 0.49279103, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}

@@ -58,8 +58,9 @@ namespace CharacterComponents.Animations
             }
         }
 
-        public void StartBetween2Positions(Vector2 firstPosition, Vector2 lastPosition)
+        public void StartBetween2Positions(Vector2 firstPosition, Vector2 lastPosition, int segments)
         {
+            segmentCount = segments;
             SetLikeLine(firstPosition, lastPosition);
         }
 

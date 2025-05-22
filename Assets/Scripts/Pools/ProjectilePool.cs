@@ -48,7 +48,7 @@ namespace Pools
         {
             for (int i = 0; i < _pool.Count; i++)
             {
-                if (!_pool[i].gameObject.activeSelf)
+                if (!_pool[i].gameObject.activeSelf && _pool[i].Definition == projectileDefinitiop)
                 {
                     HarpoonProjectile harpoonProjectile = _pool[i];
                     _pool[i].gameObject.SetActive(true);

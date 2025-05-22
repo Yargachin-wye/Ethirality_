@@ -3,6 +3,7 @@ using CharacterComponents;
 using CharacterComponents.Animations;
 using Definitions;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Projectiles
 {
@@ -29,6 +30,8 @@ namespace Projectiles
         private bool _isTrigered = false;
 
         public bool isFarAwayFromOwner = false;
+        private bool _hasOwner;
+        public ProjectileDefinition Definition => _projectileDefinition;
 
         public void Init(ProjectileDefinition projectileDefinition)
         {
@@ -61,7 +64,7 @@ namespace Projectiles
 
                 _triggerStats.Damage(_projectileDefinition.Damage);
 
-                if (rb2Down != null)
+                if (_hasOwner && rb2Down != null)
                 {
                     rb2Down.velocity = Vector2.zero;
                     rb2Down.angularVelocity = 0f;
@@ -71,7 +74,7 @@ namespace Projectiles
                         ForceMode2D.Impulse);
                 }
 
-                if (rb2Dtr != null)
+                if (_hasOwner && rb2Dtr != null)
                 {
                     rb2Dtr.AddForce(
                         (_trigger.transform.position - _owner.transform.position).normalized *
@@ -108,9 +111,10 @@ namespace Projectiles
             }
         }
 
-        public void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction)
+        public void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction, bool hasOwner = true)
         {
             _inited = true;
+            _hasOwner = hasOwner;
             _owner = owner;
             _fraction = fraction;
             _isTrigered = false;
@@ -135,19 +139,20 @@ namespace Projectiles
         {
             if (_isTrigered) return;
             _triggerStats = other.GetComponent<Stats>();
-            
+
             if (_triggerStats == null ||
                 _triggerStats.Fraction == _fraction &&
                 _fraction != Fraction.All)
             {
                 return;
             }
-            
+
             if (_projectileDefinition.IsDestroyOnTrigger)
             {
                 gameObject.SetActive(false);
                 return;
             }
+
             _triggerStats.OnDeadAction += OnTriggerDead;
             _isTrigered = true;
             _isAttached = false;

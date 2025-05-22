@@ -7,11 +7,9 @@ namespace CharacterComponents.Food
     {
         public override void OnEaten(Character characterEater)
         {
-            base.OnEaten(characterEater);
             if (characterEater.Fraction == Fraction.Player)
             {
                 GameOver.Instance.GameIsOver();
-                character.Stats.Damage(character.Stats.MaxHealth);
             }
         }
 

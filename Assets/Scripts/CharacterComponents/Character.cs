@@ -11,8 +11,7 @@ namespace CharacterComponents
     [RequireComponent(typeof(Rigidbody2D), typeof(Stats))]
     public class Character : BaseCharacterComponent
     {
-        [SerializeField, HideInInspector] public Rigidbody2D rb2D;
-        [SerializeField] private PlayerControllable playerControllable;
+        [SerializeField] public Rigidbody2D rb2D;
         [SerializeField] private BaseCharacterComponent[] baseCharacterComponent;
         [SerializeField] private Stats stats;
 

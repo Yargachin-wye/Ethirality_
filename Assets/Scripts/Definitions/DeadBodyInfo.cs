@@ -6,5 +6,6 @@ namespace Definitions
     public class DeadBodyInfo : ScriptableObject
     {
         public GameObject prefab;
+        
     }
 }

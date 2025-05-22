@@ -22,7 +22,6 @@ namespace CharacterComponents.Animations
         private float elapsedTime = 0f;
         [SerializeField] private float lerpDuration = 1f; // Время, за которое точки должны достичь целевых позиций
 
-        public int segmentsPerInterval = 100;
         bool isUnpinLastPos = false;
         bool isUnpinFirstPos = false;
         public float EndColorAlpha => lineRend.endColor.a;
@@ -38,7 +37,7 @@ namespace CharacterComponents.Animations
             lineRend.enabled = false;
         }
 
-        public void Set(Transform first, Transform last)
+        public void Set(Transform first, Transform last,int segments)
         {
             UpdateAlpha(1);
             start = first;
@@ -47,8 +46,7 @@ namespace CharacterComponents.Animations
             elapsedTime = 0;
             isUnpinLastPos = false;
             isUnpinFirstPos = false;
-
-            rope.StartBetween2Positions(start.position, target.position);
+            rope.StartBetween2Positions(start.position, target.position, segments);
             rope2DPhisics = rope.UpdateRopePhysics();
             float totalLength = CalculateCurveLength();
             lineRend.positionCount = 0;

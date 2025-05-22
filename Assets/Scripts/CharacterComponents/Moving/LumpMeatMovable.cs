@@ -15,6 +15,7 @@ namespace CharacterComponents
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float decelerationRate;
         [SerializeField] private float powerDash;
+        [SerializeField] private int dashDmg;
         [Space]
         [SerializeField] private Eater eater;
 
@@ -129,9 +130,26 @@ namespace CharacterComponents
             if (!_isDash) return;
 
             BaseFood food = other.GetComponent<BaseFood>();
-            if (food == null) return;
+            Stats stats = other.GetComponent<Stats>();
 
-            eater.Eat(food);
+
+            if (stats == null) return;
+            if (food != null)
+            {
+                if (stats.CurrentHealth - dashDmg <= 1)
+                {
+                    eater.Eat(food);
+                    stats.Dead();
+                }
+                else
+                {
+                    stats.Damage(dashDmg);
+                }
+            }
+            else
+            {
+                stats.Damage(dashDmg);
+            }
         }
     }
 }

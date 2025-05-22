@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 8403955774680081991}
   - component: {fileID: 8274520558709118211}
   - component: {fileID: 3113167696032994566}
-  - component: {fileID: -7674425659892400314}
   - component: {fileID: 7617761652462590631}
   - component: {fileID: 5752868437295147089}
   m_Layer: 0
@@ -165,12 +164,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
   rb2D: {fileID: 2692462021808953985}
-  playerControllable: {fileID: 0}
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
   - {fileID: 8274520558709118211}
   - {fileID: 3113167696032994566}
-  - {fileID: -7674425659892400314}
   - {fileID: 5752868437295147089}
   stats: {fileID: 3113167696032994566}
 --- !u!114 &8274520558709118211
@@ -203,22 +200,8 @@ MonoBehaviour:
   startHp: 2
   maxHp: 2
   isImmortal: 1
-  isInvulnerable: 0
+  isInvulnerable: 1
   deadBodyInfo: {fileID: 0}
---- !u!114 &-7674425659892400314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839964847734336693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a162fc01ff448a8528fd10fc860f19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 8403955774680081991}
-  hp: 1
 --- !u!58 &7617761652462590631
 CircleCollider2D:
   m_ObjectHideFlags: 0

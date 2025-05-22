@@ -19,9 +19,10 @@ namespace CharacterComponents
         [SerializeField] private float maxDistanceToProjectile;
         [SerializeField] private float ropeDecaySpeed = 1;
         [SerializeField, HideInInspector] private LumpMeatMovable lumpMeatMovable;
-
+        
         private ProjectilePool _projectilePool;
         private float _timer;
+        private bool hasLumpMeatMovable;
         private List<ShootPack> _shoots = new();
         private List<Rope2D> _ropes2D = new();
         private Dictionary<HarpoonProjectile, Rope2D> _projectiles = new();
@@ -33,20 +34,30 @@ namespace CharacterComponents
             _projectilePool = ProjectilePool.Instance;
         }
 
-        public override void OnValidate()
+        private void Awake()
         {
-            base.OnValidate();
+            Validate();
+        }
+
+        private void Validate()
+        {
             if (lumpMeatMovable == null)
             {
                 lumpMeatMovable = GetComponent<LumpMeatMovable>();
+                hasLumpMeatMovable = lumpMeatMovable != null;
             }
+        }
+        public override void OnValidate()
+        {
+            base.OnValidate();
+            Validate();
         }
 
         private void UpdateShots()
         {
             if (_timer >= 0) _timer -= Time.fixedDeltaTime;
 
-            if (lumpMeatMovable.IsFreeze)
+            if (hasLumpMeatMovable && lumpMeatMovable.IsFreeze)
             {
                 _shoots.Clear();
                 return;
@@ -76,7 +87,7 @@ namespace CharacterComponents
 
                 Rope2D rope2D = RopePool.Instance.GetPooledObject();
 
-                rope2D.Set(transform, pooledObject.transform);
+                rope2D.Set(transform, pooledObject.transform,100);
 
                 _projectiles.Add(pooledObject, rope2D);
 

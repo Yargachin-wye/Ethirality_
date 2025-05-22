@@ -21,6 +21,6 @@ MonoBehaviour:
   recoil: 0
   isDestroyOnTrigger: 0
   isAttachedOnTrigger: 1
-  attachedForceDelay: 0.1
+  attachedForceDelay: 0.25
   targetForce: -20
   ownerForce: -50

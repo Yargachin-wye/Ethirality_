@@ -1,15 +1,13 @@
-﻿using System;
+﻿using CharacterComponents;
+using Definitions;
+using UniRxEvents.Improvement;
 using UnityEngine;
 
-namespace CharacterComponents
+namespace Improvements
 {
-    public class CoreIndicator : BaseCharacterComponent
+    public class CoreIndicator : BaseImprovementComponent
     {
         [SerializeField] private Transform indicator;
-
-        public override void Init()
-        {
-        }
 
         private void LateUpdate()
         {
@@ -24,6 +22,21 @@ namespace CharacterComponents
 
                 indicator.rotation = Quaternion.Euler(0, 0, angle);
             }
+        }
+
+        public override void OnAddImp(AddImprovementEvent data)
+        {
+            
+        }
+
+        public override void OnRemoveImp(RemoveImprovementEvent data)
+        {
+            
+        }
+
+        public override void SetPlayer(ImprovementDefinition definition, Character character, ImprovementsComponent improvementsComponent)
+        {
+            
         }
     }
 }
