@@ -14,12 +14,28 @@ namespace UniRxEvents
         }
     }
 
+    namespace Ui
+    {
+        public struct OpenUiPanelEvent
+        {
+            public string PanelName;
+        } 
+    }
     namespace GamePlay
     {
+        public struct StartGameplayEvent
+        {
+            
+        }
+        public struct StopGameplayEvent
+        {
+            
+        }
         public struct LevelUpEvent
         {
             
         }
+       
         public struct AddNewImprovementEvent
         {
             public ImprovementDefinition Definition;

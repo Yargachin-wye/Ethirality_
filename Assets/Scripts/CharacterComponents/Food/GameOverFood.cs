@@ -1,4 +1,4 @@
-﻿using Bootstrappers;
+﻿using Bootstrapper;
 using Definitions;
 
 namespace CharacterComponents.Food
@@ -9,7 +9,7 @@ namespace CharacterComponents.Food
         {
             if (characterEater.Fraction == Fraction.Player)
             {
-                GameOver.Instance.GameIsOver();
+                GameplayManager.Instance.GameIsOver();
             }
         }
 
