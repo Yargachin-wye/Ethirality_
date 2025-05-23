@@ -37,8 +37,7 @@ namespace Managers.Pools
 
         public static PointsContainer Instance;
 
-        public Dictionary<Vector2Int, List<ChunksController.SpawnPoint>> Chunks =
-            new Dictionary<Vector2Int, List<ChunksController.SpawnPoint>>();
+        public Dictionary<Vector2Int, List<ChunksController.SpawnPoint>> Chunks = new();
 
         private Dictionary<Vector2, PointsTypes> _pointsList = new Dictionary<Vector2, PointsTypes>();
 

@@ -11,14 +11,16 @@ namespace Pools
     {
         [SerializeField] private PointsContainer pointsContainer;
         [SerializeField] private CameraController cameraController;
-        [SerializeField] private CharactersPool _charactersPool;
+        
         [SerializeField] private float distToChunk;
         private Dictionary<Vector2Int, List<SpawnPoint>> Chunks => pointsContainer.Chunks;
         private float ChunkSize => pointsContainer.ChunkSize;
         private List<Vector2Int> _loadedChunks = new();
         private List<Vector2Int> deloadChunks = new List<Vector2Int>();
         private bool _inited;
-
+        
+        private static CharactersPool CharactersPool => CharactersPool.Instance;
+        
         private void Awake()
         {
             _inited = false;
@@ -31,7 +33,7 @@ namespace Pools
                 return;
             }
 
-            Character character = _charactersPool.GetPooledObject(spawnPoint.CharacterDefinition);
+            Character character = CharactersPool.GetPooledObject(spawnPoint.CharacterDefinition);
             character.gameObject.SetActive(true);
             character.transform.position = spawnPoint.Position;
             spawnPoint.GameObject = character.gameObject;

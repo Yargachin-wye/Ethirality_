@@ -11,12 +11,13 @@ namespace Spawner
     {
         [SerializeField] private CharacterDefinition characterDefinition;
         [SerializeField] private bool isSpawnOnStart;
-        [SerializeField] private CharactersPool _charactersPool;
 
         private List<Vector2> _spawnPoints = new();
+        private static CharactersPool CharactersPool => CharactersPool.Instance;
+
         public void Spawn()
         {
-            Character character = _charactersPool.GetPooledObject(characterDefinition);
+            Character character = CharactersPool.GetPooledObject(characterDefinition);
             character.gameObject.SetActive(true);
             character.transform.position = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
             character.Init(characterDefinition);

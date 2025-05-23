@@ -32,7 +32,7 @@ namespace UI.MainMenu
         {
         }
 
-        public void ExitGame()
+        private void ExitGame()
         {
             Application.Quit();
         }
@@ -44,6 +44,7 @@ namespace UI.MainMenu
 
         private void StartGamePlay()
         {
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
         }
     }
 }

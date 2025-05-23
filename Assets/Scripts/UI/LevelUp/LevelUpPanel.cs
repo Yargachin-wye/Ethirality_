@@ -82,7 +82,7 @@ namespace UI.LevelUp
 
         private ImprovementDefinition RandomImprovement()
         {
-            return ResManager.instance.Improvements[Random.Range(0, ResManager.instance.Improvements.Length)];
+            return ResManager.Instance.Improvements[Random.Range(0, ResManager.Instance.Improvements.Length)];
         }
 
 

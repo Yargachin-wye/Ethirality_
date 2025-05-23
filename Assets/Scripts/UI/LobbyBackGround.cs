@@ -1,5 +1,4 @@
-﻿using System;
-using UniRx;
+﻿using UniRx;
 using UniRxEvents.GamePlay;
 using UnityEngine;
 
@@ -22,12 +21,12 @@ namespace UI
 
         private void SetActiveTrue()
         {
-            mainMenuBackGround.SetActive(true);
+            mainMenuBackGround.SetActive(false);
         }
 
         private void SetActiveFalse()
         {
-            mainMenuBackGround.SetActive(false);
+            mainMenuBackGround.SetActive(true);
         }
     }
 }

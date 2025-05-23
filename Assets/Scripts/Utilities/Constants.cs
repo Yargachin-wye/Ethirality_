@@ -7,7 +7,8 @@
         public const string GamePlay = "GamePlayPanel";
         public const string Settings = "SettingsPanel";
         public const string GameOver = "GameOverPanel";
+        public const string ChoosingNextLevel = "ChoosingNextLevelPanel";
 
-        public static readonly string[] Panels = { LevelUp, MainMenu, GamePlay, Settings, GameOver };
+        public static readonly string[] Panels = { LevelUp, MainMenu, GamePlay, Settings, GameOver, ChoosingNextLevel };
     }
 }

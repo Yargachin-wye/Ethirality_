@@ -73,7 +73,7 @@ namespace CharacterComponents
         {
             foreach (var impResId in startImprovements)
             {
-                var data = ResManager.instance.Improvements[impResId];
+                var data = ResManager.Instance.Improvements[impResId];
                 AddImprovement(data);
             }
         }

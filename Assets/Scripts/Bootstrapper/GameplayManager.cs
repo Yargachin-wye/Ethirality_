@@ -1,4 +1,5 @@
 ﻿using UniRx;
+using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
 using UnityEngine;
 using Utilities;
@@ -23,7 +24,9 @@ namespace Bootstrapper
 
         public void GameIsOver()
         {
+            MessageBroker.Default.Publish(new StopGameplayEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
+            
             sceneLoader.OpenLobby();
         }
     }

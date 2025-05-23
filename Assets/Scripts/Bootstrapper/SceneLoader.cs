@@ -10,16 +10,14 @@ namespace Bootstrapper
             OpenLobby();
         }
 
-        public void OpenGamePlay()
-        {
-            SceneManager.LoadScene("GamePlay");
-            GameAnalyticsBeh.Instance.StartRound();
-        }
-        
         public void OpenLobby()
         {
             SceneManager.LoadScene("Menu");
-            GameAnalyticsBeh.Instance.CompleteRound();
+        }
+
+        public void Load(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
         }
     }
 }

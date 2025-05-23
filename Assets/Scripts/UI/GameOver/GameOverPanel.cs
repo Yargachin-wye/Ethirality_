@@ -9,13 +9,14 @@ namespace UI.GameOver
     public class GameOverPanel : BasePanelUi
     {
         [Space]
-        [SerializeField] private Button exitToMenuBtn;
+        [SerializeField] private Button backToMenuBtn;
+
         public override void Awake()
         {
             base.Awake();
-            exitToMenuBtn.onClick.AddListener(ExitToMenu);
+            backToMenuBtn.onClick.AddListener(ExitToMenu);
         }
-        
+
         protected override void OnPanelDisable()
         {
             
@@ -25,11 +26,10 @@ namespace UI.GameOver
         {
             
         }
-        
+
         private void ExitToMenu()
         {
-            MessageBroker.Default.Publish(new OpenUiPanelEvent
-                { PanelName = UiConst.MainMenu });
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }
 }
