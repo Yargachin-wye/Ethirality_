@@ -20,19 +20,19 @@ namespace UI.ChoosingNextLevel
             randomLevelBtn.onClick.AddListener(StartRandomLevel);
             openWorldLevelBtn.onClick.AddListener(StartOpenWorld);
         }
-        
+
         protected override void OnPanelDisable()
         {
-            
         }
 
         protected override void OnPanelEnable()
         {
-            
         }
-        
+
         private void StartRandomLevel()
         {
+            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[0].randomLevelName);
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
         }
 
@@ -42,7 +42,5 @@ namespace UI.ChoosingNextLevel
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
         }
-
-        
     }
 }

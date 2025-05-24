@@ -11,7 +11,7 @@ namespace Spawner
     {
         [SerializeField] private CharacterDefinition characterDefinition;
         [SerializeField] private bool isSpawnOnStart;
-        [SerializeField] private CharactersPool _charactersPool;
+        private static CharactersPool CharactersPool => CharactersPool.Instance;
 
         private void Start()
         {
@@ -20,7 +20,7 @@ namespace Spawner
 
         public void Spawn()
         {
-            Character character = _charactersPool.GetPooledObject(characterDefinition);
+            Character character = CharactersPool.GetPooledObject(characterDefinition);
             character.gameObject.SetActive(true);
             character.transform.position = transform.position;
             character.Init(characterDefinition);
