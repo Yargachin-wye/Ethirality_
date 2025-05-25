@@ -19,7 +19,7 @@ namespace CharacterComponents
         [SerializeField] private float maxDistanceToProjectile;
         [SerializeField] private float ropeDecaySpeed = 1;
         [SerializeField, HideInInspector] private LumpMeatMovable lumpMeatMovable;
-        
+
         private ProjectilePool _projectilePool;
         private float _timer;
         private bool hasLumpMeatMovable;
@@ -34,22 +34,24 @@ namespace CharacterComponents
             _projectilePool = ProjectilePool.Instance;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             Validate();
         }
 
-        private void Validate()
+        protected override void Validate()
         {
+            base.Validate();
             if (lumpMeatMovable == null)
             {
                 lumpMeatMovable = GetComponent<LumpMeatMovable>();
                 hasLumpMeatMovable = lumpMeatMovable != null;
             }
         }
-        public override void OnValidate()
+
+        public void OnValidate()
         {
-            base.OnValidate();
             Validate();
         }
 
@@ -82,14 +84,22 @@ namespace CharacterComponents
                 pooledObject.transform.position = transform.position + transform.right;
                 pooledObject.Shoot(transform.right, speed, gameObject, Fraction);
 
-                pooledObject.OnBreakAway += OnProjectileBreakAway;
-                pooledObject.OnDied += OnProjectileBreakAway;
+                if (!(pooledObject is HarpoonProjectile))
+                {
+                    Debug.LogError("Couldn't find HarpoonProjectile!!!");
+                    return;
+                }
+
+                var hproj = (pooledObject as HarpoonProjectile);
+
+                hproj.OnBreakAway += OnProjectileBreakAway;
+                hproj.OnDied += OnProjectileBreakAway;
 
                 Rope2D rope2D = RopePool.Instance.GetPooledObject();
 
-                rope2D.Set(transform, pooledObject.transform,100);
+                rope2D.Set(transform, pooledObject.transform, 100);
 
-                _projectiles.Add(pooledObject, rope2D);
+                _projectiles.Add(hproj, rope2D);
 
                 _shoots.Remove(_shoots[0]);
             }
@@ -146,7 +156,7 @@ namespace CharacterComponents
             harpoonProjectile.OnDied -= OnProjectileBreakAway;
             harpoonProjectile.OnBreakAway -= OnProjectileBreakAway;
             harpoonProjectile.isFarAwayFromOwner = true;
-            
+
             _projectiles[harpoonProjectile].UnpinLastPos();
             _ropes2D.Add(_projectiles[harpoonProjectile]);
             _projectiles.Remove(harpoonProjectile);

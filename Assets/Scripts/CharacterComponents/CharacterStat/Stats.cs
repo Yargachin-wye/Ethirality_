@@ -1,10 +1,9 @@
 ﻿using System;
 using Definitions;
 using Pools;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace CharacterComponents
+namespace CharacterComponents.CharacterStat
 {
     public class Stats : BaseCharacterComponent
     {

@@ -1,19 +1,17 @@
 ﻿using System;
 using CharacterComponents;
-using CharacterComponents.Animations;
+using CharacterComponents.CharacterStat;
 using Definitions;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Projectiles
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class HarpoonProjectile : MonoBehaviour
+    public class HarpoonProjectile : BaseProjectile
     {
         [SerializeField, HideInInspector] private Rigidbody2D rb2D;
         private Fraction _fraction;
-
-        private ProjectileDefinition _projectileDefinition;
+        
         private GameObject _owner;
         private GameObject _trigger;
         private Stats _triggerStats;
@@ -31,16 +29,15 @@ namespace Projectiles
 
         public bool isFarAwayFromOwner = false;
         private bool _hasOwner;
-        public ProjectileDefinition Definition => _projectileDefinition;
 
-        public void Init(ProjectileDefinition projectileDefinition)
+        public override void Init(ProjectileDefinition projectileDefinition)
         {
+            base.Init(projectileDefinition);
             isFarAwayFromOwner = false;
             _isForceOnAttached = false;
-            _projectileDefinition = projectileDefinition;
-            rb2D.bodyType = _projectileDefinition.RigidbodyType2D;
-            rb2D.gravityScale = _projectileDefinition.GravityScale;
-            _timer = _projectileDefinition.LifeDelay;
+            rb2D.bodyType = Definition.RigidbodyType2D;
+            rb2D.gravityScale = Definition.GravityScale;
+            _timer = Definition.LifeDelay;
         }
 
         private void FixedUpdate()
@@ -62,7 +59,7 @@ namespace Projectiles
                 Rigidbody2D rb2Down = _owner.GetComponent<Rigidbody2D>();
                 Rigidbody2D rb2Dtr = _trigger.GetComponent<Rigidbody2D>();
 
-                _triggerStats.Damage(_projectileDefinition.Damage);
+                _triggerStats.Damage(Definition.Damage);
 
                 if (_hasOwner && rb2Down != null)
                 {
@@ -70,7 +67,7 @@ namespace Projectiles
                     rb2Down.angularVelocity = 0f;
                     rb2Down.AddForce(
                         (_owner.transform.position - _trigger.transform.position).normalized *
-                        _projectileDefinition.OwnerForce,
+                        Definition.OwnerForce,
                         ForceMode2D.Impulse);
                 }
 
@@ -78,7 +75,7 @@ namespace Projectiles
                 {
                     rb2Dtr.AddForce(
                         (_trigger.transform.position - _owner.transform.position).normalized *
-                        _projectileDefinition.TargetForce,
+                        Definition.TargetForce,
                         ForceMode2D.Impulse);
                 }
 
@@ -111,7 +108,7 @@ namespace Projectiles
             }
         }
 
-        public void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction, bool hasOwner = true)
+        public override void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction, bool hasOwner = true)
         {
             _inited = true;
             _hasOwner = hasOwner;
@@ -125,13 +122,13 @@ namespace Projectiles
             {
                 float angle = -Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90));
-                rb2D.AddForce(speed * _projectileDefinition.SpeedMultiply * direction.normalized, ForceMode2D.Impulse);
+                rb2D.AddForce(speed * Definition.SpeedMultiply * direction.normalized, ForceMode2D.Impulse);
             }
 
-            if (_projectileDefinition.Recoil != 0)
+            if (Definition.Recoil != 0)
             {
                 LumpMeatMovable lumpMeatMovable = owner.GetComponent<LumpMeatMovable>();
-                if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, _projectileDefinition.Recoil);
+                if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, Definition.Recoil);
             }
         }
 
@@ -147,7 +144,7 @@ namespace Projectiles
                 return;
             }
 
-            if (_projectileDefinition.IsDestroyOnTrigger)
+            if (Definition.IsDestroyOnTrigger)
             {
                 gameObject.SetActive(false);
                 return;
@@ -159,7 +156,7 @@ namespace Projectiles
             _isForceOnAttached = false;
             _trigger = other.gameObject;
 
-            if (_projectileDefinition.IsAttachedOnTrigger && !_isJoined)
+            if (Definition.IsAttachedOnTrigger && !_isJoined)
             {
                 if (other.GetComponent<Rigidbody2D>() != null)
                 {
@@ -171,11 +168,11 @@ namespace Projectiles
                 }
             }
 
-            if (_projectileDefinition.TargetForce != 0 ||
-                _projectileDefinition.OwnerForce != 0)
+            if (Definition.TargetForce != 0 ||
+                Definition.OwnerForce != 0)
             {
                 _isForceOnAttached = true;
-                _attachedForceTimer = _projectileDefinition.AttachedForceDelay;
+                _attachedForceTimer = Definition.AttachedForceDelay;
             }
         }
 

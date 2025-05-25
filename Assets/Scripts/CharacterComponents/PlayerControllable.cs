@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System;
+using Managers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,6 +19,14 @@ namespace CharacterComponents
             Inputer.Instance.OnInputDash += OnDash;
             Inputer.Instance.OnInputShot += OnShot;
             Inputer.Instance.OnInputLook += OnLook;
+        }
+
+        private void OnDestroy()
+        {
+            Inputer.Instance.OnInputFreeze -= OnFreeze;
+            Inputer.Instance.OnInputDash -= OnDash;
+            Inputer.Instance.OnInputShot -= OnShot;
+            Inputer.Instance.OnInputLook -= OnLook;
         }
 
         public override void Init()

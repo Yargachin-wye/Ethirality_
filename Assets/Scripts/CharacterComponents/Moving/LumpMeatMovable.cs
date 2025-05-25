@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterComponents.Animations;
+using CharacterComponents.CharacterStat;
 using CharacterComponents.Food;
 using Definitions;
 using Managers;
@@ -15,7 +16,7 @@ namespace CharacterComponents
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float decelerationRate;
         [SerializeField] private float powerDash;
-        [SerializeField] private int dashDmg;
+        [SerializeField] private int dashDmg = 1;
         [Space]
         [SerializeField] private Eater eater;
 
@@ -28,9 +29,8 @@ namespace CharacterComponents
 
         public bool IsFreeze => _isFreeze;
 
-        public override void OnValidate()
+        public void OnValidate()
         {
-            base.OnValidate();
             if (eater == null) eater = GetComponent<Eater>();
         }
 

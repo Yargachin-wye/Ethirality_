@@ -10,7 +10,7 @@ namespace Pools
     public class ChunksController : MonoBehaviour
     {
         [SerializeField] private PointsContainer pointsContainer;
-        [SerializeField] private CameraController cameraController;
+        
         
         [SerializeField] private float distToChunk;
         private Dictionary<Vector2Int, List<SpawnPoint>> Chunks => pointsContainer.Chunks;
@@ -21,6 +21,7 @@ namespace Pools
         
         private static CharactersPool CharactersPool => CharactersPool.Instance;
         
+        private static CameraController CameraController => CameraController.Instance;
         private void Awake()
         {
             _inited = false;
@@ -91,7 +92,7 @@ namespace Pools
             foreach (var chunk in Chunks)
             {
                 if (Vector2.Distance(
-                        pointsContainer.GetChunkCoords(cameraController.transform.position),
+                        pointsContainer.GetChunkCoords(CameraController.transform.position),
                         new Vector2(chunk.Key.x, chunk.Key.y))
                     < distToChunk)
                 {

@@ -15,8 +15,9 @@ namespace CharacterComponents.CharacterStat
 
         private void OnValidate() => Validate();
 
-        private void Validate()
+        protected override void Validate()
         {
+            base.Validate();
             if (stats == null) stats = GetComponent<Stats>();
             if (hpSprites.Length != stats.MaxHealth)
             {
@@ -24,9 +25,9 @@ namespace CharacterComponents.CharacterStat
             }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
-            Validate();
+            base.Awake();
             stats.OnDmgAction += OnDmg;
             stats.OnCureAction += OnCure;
             stats.OnDeadAction += OnDeadAction;

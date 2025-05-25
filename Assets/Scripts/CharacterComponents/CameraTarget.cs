@@ -10,30 +10,29 @@ namespace CharacterComponents
 
         private bool _isSet = false;
 
-        private CameraController _cameraController;
+        private static CameraController CameraController => CameraController.Instance;
         public int Priority => priority;
 
         public override void Init()
         {
-            _cameraController = CameraController.Instance;
             Set();
         }
 
         private void OnDisable()
         {
-            if (_isSet)Delet();
+            if (_isSet)Delete();
         }
 
         private void Set()
         {
             _isSet = true;
-            _cameraController.SetTarget(this);
+            CameraController.SetTarget(this);
         }
 
-        private void Delet()
+        private void Delete()
         {
             _isSet = false;
-            _cameraController.DeletTarget(this);
+            CameraController.DeleteTarget(this);
         }
     }
 }

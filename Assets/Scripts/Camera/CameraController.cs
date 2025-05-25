@@ -46,7 +46,7 @@ namespace Camera
             }
         }
 
-        public void DeletTarget(CameraTarget cameraTarget)
+        public void DeleteTarget(CameraTarget cameraTarget)
         {
             _cameraTargetsList.Remove(cameraTarget);
             foreach (var target in _cameraTargetsList)

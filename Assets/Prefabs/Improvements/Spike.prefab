@@ -4842,6 +4842,7 @@ GameObject:
   - component: {fileID: 1765622973556447270}
   - component: {fileID: 2272105421352997096}
   - component: {fileID: 4326201341915763732}
+  - component: {fileID: 576359789721515434}
   - component: {fileID: 2243534558452697653}
   - component: {fileID: 7376184606775295110}
   - component: {fileID: 1704953051364092374}
@@ -4948,6 +4949,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &576359789721515434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542342704398347295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719f97e2949b25f41b7427a858a799a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  improvement: {fileID: 2243534558452697653}
+  maxDistance: 2
+  followSpeed: 100
 --- !u!114 &2243534558452697653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4963,7 +4979,7 @@ MonoBehaviour:
   improvement: {fileID: 2243534558452697653}
   rb2D: {fileID: 2272105421352997096}
   baseCharacterImprovement:
-  - {fileID: 2243534558452697653}
+  - {fileID: 576359789721515434}
   - {fileID: 7376184606775295110}
   - {fileID: 1704953051364092374}
 --- !u!114 &7376184606775295110
@@ -4993,7 +5009,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   improvement: {fileID: 2243534558452697653}
   dmg: 1
-  isDestroyOnTrigger: 0
+  isDestroyOnTrigger: 1
+  numberTouches: 8
 --- !u!58 &1184530327636421430
 CircleCollider2D:
   m_ObjectHideFlags: 0

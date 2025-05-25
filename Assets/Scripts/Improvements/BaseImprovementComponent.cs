@@ -13,20 +13,13 @@ namespace Improvements
         
         private void Awake()
         {
-            MessageBroker.Default
-                .Receive<AddImprovementEvent>()
-                .Subscribe(data => OnAddImp(data));
             
-            MessageBroker.Default
-                .Receive<RemoveImprovementEvent>()
-                .Subscribe(data => OnRemoveImp(data));
         }
 
-        public abstract void OnAddImp(AddImprovementEvent data);
-
-
-
-        public abstract void OnRemoveImp(RemoveImprovementEvent data);
+        public virtual void OnRemove()
+        {
+            
+        }
         
         public virtual void OnValidate()
         {

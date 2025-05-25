@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CharacterComponents.CharacterStat;
 using Definitions;
 using Pools;
 using Unity.VisualScripting;
@@ -44,9 +45,8 @@ namespace CharacterComponents
             gameObject.SetActive(false);
         }
 
-        public override void OnValidate()
+        public void OnValidate()
         {
-            base.OnValidate();
             baseCharacterComponent = GetComponentsInChildren<BaseCharacterComponent>(true);
             if (stats) stats = GetComponentInChildren<Stats>();
         }

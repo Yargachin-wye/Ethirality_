@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Bootstrapper;
 using Definitions;
 using UnityEngine;
 using Improvements;
+using Saves;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Improvement;
@@ -14,26 +14,47 @@ namespace CharacterComponents
     public class ImprovementsComponent : BaseCharacterComponent
     {
         private static readonly int MaxTwistersOnLayer = 4;
+        [SerializeField] private Character characterForImp;
         [SerializeField] private float radius = 2;
         [SerializeField] private float rotationSpeed = 30f;
         [Space]
-        [Space]
-        [SerializeField] private List<int> startImprovements;
-        [SerializeField] private List<ImprovementDefinition> improvementDefinition;
         [SerializeField] private List<Improvement> improvements;
 
         private List<Leash> _leashs = new();
         private List<Twister> _twisters = new();
 
-        private void Awake()
+        private SaveSystem Saves => SaveSystem.Instance;
+        
+        private IDisposable _addNewImprovementSubscription;
+        private IDisposable _addHpSubscription;
+        protected override void Awake()
         {
-            MessageBroker.Default
+            base.Awake();
+            _addNewImprovementSubscription = MessageBroker.Default
                 .Receive<AddNewImprovementEvent>()
                 .Subscribe(data => OnAddNewImprovement(data));
 
-            MessageBroker.Default
+            _addHpSubscription = MessageBroker.Default
                 .Receive<AddHpEvent>()
                 .Subscribe(data => OnAddHp(data));
+        }
+        private void OnDestroy()
+        {
+            _addNewImprovementSubscription?.Dispose();
+            _addHpSubscription?.Dispose();
+        }
+
+        public override void Init()
+        {
+        }
+
+        private void Start()
+        {
+            foreach (var impResId in Saves.SaveData.playerUpgradeResIds)
+            {
+                var data = ResManager.Instance.Improvements[impResId];
+                AddImprovement(data);
+            }
         }
 
         private void OnAddHp(AddHpEvent data)
@@ -43,7 +64,7 @@ namespace CharacterComponents
 
         private void OnAddNewImprovement(AddNewImprovementEvent data)
         {
-            AddImprovement(data.Definition);
+            AddNewImprovement(data.Definition);
         }
 
         private void FixedUpdate()
@@ -69,13 +90,11 @@ namespace CharacterComponents
             }
         }
 
-        public override void Init()
+
+        public void AddNewImprovement(ImprovementDefinition data)
         {
-            foreach (var impResId in startImprovements)
-            {
-                var data = ResManager.Instance.Improvements[impResId];
-                AddImprovement(data);
-            }
+            Saves.SaveData.playerUpgradeResIds.Add(data.ResId);
+            AddImprovement(data);
         }
 
         public void AddImprovement(ImprovementDefinition data)
@@ -84,7 +103,14 @@ namespace CharacterComponents
             var imp = impGobj.GetComponent<Improvement>();
             AddMoving(impGobj);
 
-            imp.SetPlayer(data, character, this);
+            var charact = GetComponent<Character>();
+            if (charact == null)
+            {
+                Debug.LogError($"{name}: ^^^ Improvement component doesn't have an improvement component.");
+                return;
+            }
+
+            imp.SetPlayer(data, charact, this);
             imp.OnDestroyAction += OnDestroyImprovement;
             improvements.Add(imp);
             MessageBroker.Default.Publish(new AddImprovementEvent { Improvement = imp });
@@ -122,8 +148,11 @@ namespace CharacterComponents
             }
         }
         
-        private void OnDestroyImprovement(Improvement improvement)
+        private void OnDestroyImprovement(Improvement improvement, bool isRemove)
         {
+            if (isRemove && Saves.SaveData.playerUpgradeResIds.Contains(improvement.Definition.ResId))
+                Saves.SaveData.playerUpgradeResIds.Remove(improvement.Definition.ResId);
+            
             improvements.Remove(improvement);
             RemoveMoving(improvement.gameObject);
             MessageBroker.Default.Publish(new RemoveImprovementEvent { Improvement = improvement });

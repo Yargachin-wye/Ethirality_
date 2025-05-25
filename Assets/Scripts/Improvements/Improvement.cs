@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CharacterComponents;
 using Definitions;
 using UniRx;
@@ -11,33 +13,24 @@ namespace Improvements
     public class Improvement : BaseImprovementComponent
     {
         [SerializeField] public Rigidbody2D rb2D;
-        [SerializeField] private BaseImprovementComponent[] baseCharacterImprovement;
-        public BaseImprovementComponent[] BaseCharacterImprovement => baseCharacterImprovement;
+        [SerializeField] private List<BaseImprovementComponent> baseCharacterImprovement;
+        public List<BaseImprovementComponent> BaseCharacterImprovement => baseCharacterImprovement;
 
         public Fraction Fraction { get; private set; }
         private float _gravityScale;
         public ImprovementDefinition Definition { get; private set; }
         public Character Character { get; private set; }
-        public Action<Improvement> OnDestroyAction { get; set; }
+        public Action<Improvement, bool> OnDestroyAction { get; set; }
 
         private void Validate()
         {
-            baseCharacterImprovement = GetComponentsInChildren<BaseImprovementComponent>(true);
+            baseCharacterImprovement = GetComponentsInChildren<BaseImprovementComponent>(true).ToList();
+            baseCharacterImprovement.Remove(this);
         }
 
         private void Awake()
         {
             Validate();
-        }
-
-        public override void OnAddImp(AddImprovementEvent data)
-        {
-            
-        }
-
-        public override void OnRemoveImp(RemoveImprovementEvent data)
-        {
-            
         }
 
         public override void OnValidate()
@@ -48,7 +41,7 @@ namespace Improvements
 
         private void OnDestroy()
         {
-            OnDestroyAction?.Invoke(this);
+            OnDestroyAction?.Invoke(this, false);
         }
 
         public override void SetPlayer(ImprovementDefinition definition, Character character,
@@ -57,12 +50,22 @@ namespace Improvements
             Definition = definition;
             Fraction = definition.Fraction;
             Character = character;
-            
+
             foreach (var component in baseCharacterImprovement)
             {
-                if (component is Improvement) continue;
                 component.SetPlayer(definition, character, improvementsComponent);
             }
+        }
+
+        public void Remove()
+        {
+            foreach (var component in baseCharacterImprovement)
+            {
+                component.OnRemove();
+            }
+
+            Destroy(gameObject);
+            OnDestroyAction?.Invoke(this, true);
         }
     }
 }

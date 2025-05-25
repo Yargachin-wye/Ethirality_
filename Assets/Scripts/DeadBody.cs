@@ -36,7 +36,6 @@ public class DeadBody : MonoBehaviour
 
         _timer = durationTime;
         _curentColor = Color.white;
-        Debug.Log("Dead Body Enabled");
         for (int i = 0; i < _childRb2d.Length; i++)
         {
             Vector2 direction = (_childRb2d[i].transform.position - transform.position).normalized;

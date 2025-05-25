@@ -20,15 +20,7 @@ namespace Improvements
         {
             if (!_hasTarget) return;
         }
-
-        public override void OnAddImp(AddImprovementEvent data)
-        {
-        }
-
-        public override void OnRemoveImp(RemoveImprovementEvent data)
-        {
-        }
-
+        
         public override void SetPlayer(ImprovementDefinition definition, Character character,
             ImprovementsComponent improvementsComponent)
         {

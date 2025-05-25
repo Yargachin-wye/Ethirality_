@@ -9,9 +9,14 @@ namespace CharacterComponents
     {
         [SerializeField, HideInInspector] public Character character;
 
-        public virtual void OnValidate()
+        protected virtual void Awake()
         {
-            if (character == null) character = transform.root.GetComponent<Character>();
+            Validate();
+        }
+
+        protected virtual void Validate()
+        {
+            character = transform.root.GetComponent<Character>();
         }
 
         public abstract void Init();

@@ -1,4 +1,5 @@
 using System;
+using CharacterComponents.CharacterStat;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -25,9 +26,8 @@ namespace CharacterComponents.Animations
         private bool _isJawOpen = false;
         public bool IsJawOpen => _isJawOpen;
 
-        public override void OnValidate()
+        public void OnValidate()
         {
-            base.OnValidate();
             eyes = new[] { eye0, eye1, eye2, eye3, eye4, eye5, eye7, eye8 };
             foreach (var eye in eyes)
             {

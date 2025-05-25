@@ -1260,7 +1260,6 @@ MonoBehaviour:
   - {fileID: 8802847718263648532}
   - {fileID: 3309784423320760736}
   - {fileID: 3981084429929533095}
-  - {fileID: 3327982298735596802}
   - {fileID: 2128803351548732442}
   - {fileID: 5018167926291272715}
   stats: {fileID: 3309784423320760736}
@@ -1370,6 +1369,7 @@ MonoBehaviour:
   rotationSpeed: 10
   decelerationRate: 0.95
   powerDash: 50
+  dashDmg: 1
   eater: {fileID: 3981084429929533095}
 --- !u!114 &8802847718263648532
 MonoBehaviour:
@@ -1434,7 +1434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2efa90d384d4144aeff5b765f9c91c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 2281339711963540066}
+  improvement: {fileID: 0}
   indicator: {fileID: 4583826394884011551}
 --- !u!114 &2128803351548732442
 MonoBehaviour:
@@ -1449,10 +1449,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
+  characterForImp: {fileID: 2281339711963540066}
   radius: 3
   rotationSpeed: 60
-  startImprovements: 01000000010000000100000001000000000000000000000000000000000000000000000000000000
-  improvementDefinition: []
   improvements: []
 --- !u!1 &3337608709104759448
 GameObject:

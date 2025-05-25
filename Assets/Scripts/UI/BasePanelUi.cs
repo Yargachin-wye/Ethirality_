@@ -27,7 +27,7 @@ namespace UI
 
         protected virtual void SetActivePanel(OpenUiPanelEvent data)
         {
-            Debug.Log($"SetActivePanel: {data.PanelName}");
+            // Debug.Log($"SetActivePanel: {data.PanelName}");
             if (data.PanelName == panelName)
             {
                 panel.SetActive(true);

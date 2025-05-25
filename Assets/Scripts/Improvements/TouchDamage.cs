@@ -1,8 +1,7 @@
 ﻿using CharacterComponents;
 using CharacterComponents.Animations;
+using CharacterComponents.CharacterStat;
 using Definitions;
-using Projectiles;
-using UniRxEvents.Improvement;
 using UnityEngine;
 
 namespace Improvements
@@ -14,24 +13,13 @@ namespace Improvements
 
         [SerializeField] private int dmg = 1;
         [SerializeField] private bool isDestroyOnTrigger = false;
-
-
-        public override void OnAddImp(AddImprovementEvent data)
-        {
-        }
-
-        public override void OnRemoveImp(RemoveImprovementEvent data)
-        {
-        }
+        [SerializeField] private int numberTouches = 1;
 
         public override void SetPlayer(ImprovementDefinition definition, Character character,
             ImprovementsComponent improvementsComponent)
         {
             _hasTarget = true;
             _target = character.transform;
-            Rope2D rope2D = RopePool.Instance.GetPooledObject();
-
-            rope2D.Set(transform, _target, 50);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -44,11 +32,13 @@ namespace Improvements
                 return;
             }
 
+
             triggerStats.Damage(dmg);
 
             if (isDestroyOnTrigger)
             {
-                Destroy(gameObject);
+                numberTouches--;
+                if (numberTouches <= 0) improvement.Remove();
             }
         }
     }
