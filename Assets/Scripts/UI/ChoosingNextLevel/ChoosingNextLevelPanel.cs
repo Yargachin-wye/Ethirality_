@@ -36,7 +36,7 @@ namespace UI.ChoosingNextLevel
                 .randomLevelName);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
-            if (SaveSystem.Instance.saveData.currentDifficulty < ResManager.Instance.DifficultyLevelPacks.Length)
+            if (SaveSystem.Instance.saveData.currentDifficulty < ResManager.Instance.DifficultyLevelPacks.Length - 1)
             {
                 SaveSystem.Instance.saveData.currentDifficulty++;
             }
