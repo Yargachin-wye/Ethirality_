@@ -43,6 +43,10 @@ namespace Camera
             if (cameraTarget.Priority > _nowTarget.Priority)
             {
                 _nowTarget = cameraTarget;
+                Vector3 targetPos = _nowTarget.transform.position;
+                targetPos.z = _z;
+                
+                transform.position = targetPos;
             }
         }
 

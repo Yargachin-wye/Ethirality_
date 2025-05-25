@@ -1,7 +1,11 @@
 ﻿using System;
 using Definitions;
 using Pools;
+using UniRx;
+using UniRxEvents.GamePlay;
+using UniRxEvents.Ui;
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents.CharacterStat
 {
@@ -35,6 +39,11 @@ namespace CharacterComponents.CharacterStat
             dbi.gameObject.SetActive(true);
             dbi.transform.position = transform.position;
             dbi.transform.rotation = transform.rotation;
+
+            if (Fraction == Fraction.Player)
+            {
+                MessageBroker.Default.Publish(new GameOverEvent ());
+            }
         }
 
         public bool Damage(int val)
@@ -55,7 +64,7 @@ namespace CharacterComponents.CharacterStat
         public void Cure(int val)
         {
             _currentHealth += val;
-
+            
             // if (_currentHealth >= _maxHealth) return;
 
             OnCureAction?.Invoke(val);

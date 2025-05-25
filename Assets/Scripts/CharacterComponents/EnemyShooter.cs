@@ -40,17 +40,18 @@ namespace CharacterComponents
 
         private Stats FindClosestTarget()
         {
-            var allStats = FindObjectsOfType<Stats>();
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRange);
             Stats closest = null;
             float minDistance = Mathf.Infinity;
 
-            foreach (var stats in allStats)
+            foreach (var hit in hits)
             {
+                Stats stats = hit.GetComponent<Stats>();
                 if (stats == null || stats.character == null) continue;
                 if (stats.character.Fraction == Fraction) continue;
 
                 float distance = Vector2.Distance(transform.position, stats.transform.position);
-                if (distance < minDistance && distance <= detectionRange)
+                if (distance < minDistance)
                 {
                     closest = stats;
                     minDistance = distance;
@@ -59,13 +60,13 @@ namespace CharacterComponents
 
             return closest;
         }
-        
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, detectionRange);
         }
-        
+
         public void Shoot(Stats target)
         {
             var pooledObject = _projectilePool.GetPooledObject(projectileDefinition);

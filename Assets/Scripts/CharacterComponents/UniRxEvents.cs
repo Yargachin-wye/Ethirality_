@@ -31,6 +31,10 @@ namespace UniRxEvents
         {
             
         }
+        public struct GameOverEvent
+        {
+            
+        }
         public struct LevelUpEvent
         {
             

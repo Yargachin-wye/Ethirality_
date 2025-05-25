@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using Saves;
+using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
 using UnityEngine;
@@ -20,13 +21,25 @@ namespace Bootstrapper
             }
 
             Instance = this;
+
+            MessageBroker.Default
+                .Receive<GameOverEvent>()
+                .Subscribe(data => OnGameOver(data));
+        }
+
+        private void OnGameOver(GameOverEvent data)
+        {
+            SaveSystem.Instance.SaveData.playerUpgradeResIds.Clear();
+            SaveSystem.Instance.SaveGame();
+            MessageBroker.Default.Publish(new StopGameplayEvent());
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
+            sceneLoader.OpenLobby();
         }
 
         public void GameIsOver()
         {
             MessageBroker.Default.Publish(new StopGameplayEvent());
-            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
-            
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
             sceneLoader.OpenLobby();
         }
     }
