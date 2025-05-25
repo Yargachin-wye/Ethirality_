@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using EditorAttributes;
 using UniRx;
 using UniRxEvents.Ui;
@@ -13,6 +14,7 @@ namespace UI
         [SerializeField, Dropdown("PanelsCollection")]
         protected string panelName;
         [SerializeField] private GameObject panel;
+        [SerializeField] private CanvasGroup canvasGroup;
 
         public virtual void Awake()
         {
@@ -27,17 +29,44 @@ namespace UI
 
         protected virtual void SetActivePanel(OpenUiPanelEvent data)
         {
-            // Debug.Log($"SetActivePanel: {data.PanelName}");
             if (data.PanelName == panelName)
             {
-                panel.SetActive(true);
+                if (!panel.activeSelf) StartCoroutine(FadeOut());
                 OnPanelEnable();
             }
             else
             {
-                panel.SetActive(false);
+                if (panel.activeSelf) StartCoroutine(FadeIn());
                 OnPanelDisable();
             }
+        }
+
+        protected virtual IEnumerator FadeOut()
+        {
+            panel.SetActive(true);
+            canvasGroup.alpha = 0;
+            while (canvasGroup.alpha < 1)
+            {
+                canvasGroup.alpha += Time.unscaledDeltaTime * 2;
+                yield return null;
+            }
+
+            canvasGroup.alpha = 1;
+            OnPanelEnable();
+        }
+
+        protected virtual IEnumerator FadeIn()
+        {
+            OnPanelDisable();
+            canvasGroup.alpha = 1;
+            while (canvasGroup.alpha > 0)
+            {
+                canvasGroup.alpha -= Time.unscaledDeltaTime * 2;
+                yield return null;
+            }
+
+            canvasGroup.alpha = 0;
+            panel.SetActive(false);
         }
     }
 }

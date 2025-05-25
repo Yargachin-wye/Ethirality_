@@ -12,12 +12,12 @@ namespace Bootstrapper
 
         public void OpenLobby()
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadSceneAsync("Menu");
         }
 
         public void Load(string sceneName)
         {
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadSceneAsync(sceneName);
         }
     }
 }

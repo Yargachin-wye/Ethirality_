@@ -32,10 +32,10 @@ namespace Bootstrapper
             SaveSystem.Instance.ResetGameData();
             
             SaveSystem.Instance.SaveGame();
-            
+            sceneLoader.OpenLobby();
             MessageBroker.Default.Publish(new StopGameplayEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
-            sceneLoader.OpenLobby();
+            
         }
 
         public void GameIsOver()

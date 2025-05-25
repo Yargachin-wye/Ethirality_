@@ -11,16 +11,21 @@ namespace UI.ChoosingNextLevel
 {
     public class ChoosingNextLevelPanel : BasePanelUi
     {
+        [Space]
         [SerializeField] private SceneLoader sceneLoader;
         [SerializeField] private Button randomLevelBtn;
         [SerializeField] private Button openWorldLevelBtn;
+        [SerializeField] private Button backBtn;
 
         public override void Awake()
         {
             base.Awake();
             randomLevelBtn.onClick.AddListener(StartRandomLevel);
             openWorldLevelBtn.onClick.AddListener(StartOpenWorld);
+            backBtn.onClick.AddListener(BackMenu);
         }
+
+        
 
         protected override void OnPanelDisable()
         {
@@ -48,6 +53,11 @@ namespace UI.ChoosingNextLevel
                 .openWorldLevelName);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
+        }
+        
+        private void BackMenu()
+        {
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }
 }

@@ -225,10 +225,10 @@ RectTransform:
   - {fileID: 643654044}
   m_Father: {fileID: 101303181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 318.43216, y: -515.7981}
-  m_SizeDelta: {x: 536.8643, y: 90.22803}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &66982584
 MonoBehaviour:
@@ -799,10 +799,10 @@ RectTransform:
   - {fileID: 927178329}
   m_Father: {fileID: 101303181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 536.8643, y: 90.22803}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &242996345
 MonoBehaviour:
@@ -1736,6 +1736,7 @@ GameObject:
   - component: {fileID: 738750640}
   - component: {fileID: 738750642}
   - component: {fileID: 738750641}
+  - component: {fileID: 738750643}
   m_Layer: 5
   m_Name: ChoosingNextLevelPanel
   m_TagString: Untagged
@@ -1804,6 +1805,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738750639}
   m_CullTransparentMesh: 1
+--- !u!225 &738750643
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738750639}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &817927922
 GameObject:
   m_ObjectHideFlags: 0
@@ -1914,6 +1927,7 @@ GameObject:
   - component: {fileID: 878299580}
   - component: {fileID: 878299582}
   - component: {fileID: 878299583}
+  - component: {fileID: 878299584}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -1979,6 +1993,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &878299584
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878299579}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &927178328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,14 +2408,14 @@ GameObject:
   - component: {fileID: 980474206}
   - component: {fileID: 980474205}
   - component: {fileID: 980474213}
+  - component: {fileID: 980474216}
   - component: {fileID: 980474209}
   - component: {fileID: 980474211}
   - component: {fileID: 980474214}
   - component: {fileID: 980474212}
   - component: {fileID: 980474215}
-  - component: {fileID: 980474216}
-  - component: {fileID: 980474210}
   - component: {fileID: 980474217}
+  - component: {fileID: 980474210}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2500,6 +2526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelName: MainMenuPanel
   panel: {fileID: 878299579}
+  canvasGroup: {fileID: 878299584}
   sceneLoader: {fileID: 817927923}
   playBtn: {fileID: 634158588}
   settingsBtn: {fileID: 1378942582}
@@ -2530,6 +2557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelName: LevelUpPanel
   panel: {fileID: 638961880806785079}
+  canvasGroup: {fileID: 1622816760}
   levelUpSlotHp: {fileID: 638961880806785078}
   levelUpSlot: {fileID: 638961880806785077}
   levelUpSlotRandom: {fileID: 638961880806785076}
@@ -2550,6 +2578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelName: GameOverPanel
   panel: {fileID: 1183132795}
+  canvasGroup: {fileID: 1183132799}
   backToMenuBtn: {fileID: 1493023477}
 --- !u!114 &980474213
 MonoBehaviour:
@@ -2577,6 +2606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelName: SettingsPanel
   panel: {fileID: 1403831315}
+  canvasGroup: {fileID: 1403831319}
   exitGameplayBtn: {fileID: 1466866839}
   backBtn: {fileID: 66982585}
 --- !u!114 &980474215
@@ -2593,9 +2623,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelName: ChoosingNextLevelPanel
   panel: {fileID: 738750639}
+  canvasGroup: {fileID: 738750643}
   sceneLoader: {fileID: 817927923}
   randomLevelBtn: {fileID: 951815283}
   openWorldLevelBtn: {fileID: 183006012}
+  backBtn: {fileID: 1956622337}
 --- !u!114 &980474216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2623,6 +2655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelName: GamePlayPanel
   panel: {fileID: 2044438425}
+  canvasGroup: {fileID: 1183132799}
 --- !u!1 &1015836629
 GameObject:
   m_ObjectHideFlags: 0
@@ -3298,13 +3331,14 @@ GameObject:
   - component: {fileID: 1183132796}
   - component: {fileID: 1183132798}
   - component: {fileID: 1183132797}
+  - component: {fileID: 1183132799}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1183132796
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3364,6 +3398,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183132795}
   m_CullTransparentMesh: 1
+--- !u!225 &1183132799
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183132795}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1208976566
 GameObject:
   m_ObjectHideFlags: 0
@@ -3751,10 +3797,10 @@ RectTransform:
   - {fileID: 974002998}
   m_Father: {fileID: 101303181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -190.22803}
-  m_SizeDelta: {x: 536.8643, y: 90.22803}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1278775989
 MonoBehaviour:
@@ -4521,13 +4567,14 @@ GameObject:
   - component: {fileID: 1403831316}
   - component: {fileID: 1403831318}
   - component: {fileID: 1403831317}
+  - component: {fileID: 1403831319}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1403831316
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4586,6 +4633,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1403831315}
   m_CullTransparentMesh: 1
+--- !u!225 &1403831319
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403831315}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1466866836
 GameObject:
   m_ObjectHideFlags: 0
@@ -4621,10 +4680,10 @@ RectTransform:
   - {fileID: 1129815691}
   m_Father: {fileID: 101303181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 318.43216, y: -375.57007}
-  m_SizeDelta: {x: 536.8643, y: 90.22803}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1466866838
 MonoBehaviour:
@@ -5350,6 +5409,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615092845}
   m_CullTransparentMesh: 1
+--- !u!225 &1622816760 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 7943145940459229850, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
+  m_PrefabInstance: {fileID: 638961880806785073}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1693545291
 GameObject:
   m_ObjectHideFlags: 0
@@ -6689,13 +6753,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2044438426}
   - component: {fileID: 2044438427}
+  - component: {fileID: 2044438428}
   m_Layer: 5
   m_Name: GamePlayPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2044438426
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6724,6 +6789,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044438425}
   m_CullTransparentMesh: 1
+--- !u!225 &2044438428
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044438425}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2097610616
 GameObject:
   m_ObjectHideFlags: 0
@@ -6906,83 +6983,79 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3652150991722364590, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3652150991722364590, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3652150991722364590, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 426.66666
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3652150991722364590, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 630.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3652150991722364590, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 720
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3652150991722364590, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -355.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301328016290044183, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301328016290044183, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301328016290044183, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 426.66666
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301328016290044183, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 630.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301328016290044183, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 253.33333
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4301328016290044183, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -355.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6714350102871541367, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_Name
       value: LevelUpPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 6714350102871541367, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 426.66666
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 630.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1186.6666
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7508277728565781831, guid: c7ddd5c6b05ad624187ce9be5406615f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -355.2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
