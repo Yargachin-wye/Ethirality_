@@ -1,4 +1,4 @@
-﻿using Saves;
+﻿using Bootstrapper.Saves;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
@@ -29,7 +29,7 @@ namespace Bootstrapper
 
         private void OnGameOver(GameOverEvent data)
         {
-            SaveSystem.Instance.SaveData.playerUpgradeResIds.Clear();
+            SaveSystem.Instance.saveData.playerUpgradeResIds.Clear();
             SaveSystem.Instance.SaveGame();
             MessageBroker.Default.Publish(new StopGameplayEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });

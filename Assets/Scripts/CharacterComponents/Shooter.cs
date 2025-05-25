@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CharacterComponents.Animations;
 using Definitions;
-using Managers.Pools;
 using Pools;
 using Projectiles;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CharacterComponents
 {

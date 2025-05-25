@@ -1404,7 +1404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
-  startHp: 1
+  startHp: 4
   maxHp: 7
   isImmortal: 0
   isInvulnerable: 0

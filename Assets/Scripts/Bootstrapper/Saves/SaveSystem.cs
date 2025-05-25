@@ -4,18 +4,20 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Saves
+namespace Bootstrapper.Saves
 {
     [Serializable]
     public struct SaveGameData
     {
         public string version;
+        public int hp;
         public List<int> playerUpgradeResIds;
 
         public SaveGameData(SaveGameData defaultSaveData)
         {
             version = defaultSaveData.version;
             playerUpgradeResIds = defaultSaveData.playerUpgradeResIds;
+            hp = defaultSaveData.hp;
         }
     }
 
@@ -34,12 +36,10 @@ namespace Saves
         private static string SaveGamePath => Path.Combine(Application.persistentDataPath, "savegame.json");
         private static string SettingsPath => Path.Combine(Application.persistentDataPath, "settings.json");
 
-        [SerializeField] private SaveGameData saveData;
+        public SaveGameData saveData;
 
         public SaveSettingsData SettingsData { get; private set; }
         public static SaveSystem Instance { get; private set; }
-
-        public SaveGameData SaveData => saveData;
 
         private void Awake()
         {

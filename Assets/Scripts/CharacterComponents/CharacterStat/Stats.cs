@@ -1,4 +1,5 @@
 ﻿using System;
+using Bootstrapper.Saves;
 using Definitions;
 using Pools;
 using UniRx;
@@ -29,7 +30,14 @@ namespace CharacterComponents.CharacterStat
 
         public override void Init()
         {
-            _currentHealth = startHp;
+            if (Fraction == Fraction.Player)
+            {
+                _currentHealth = SaveSystem.Instance.saveData.hp;
+            }
+            else
+            {
+                _currentHealth = startHp;
+            }
         }
 
         public void Dead()
@@ -42,7 +50,7 @@ namespace CharacterComponents.CharacterStat
 
             if (Fraction == Fraction.Player)
             {
-                MessageBroker.Default.Publish(new GameOverEvent ());
+                MessageBroker.Default.Publish(new GameOverEvent());
             }
         }
 
@@ -50,6 +58,8 @@ namespace CharacterComponents.CharacterStat
         {
             if (isInvulnerable) return false;
             _currentHealth -= val;
+
+            if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
 
             if (_currentHealth <= 0 && !isImmortal)
             {
@@ -64,7 +74,7 @@ namespace CharacterComponents.CharacterStat
         public void Cure(int val)
         {
             _currentHealth += val;
-            
+            if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
             // if (_currentHealth >= _maxHealth) return;
 
             OnCureAction?.Invoke(val);

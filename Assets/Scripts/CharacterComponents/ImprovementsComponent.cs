@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bootstrapper;
+using Bootstrapper.Saves;
 using Definitions;
 using UnityEngine;
 using Improvements;
-using Saves;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Improvement;
@@ -50,7 +50,7 @@ namespace CharacterComponents
 
         private void Start()
         {
-            foreach (var impResId in Saves.SaveData.playerUpgradeResIds)
+            foreach (var impResId in Saves.saveData.playerUpgradeResIds)
             {
                 var data = ResManager.Instance.Improvements[impResId];
                 AddImprovement(data);
@@ -93,7 +93,7 @@ namespace CharacterComponents
 
         public void AddNewImprovement(ImprovementDefinition data)
         {
-            Saves.SaveData.playerUpgradeResIds.Add(data.ResId);
+            Saves.saveData.playerUpgradeResIds.Add(data.ResId);
             AddImprovement(data);
         }
 
@@ -150,8 +150,8 @@ namespace CharacterComponents
         
         private void OnDestroyImprovement(Improvement improvement, bool isRemove)
         {
-            if (isRemove && Saves.SaveData.playerUpgradeResIds.Contains(improvement.Definition.ResId))
-                Saves.SaveData.playerUpgradeResIds.Remove(improvement.Definition.ResId);
+            if (isRemove && Saves.saveData.playerUpgradeResIds.Contains(improvement.Definition.ResId))
+                Saves.saveData.playerUpgradeResIds.Remove(improvement.Definition.ResId);
             
             improvements.Remove(improvement);
             RemoveMoving(improvement.gameObject);
