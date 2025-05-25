@@ -31,6 +31,7 @@ namespace CharacterComponents
 
         public override void Init()
         {
+            _timer = shootDelay;
             _projectilePool = ProjectilePool.Instance;
         }
 
