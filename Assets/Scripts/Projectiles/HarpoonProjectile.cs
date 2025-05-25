@@ -37,7 +37,7 @@ namespace Projectiles
             _isForceOnAttached = false;
             rb2D.bodyType = Definition.RigidbodyType2D;
             rb2D.gravityScale = Definition.GravityScale;
-            _timer = Definition.LifeDelay;
+            _timer = Definition.LifeTime;
         }
 
         private void FixedUpdate()

@@ -101,6 +101,8 @@ MonoBehaviour:
     numOnStart: 1
   - projectileDefinitiop: {fileID: 11400000, guid: a1b051b71f9ba214189cfeea8aac46f6, type: 2}
     numOnStart: 1
+  - projectileDefinitiop: {fileID: 11400000, guid: 8d0434ca19c3cb840911bd3584e699e1, type: 2}
+    numOnStart: 2
 --- !u!114 &4907311579025119206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,4 +147,7 @@ MonoBehaviour:
     objectsList: []
   - deadBodyInfo: {fileID: 11400000, guid: 37ac875b1983ac245a27442313b3526a, type: 2}
     numOnStart: 5
+    objectsList: []
+  - deadBodyInfo: {fileID: 11400000, guid: 8b3e8cc55961cf34b82a40d8a41cb56b, type: 2}
+    numOnStart: 1
     objectsList: []

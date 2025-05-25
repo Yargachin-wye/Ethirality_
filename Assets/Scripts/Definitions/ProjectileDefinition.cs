@@ -9,7 +9,7 @@ namespace Definitions
         [SerializeField] private GameObject prefab;
         [SerializeField] private float speedMultiply = 2;
         [SerializeField] private int damage = 1;
-        [SerializeField] private float lifeDelay = 1;
+        [SerializeField] private float lifeTime = 2;
         [Header("Физика")] [SerializeField] private RigidbodyType2D rigidbodyType2D;
         [SerializeField] private float gravityScale;
         [Header("Выстрел")] [SerializeField] private float recoil;
@@ -25,7 +25,7 @@ namespace Definitions
         public float SpeedMultiply => speedMultiply;
         public RigidbodyType2D RigidbodyType2D => rigidbodyType2D;
         public float GravityScale => gravityScale;
-        public float LifeDelay => lifeDelay;
+        public float LifeTime => lifeTime;
         public float Recoil => recoil;
         public bool IsDestroyOnTrigger => isDestroyOnTrigger;
         public bool IsAttachedOnTrigger => isAttachedOnTrigger;

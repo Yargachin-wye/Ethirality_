@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7863888071420104655}
   - component: {fileID: -8403810917303142040}
   - component: {fileID: 3265466050770070891}
+  - component: {fileID: 6437734205313336316}
+  - component: {fileID: 800559225619712956}
   m_Layer: 0
   m_Name: Yummy Pear
   m_TagString: Untagged
@@ -115,12 +117,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
   rb2D: {fileID: 2692462021808953985}
-  playerControllable: {fileID: 0}
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
   - {fileID: 7863888071420104655}
   - {fileID: -8403810917303142040}
   - {fileID: 3265466050770070891}
+  - {fileID: 6437734205313336316}
+  - {fileID: 800559225619712956}
   stats: {fileID: 7863888071420104655}
 --- !u!114 &7863888071420104655
 MonoBehaviour:
@@ -153,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  hp: 1
+  hpCure: 1
 --- !u!114 &3265466050770070891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
+  character: {fileID: 8403955774680081991}
   dmgParticleSystem: {fileID: 8093720341717191400}
   spriteRenderer: {fileID: 7204961860442423665}
   hpSprites:
@@ -176,6 +179,37 @@ MonoBehaviour:
   - {fileID: -1027450080, guid: d437957e1bc681644aaa33705c48d709, type: 3}
   - {fileID: 506725195, guid: d437957e1bc681644aaa33705c48d709, type: 3}
   stats: {fileID: 7863888071420104655}
+--- !u!114 &6437734205313336316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d7ae244e4d4c88aea2a5915843950e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  projectileDefinition: {fileID: 11400000, guid: 8d0434ca19c3cb840911bd3584e699e1, type: 2}
+  speed: 1
+  shootDelay: 4
+  detectionRange: 12
+--- !u!114 &800559225619712956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338de773d72aa9c4aa956ecbbbccfda1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  _rotationSpeed: 1
 --- !u!1 &5014159035460615691
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using CharacterComponents.Animations;
+﻿using CharacterComponents.CharacterStat;
 using Definitions;
-using Managers.Pools;
 using Pools;
-using Projectiles;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CharacterComponents
 {
@@ -14,8 +9,8 @@ namespace CharacterComponents
     {
         [SerializeField] private ProjectileDefinition projectileDefinition;
         [SerializeField] private float speed = 1;
-        [SerializeField] private float rotationSpeed;
         [SerializeField] private float shootDelay;
+        [SerializeField] private float detectionRange = 10f;
 
         private ProjectilePool _projectilePool;
         private float _timer;
@@ -29,24 +24,55 @@ namespace CharacterComponents
 
         private void FixedUpdate()
         {
-            if (_timer >= 0)
+            if (_timer > 0)
             {
                 _timer -= Time.fixedDeltaTime;
                 return;
             }
 
-            Shoot();
+            var target = FindClosestTarget();
+            if (target != null)
+            {
+                Shoot(target);
+                _timer = shootDelay;
+            }
         }
 
-        public void Shoot()
+        private Stats FindClosestTarget()
         {
-            if (_timer > 0) return;
-            
-            _timer = shootDelay;
-            
+            var allStats = FindObjectsOfType<Stats>();
+            Stats closest = null;
+            float minDistance = Mathf.Infinity;
+
+            foreach (var stats in allStats)
+            {
+                if (stats == null || stats.character == null) continue;
+                if (stats.character.Fraction == Fraction) continue;
+
+                float distance = Vector2.Distance(transform.position, stats.transform.position);
+                if (distance < minDistance && distance <= detectionRange)
+                {
+                    closest = stats;
+                    minDistance = distance;
+                }
+            }
+
+            return closest;
+        }
+        
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, detectionRange);
+        }
+        
+        public void Shoot(Stats target)
+        {
             var pooledObject = _projectilePool.GetPooledObject(projectileDefinition);
             pooledObject.transform.position = transform.position + transform.right;
-            Vector2 direction = new Vector2();
+
+            Vector2 direction = (target.transform.position - transform.position).normalized;
+
             pooledObject.Shoot(direction, speed, gameObject, Fraction);
         }
     }
