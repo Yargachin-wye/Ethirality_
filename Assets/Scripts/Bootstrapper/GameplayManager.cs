@@ -29,8 +29,10 @@ namespace Bootstrapper
 
         private void OnGameOver(GameOverEvent data)
         {
-            SaveSystem.Instance.saveData.playerUpgradeResIds.Clear();
+            SaveSystem.Instance.ResetGameData();
+            
             SaveSystem.Instance.SaveGame();
+            
             MessageBroker.Default.Publish(new StopGameplayEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
             sceneLoader.OpenLobby();

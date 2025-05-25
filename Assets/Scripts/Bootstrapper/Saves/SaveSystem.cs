@@ -10,6 +10,7 @@ namespace Bootstrapper.Saves
     public struct SaveGameData
     {
         public string version;
+        public int currentDifficulty;
         public int hp;
         public List<int> playerUpgradeResIds;
 
@@ -18,6 +19,7 @@ namespace Bootstrapper.Saves
             version = defaultSaveData.version;
             playerUpgradeResIds = defaultSaveData.playerUpgradeResIds;
             hp = defaultSaveData.hp;
+            currentDifficulty = defaultSaveData.currentDifficulty;
         }
     }
 
@@ -188,5 +190,11 @@ namespace Bootstrapper.Saves
             System.Diagnostics.Process.Start("explorer.exe", folderPath);
         }
 #endif
+        public void ResetGameData()
+        {
+            Instance.saveData.playerUpgradeResIds.Clear();
+            Instance.saveData.currentDifficulty = 0;
+            Instance.saveData.hp = defaultSaveData.hp;
+        }
     }
 }

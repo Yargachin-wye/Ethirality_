@@ -1,4 +1,5 @@
 ﻿using Bootstrapper;
+using Bootstrapper.Saves;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
@@ -31,14 +32,20 @@ namespace UI.ChoosingNextLevel
 
         private void StartRandomLevel()
         {
-            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[0].randomLevelName);
+            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
+                .randomLevelName);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
+            if (SaveSystem.Instance.saveData.currentDifficulty < ResManager.Instance.DifficultyLevelPacks.Length)
+            {
+                SaveSystem.Instance.saveData.currentDifficulty++;
+            }
         }
 
         private void StartOpenWorld()
         {
-            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[0].openWorldLevelName);
+            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
+                .openWorldLevelName);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
         }
