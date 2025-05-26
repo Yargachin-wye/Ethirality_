@@ -46,15 +46,17 @@ namespace CharacterComponents.Animations
         public bool IsEyeClosed { get; private set; } = true;
         public bool isBlocked = false;
 
-        public void Start()
+        public void Init()
         {
-            if (IsEyeClosed)
+            if (isBlocked)
             {
                 image.sprite = eyeCloseJawClose;
+                IsEyeClosed = true;
             }
             else
             {
                 image.sprite = eyeOpenJawClose;
+                IsEyeClosed = false;
             }
         }
 
@@ -137,7 +139,7 @@ namespace CharacterComponents.Animations
                 IsEyeClosed = false;
                 return;
             }
-
+            
             _index = 0;
             _isAnimating = true;
             _animation = animation;

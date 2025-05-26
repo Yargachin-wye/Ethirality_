@@ -52,14 +52,21 @@ namespace CharacterComponents.Animations
             Stats.OnCureAction += ResetEyes;
             Stats.OnDmgAction += ResetEyes;
 
-            foreach (var eye in eyes)
+            for (int i = 0; i < eyes.Length; i++)
             {
-                eye.isBlocked = true;
+                if (i < Stats.CurrentHealth)
+                {
+                    eyes[i].isBlocked = false;
+                }
+                else
+                {
+                    eyes[i].isBlocked = true;
+                }
             }
 
             foreach (var eye in eyes)
             {
-                eye.Start();
+                eye.Init();
             }
 
             ResetEyes(0);

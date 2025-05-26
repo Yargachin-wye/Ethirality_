@@ -1,4 +1,6 @@
-﻿using Bootstrapper;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Bootstrapper;
 using Bootstrapper.Saves;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -25,7 +27,6 @@ namespace UI.ChoosingNextLevel
             backBtn.onClick.AddListener(BackMenu);
         }
 
-        
 
         protected override void OnPanelDisable()
         {
@@ -37,24 +38,28 @@ namespace UI.ChoosingNextLevel
 
         private void StartRandomLevel()
         {
-            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
-                .randomLevelName);
-            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
-            MessageBroker.Default.Publish(new StartGameplayEvent());
-            if (SaveSystem.Instance.saveData.currentDifficulty < ResManager.Instance.DifficultyLevelPacks.Length - 1)
-            {
-                SaveSystem.Instance.saveData.currentDifficulty++;
-            }
+            string nextLevelName = ResManager.Instance
+                .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
+                .randomLevelName;
+            
+            StartCoroutine(StartLevel(nextLevelName));
         }
 
         private void StartOpenWorld()
         {
-            sceneLoader.Load(ResManager.Instance.DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
+            string nextLevelName = (ResManager.Instance
+                .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
                 .openWorldLevelName);
+            StartCoroutine(StartLevel(nextLevelName));
+        }
+
+        private IEnumerator StartLevel(string nextLevelName)
+        {
+            yield return StartCoroutine(sceneLoader.Load(nextLevelName));
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartGameplayEvent());
         }
-        
+
         private void BackMenu()
         {
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });

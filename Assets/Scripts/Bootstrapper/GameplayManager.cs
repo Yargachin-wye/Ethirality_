@@ -1,4 +1,6 @@
-﻿using Bootstrapper.Saves;
+﻿using System.Collections;
+using Bootstrapper.Saves;
+using UI;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
@@ -10,6 +12,7 @@ namespace Bootstrapper
     public class GameplayManager : MonoBehaviour
     {
         [SerializeField] private SceneLoader sceneLoader;
+        [SerializeField] private BasePanelUi gameOverPanel;
         public static GameplayManager Instance;
 
         private void Awake()
@@ -24,25 +27,36 @@ namespace Bootstrapper
 
             MessageBroker.Default
                 .Receive<GameOverEvent>()
-                .Subscribe(data => OnGameOver(data));
+                .Subscribe(data => StartCoroutine(OnGameOver(data)));
         }
 
-        private void OnGameOver(GameOverEvent data)
+        private IEnumerator OnGameOver(GameOverEvent data)
         {
             SaveSystem.Instance.ResetGameData();
-            
             SaveSystem.Instance.SaveGame();
-            sceneLoader.OpenLobby();
-            MessageBroker.Default.Publish(new StopGameplayEvent());
-            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
             
+            yield return new WaitForSeconds(1f);
+            
+            yield return gameOverPanel.FadeOut();
+            
+            MessageBroker.Default.Publish(new StopGameplayEvent());
+            MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.GameOver });
+
+            
+            yield return sceneLoader.LoadLobby();
+            yield return new WaitForEndOfFrame();
         }
 
-        public void GameIsOver()
+        public IEnumerator StopGameplay()
         {
+            if (SaveSystem.Instance.saveData.currentDifficulty < ResManager.Instance.DifficultyLevelPacks.Length - 1)
+            {
+                SaveSystem.Instance.saveData.currentDifficulty++;
+            }
+
             MessageBroker.Default.Publish(new StopGameplayEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
-            sceneLoader.OpenLobby();
+            yield return sceneLoader.LoadLobby();
         }
     }
 }

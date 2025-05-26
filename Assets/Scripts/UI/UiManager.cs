@@ -9,7 +9,7 @@ namespace UI
     {
         private void Start()
         {
-            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
+            MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.MainMenu });
         }
     }
 }

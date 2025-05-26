@@ -138,7 +138,7 @@ namespace UI.LevelUp
                 }
                     break;
             }
-            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
+            MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.GamePlay });
         }
     }
 }

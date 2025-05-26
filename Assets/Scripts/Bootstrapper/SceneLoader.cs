@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,19 +7,25 @@ namespace Bootstrapper
 {
     public class SceneLoader : MonoBehaviour
     {
-        private void Start()
+        
+        public IEnumerator LoadLobby()
         {
-            OpenLobby();
+            yield return LoadSceneAsync("Menu");
         }
 
-        public void OpenLobby()
+        public IEnumerator Load(string sceneName)
         {
-            SceneManager.LoadSceneAsync("Menu");
+            yield return LoadSceneAsync(sceneName);
         }
 
-        public void Load(string sceneName)
+        private IEnumerator LoadSceneAsync(string sceneName)
         {
-            SceneManager.LoadSceneAsync(sceneName);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
         }
     }
 }

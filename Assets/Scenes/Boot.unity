@@ -677,10 +677,10 @@ RectTransform:
   - {fileID: 580940995}
   m_Father: {fileID: 1615092846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 684.6116, y: -130.3636}
+  m_SizeDelta: {x: 604.6116, y: 180.7272}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &183006012
 MonoBehaviour:
@@ -1743,7 +1743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &738750640
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1879,6 +1879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneLoader: {fileID: 817927923}
+  gameOverPanel: {fileID: 980474212}
 --- !u!114 &817927926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1906,7 +1907,7 @@ MonoBehaviour:
   defaultSaveData:
     version: 
     currentDifficulty: 0
-    hp: 0
+    hp: 4
     playerUpgradeResIds: 
   defaultSettingsData:
     musicVolume: 0.5
@@ -2174,10 +2175,10 @@ RectTransform:
   - {fileID: 1208976567}
   m_Father: {fileID: 1615092846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 644.6116, y: -130.3636}
+  m_SizeDelta: {x: 604.6116, y: 180.7272}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &951815283
 MonoBehaviour:
@@ -3373,7 +3374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+  m_Color: {r: 0.007843138, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5153,7 +5154,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F"
+  m_text: "\u0417\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 62ed95f449ed19c4a98d4f222245286f, type: 2}
   m_sharedMaterial: {fileID: -2477578307869751149, guid: 62ed95f449ed19c4a98d4f222245286f, type: 2}

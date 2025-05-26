@@ -20,14 +20,32 @@ namespace UI
         {
             MessageBroker.Default
                 .Receive<OpenUiPanelEvent>()
+                .Subscribe(data => OpenPanel(data));
+            
+            MessageBroker.Default
+                .Receive<SetActivePanelEvent>()
                 .Subscribe(data => SetActivePanel(data));
+        }
+
+        private void SetActivePanel(SetActivePanelEvent data)
+        {
+            if (data.PanelName == panelName)
+            {
+                if (!panel.activeSelf) panel.SetActive(true);
+                OnPanelEnable();
+            }
+            else
+            {
+                if (panel.activeSelf) panel.SetActive(false);
+                OnPanelDisable();
+            }
         }
 
         protected abstract void OnPanelDisable();
         protected abstract void OnPanelEnable();
 
 
-        protected virtual void SetActivePanel(OpenUiPanelEvent data)
+        public virtual void OpenPanel(OpenUiPanelEvent data)
         {
             if (data.PanelName == panelName)
             {
@@ -41,7 +59,7 @@ namespace UI
             }
         }
 
-        protected virtual IEnumerator FadeOut()
+        public virtual IEnumerator FadeOut()
         {
             panel.SetActive(true);
             canvasGroup.alpha = 0;
