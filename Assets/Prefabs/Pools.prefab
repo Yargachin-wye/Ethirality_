@@ -70,7 +70,7 @@ MonoBehaviour:
     numOnStart: 2
     objectsList: []
   - characterDefinition: {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
-    numOnStart: 2
+    numOnStart: 1
     objectsList: []
   - characterDefinition: {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
     numOnStart: 2

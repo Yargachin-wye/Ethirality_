@@ -69,7 +69,6 @@ namespace CharacterComponents.Animations
                 eye.Init();
             }
 
-            ResetEyes(0);
             _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
         }
 

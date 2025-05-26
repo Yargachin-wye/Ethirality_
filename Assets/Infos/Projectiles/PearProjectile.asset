@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PearProjectile
   m_EditorClassIdentifier: 
   prefab: {fileID: 6653563369106539948, guid: 98c98324d75a490448d16112150ef5a4, type: 3}
-  speedMultiply: 1
+  speedMultiply: 2
   damage: 1
   lifeTime: 15
   rigidbodyType2D: 0

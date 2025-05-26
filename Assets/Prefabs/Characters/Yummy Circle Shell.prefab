@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6025074687716835840}
   - component: {fileID: 4543981621907744304}
   - component: {fileID: -7214759170712506246}
+  - component: {fileID: 3298665484706855550}
   m_Layer: 0
   m_Name: Yummy Circle Shell
   m_TagString: Untagged
@@ -65,7 +66,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 3
+  m_Constraints: 0
 --- !u!114 &8403955774680081991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,12 +81,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
   rb2D: {fileID: 2692462021808953985}
-  playerControllable: {fileID: 0}
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
   - {fileID: 6025074687716835840}
   - {fileID: 4543981621907744304}
   - {fileID: -7214759170712506246}
+  - {fileID: 3298665484706855550}
   stats: {fileID: 6025074687716835840}
 --- !u!58 &-6554938153170486306
 CircleCollider2D:
@@ -153,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  hp: 1
+  hpCure: 1
 --- !u!114 &-7214759170712506246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
+  character: {fileID: 8403955774680081991}
   dmgParticleSystem: {fileID: 8766870815052671473}
   spriteRenderer: {fileID: 7491541779285213804}
   hpSprites:
@@ -175,6 +176,20 @@ MonoBehaviour:
   - {fileID: -782700749, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
   - {fileID: 1787213750, guid: 5bd67330363e4e348a218d79f4c5a2f8, type: 3}
   stats: {fileID: 6025074687716835840}
+--- !u!114 &3298665484706855550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0eb13c9b634b01af29197a251889d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  speed: 5
 --- !u!1 &6406940150580029162
 GameObject:
   m_ObjectHideFlags: 0

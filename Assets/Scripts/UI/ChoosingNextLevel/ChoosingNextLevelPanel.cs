@@ -18,6 +18,7 @@ namespace UI.ChoosingNextLevel
         [SerializeField] private Button randomLevelBtn;
         [SerializeField] private Button openWorldLevelBtn;
         [SerializeField] private Button backBtn;
+        [SerializeField] private Image fieldDifficulty;
 
         public override void Awake()
         {
@@ -34,6 +35,8 @@ namespace UI.ChoosingNextLevel
 
         protected override void OnPanelEnable()
         {
+            fieldDifficulty.fillAmount = (float)SaveSystem.Instance.saveData.currentDifficulty /
+                                         ResManager.Instance.DifficultyLevelPacks.Length;
         }
 
         private void StartRandomLevel()
@@ -41,7 +44,7 @@ namespace UI.ChoosingNextLevel
             string nextLevelName = ResManager.Instance
                 .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
                 .randomLevelName;
-            
+
             StartCoroutine(StartLevel(nextLevelName));
         }
 

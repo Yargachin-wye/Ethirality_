@@ -1,8 +1,6 @@
-﻿using System;
-using Definitions;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace CharacterComponents
+namespace CharacterComponents.Moving
 {
     public class ReachingToStartMovable : BaseCharacterComponent
     {
