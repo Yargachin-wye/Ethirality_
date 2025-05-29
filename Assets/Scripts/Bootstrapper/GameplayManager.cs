@@ -32,14 +32,14 @@ namespace Bootstrapper
 
         private IEnumerator OnGameOver(GameOverEvent data)
         {
+            yield return new WaitForSeconds(1f);
+            
             SaveSystem.Instance.ResetGameData();
             SaveSystem.Instance.SaveGame();
             
-            yield return new WaitForSeconds(1f);
-            
             yield return gameOverPanel.FadeOut();
             
-            MessageBroker.Default.Publish(new StopGameplayEvent());
+            MessageBroker.Default.Publish(new StopRoundEvent());
             MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.GameOver });
 
             
@@ -54,7 +54,7 @@ namespace Bootstrapper
                 SaveSystem.Instance.saveData.currentDifficulty++;
             }
 
-            MessageBroker.Default.Publish(new StopGameplayEvent());
+            MessageBroker.Default.Publish(new StopRoundEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
             yield return sceneLoader.LoadLobby();
         }

@@ -19,11 +19,11 @@ namespace UI.SettingsPanel
             base.Awake();
 
             MessageBroker.Default
-                .Receive<StartGameplayEvent>()
+                .Receive<StartRoundEvent>()
                 .Subscribe(data => _isGameplay = true);
 
             MessageBroker.Default
-                .Receive<StopGameplayEvent>()
+                .Receive<StopRoundEvent>()
                 .Subscribe(data => _isGameplay = false);
 
             exitGameplayBtn.onClick.AddListener(ExitGameplay);

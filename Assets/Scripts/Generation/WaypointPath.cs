@@ -256,7 +256,7 @@ namespace Managers.Generator
                     for (float dist = 0; dist < Length; dist += Length / gizmosVisualisationSubsteps)
                     {
                         Vector3 next = GetRoutePosition(dist + 1);
-                        PointsContainer.Instance.AddPoint(pointsTypes, new Vector2(next.x, next.y));
+                        PointsContainerGenerator.Instance.AddPoint(pointsTypes, new Vector2(next.x, next.y));
                     }
                 }
                 else
@@ -264,7 +264,7 @@ namespace Managers.Generator
                     for (int n = 0; n < nodes.Count; ++n)
                     {
                         Vector3 next = nodes[(n + 1) % nodes.Count].position;
-                        PointsContainer.Instance.AddPoint(pointsTypes, new Vector2(next.x, next.y));
+                        PointsContainerGenerator.Instance.AddPoint(pointsTypes, new Vector2(next.x, next.y));
                     }
                 }
             }

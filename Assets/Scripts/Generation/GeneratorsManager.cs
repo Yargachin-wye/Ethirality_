@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Managers.Pools;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
 namespace Generator
@@ -10,7 +11,7 @@ namespace Generator
     public class GeneratorsManager : MonoBehaviour
     {
         [SerializeField] private List<GeneratorPack> unityEventlist;
-        [SerializeField] private PointsContainer pointsContainer;
+        [FormerlySerializedAs("pointsContainer")] [SerializeField] private PointsContainerGenerator pointsContainerGenerator;
         [SerializeField] private int seed;
         private Random _random;
 
@@ -26,14 +27,14 @@ namespace Generator
 
         IEnumerator Generate()
         {
-            yield return StartCoroutine(pointsContainer.Clear());
+            yield return StartCoroutine(pointsContainerGenerator.Clear());
 
             _random = new Random(seed);
             foreach (var uEvent in unityEventlist)
             {
                 if (uEvent.generate)
                 {
-                    yield return StartCoroutine(uEvent.generator.Init(_random, new Vector2(0, 0)));
+                    yield return StartCoroutine(uEvent.baseGenerator.Init(_random, new Vector2(0, 0)));
                 }
             }
 
@@ -43,7 +44,7 @@ namespace Generator
         [Serializable]
         public struct GeneratorPack
         {
-            public Managers.Generator.Generator generator;
+            [FormerlySerializedAs("generator")] public BaseGenerator baseGenerator;
             public bool generate;
         }
     }

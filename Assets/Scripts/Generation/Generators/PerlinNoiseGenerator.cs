@@ -1,13 +1,12 @@
 ﻿using System.Collections;
-using System.Threading.Tasks;
+using Managers.Generator;
 using Managers.Pools;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Random = System.Random;
 
-namespace Managers.Generator.Generators
+namespace Generation.Generators
 {
-    public class PerlinNoise : Generator
+    public class PerlinNoiseGenerator : global::Generator.BaseGenerator
     {
         [SerializeField] private PointsTypes points1Types;
         [SerializeField] private PointsTypes points2Types;
@@ -67,11 +66,11 @@ namespace Managers.Generator.Generators
 
                 if (Random.Next(0, 100) < chancePointType2)
                 {
-                    PointsContainer.Instance.AddPoint(points2Types, randomPosition);
+                    PointsContainerGenerator.Instance.AddPoint(points2Types, randomPosition);
                 }
                 else
                 {
-                    PointsContainer.Instance.AddPoint(points1Types, randomPosition);
+                    PointsContainerGenerator.Instance.AddPoint(points1Types, randomPosition);
                 }
 
 

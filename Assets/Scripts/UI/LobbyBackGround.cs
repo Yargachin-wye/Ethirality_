@@ -11,11 +11,11 @@ namespace UI
         private void Awake()
         {
             MessageBroker.Default
-                .Receive<StartGameplayEvent>()
+                .Receive<StartRoundEvent>()
                 .Subscribe(data => SetActiveTrue());
 
             MessageBroker.Default
-                .Receive<StopGameplayEvent>()
+                .Receive<StopRoundEvent>()
                 .Subscribe(data => SetActiveFalse());
         }
 

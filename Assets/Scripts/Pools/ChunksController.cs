@@ -4,17 +4,18 @@ using CharacterComponents;
 using Definitions;
 using Managers.Pools;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Pools
 {
     public class ChunksController : MonoBehaviour
     {
-        [SerializeField] private PointsContainer pointsContainer;
+        [FormerlySerializedAs("pointsContainer")] [SerializeField] private PointsContainerGenerator pointsContainerGenerator;
         
         
         [SerializeField] private float distToChunk;
-        private Dictionary<Vector2Int, List<SpawnPoint>> Chunks => pointsContainer.Chunks;
-        private float ChunkSize => pointsContainer.ChunkSize;
+        private Dictionary<Vector2Int, List<SpawnPoint>> Chunks => pointsContainerGenerator.Chunks;
+        private float ChunkSize => pointsContainerGenerator.ChunkSize;
         private List<Vector2Int> _loadedChunks = new();
         private List<Vector2Int> deloadChunks = new List<Vector2Int>();
         private bool _inited;
@@ -56,7 +57,7 @@ namespace Pools
 
         private void Despawn(Vector2Int chunk, SpawnPoint spawnPoint)
         {
-            Vector2Int newChunk = pointsContainer.GetChunkCoords(spawnPoint.GameObject.transform.position);
+            Vector2Int newChunk = pointsContainerGenerator.GetChunkCoords(spawnPoint.GameObject.transform.position);
             if (chunk != newChunk)
             {
                 Chunks[chunk].Remove(spawnPoint);
@@ -92,7 +93,7 @@ namespace Pools
             foreach (var chunk in Chunks)
             {
                 if (Vector2.Distance(
-                        pointsContainer.GetChunkCoords(CameraController.transform.position),
+                        pointsContainerGenerator.GetChunkCoords(CameraController.transform.position),
                         new Vector2(chunk.Key.x, chunk.Key.y))
                     < distToChunk)
                 {

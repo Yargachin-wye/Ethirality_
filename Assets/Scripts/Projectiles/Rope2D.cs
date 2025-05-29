@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Projectiles;
 using UnityEngine;
 
 namespace CharacterComponents.Animations

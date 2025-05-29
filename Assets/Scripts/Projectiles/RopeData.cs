@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterComponents.Animations
+namespace Projectiles
 {
     [Serializable]
     public class RopeData

@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Managers.Generator
+namespace Generator
 {
-    public abstract class Generator : MonoBehaviour
+    public abstract class BaseGenerator : MonoBehaviour
     {
         protected System.Random Random;
         protected Vector2 Position;

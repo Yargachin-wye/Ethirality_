@@ -24,13 +24,13 @@ namespace UI
             }
 
             MessageBroker.Default
-                .Receive<StopGameplayEvent>()
+                .Receive<StopRoundEvent>()
                 .Subscribe(data => OnStopGamePlay(data));
 
             Instance = this;
         }
 
-        private void OnStopGamePlay(StopGameplayEvent data)
+        private void OnStopGamePlay(StopRoundEvent data)
         {
             _exits = new();
         }

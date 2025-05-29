@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CharacterComponents;
 using Definitions;
+using Generator;
 using Pools;
 using Spawner;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace Managers.Pools
         Type10,
     }
 
-    public class PointsContainer : Generator.Generator
+    public class PointsContainerGenerator : BaseGenerator
     {
         [SerializeField] private List<PointsContainerPack> pointsContainerPackList;
         [SerializeField] private ChunksController chunksController;
@@ -35,7 +36,7 @@ namespace Managers.Pools
         [SerializeField] private int chunkSize = 10;
         public int ChunkSize => chunkSize;
 
-        public static PointsContainer Instance;
+        public static PointsContainerGenerator Instance;
 
         public Dictionary<Vector2Int, List<ChunksController.SpawnPoint>> Chunks = new();
 

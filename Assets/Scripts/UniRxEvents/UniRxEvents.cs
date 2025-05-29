@@ -27,11 +27,15 @@ namespace UniRxEvents
     }
     namespace GamePlay
     {
-        public struct StartGameplayEvent
+        public struct StartRoundEvent
         {
             
         }
-        public struct StopGameplayEvent
+        public struct StopRoundEvent
+        {
+            
+        }
+        public struct GameStartEvent
         {
             
         }
@@ -47,6 +51,7 @@ namespace UniRxEvents
         public struct AddNewImprovementEvent
         {
             public ImprovementDefinition Definition;
+            public bool IsRandom;
         }
         public struct AddHpEvent
         {

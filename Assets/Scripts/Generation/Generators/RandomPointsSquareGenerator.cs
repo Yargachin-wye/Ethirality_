@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Managers.Generator;
 using Managers.Pools;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Managers.Generator.Generators
+namespace Generation.Generators
 {
-    public class RandomPointsSquare : Generator
+    public class RandomPointsSquareGenerator : global::Generator.BaseGenerator
     {
         [SerializeField] private PointsTypes pointsTypes;
 
@@ -39,7 +39,7 @@ namespace Managers.Generator.Generators
                     continue;
                 }
 
-                PointsContainer.Instance.AddPoint(pointsTypes, randomPosition);
+                PointsContainerGenerator.Instance.AddPoint(pointsTypes, randomPosition);
                 if (i == maxGenIters)
                 {
                     Debug.LogError($"maxGenIters in RandomPointsSquare");

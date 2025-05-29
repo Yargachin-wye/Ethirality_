@@ -60,7 +60,11 @@ namespace UI.ChoosingNextLevel
         {
             yield return StartCoroutine(sceneLoader.Load(nextLevelName));
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
-            MessageBroker.Default.Publish(new StartGameplayEvent());
+            MessageBroker.Default.Publish(new StartRoundEvent());
+            if (SaveSystem.Instance.saveData.currentDifficulty == 0)
+            {
+                MessageBroker.Default.Publish(new GameStartEvent());
+            }
         }
 
         private void BackMenu()

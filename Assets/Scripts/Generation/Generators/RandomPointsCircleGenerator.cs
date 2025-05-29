@@ -3,9 +3,9 @@ using Managers.Pools;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Managers.Generator.Generators
+namespace Generation.Generators
 {
-    public class RandomPointsCircle : Generator
+    public class RandomPointsCircleGenerator : global::Generator.BaseGenerator
     {
         [SerializeField] private PointsTypes pointsTypes;
         [SerializeField] private int maxPoints;
@@ -21,7 +21,7 @@ namespace Managers.Generator.Generators
                 float randomAngle = (float)Random.NextDouble() * 2 * Mathf.PI;
                 Vector2 randomPosition = Position + new Vector2(randomRadius * Mathf.Cos(randomAngle),
                     randomRadius * Mathf.Sin(randomAngle));
-                PointsContainer.Instance.AddPoint(pointsTypes, randomPosition);
+                PointsContainerGenerator.Instance.AddPoint(pointsTypes, randomPosition);
             }
             Debug.Log("RandomPointsCircle Inited");
             yield return null;

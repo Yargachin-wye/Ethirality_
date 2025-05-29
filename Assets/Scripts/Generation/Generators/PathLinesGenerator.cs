@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Generator;
+using Generator.Generators;
 using Managers.Pools;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
-namespace Managers.Generator.Generators
+namespace Generation.Generators
 {
-    public class PathLines : Generator
+    public class PathLinesGenerator : BaseGenerator
     {
         [SerializeField] private PointsTypes pointsTypes;
-        [SerializeField] private GeneratorShell generatorShell1;
-        [SerializeField] private GeneratorShell generatorShell2;
-        [SerializeField] private WormLikeLineGenerator wormLikeLineGenerator;
+        [FormerlySerializedAs("baseGeneratorShell1")] [FormerlySerializedAs("generatorShell1")] [SerializeField] private ShellGenerator shell1;
+        [FormerlySerializedAs("baseGeneratorShell2")] [FormerlySerializedAs("generatorShell2")] [SerializeField] private ShellGenerator shell2;
+        [FormerlySerializedAs("wormLikeLineGenerator")] [FormerlySerializedAs("wormLikeLineBaseGeneratorGenerator")] [FormerlySerializedAs("wormLikeLineBaseGenerator")] [SerializeField] private WormLineGenerator wormLineGenerator;
 
         private List<Vector2[]> _lines = new();
 
@@ -20,22 +23,22 @@ namespace Managers.Generator.Generators
             yield return base.Init(random, position);
             _lines = new();
 
-            Transform[] nodes1 = generatorShell1.waypointsPath.GetNodes();
-            Transform[] nodes2 = generatorShell2.waypointsPath.GetNodes();
+            Transform[] nodes1 = shell1.waypointsPath.GetNodes();
+            Transform[] nodes2 = shell2.waypointsPath.GetNodes();
 
             int min1 = nodes1.Length / 2 + 2;
             int max1 = nodes1.Length;
 
             for (int i = min1; i < max1; i++)
             {
-                Vector2[] line = wormLikeLineGenerator.GetPath(Random,
+                Vector2[] line = wormLineGenerator.GetPath(Random,
                     nodes1[i].position,
                     nodes2[i].position);
 
                 _lines.Add(line);
                 foreach (var point in line)
                 {
-                    PointsContainer.Instance.AddPoint(pointsTypes, point);
+                    PointsContainerGenerator.Instance.AddPoint(pointsTypes, point);
                 }
             }
 

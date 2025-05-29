@@ -12,6 +12,9 @@ namespace Definitions
         [SerializeField] private Fraction fraction;
         [SerializeField] private Sprite preview;
         [SerializeField] private string description;
+        [SerializeField] private string improvementName;
+        
+        public string ImprovementName => improvementName;
 
         public GameObject Prefab => prefab;
         public Sprite Preview => preview;

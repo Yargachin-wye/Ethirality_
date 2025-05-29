@@ -1,14 +1,15 @@
 using System;
 using System.Collections;
-using System.Threading.Tasks;
+using Generator;
+using Managers.Generator;
 using Managers.Pools;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Managers.Generator.Generators
+namespace Generation.Generators
 {
     [RequireComponent(typeof(WaypointsPath))]
-    public class GeneratorShell : Generator
+    public class ShellGenerator : BaseGenerator
     {
         [SerializeField] private PointsTypes pointsTypes;
         [SerializeField] private GameObject prefab;

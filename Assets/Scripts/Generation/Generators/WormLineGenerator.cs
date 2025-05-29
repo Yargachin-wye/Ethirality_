@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Generator;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Managers.Generator.Generators
+namespace Generation.Generators
 {
-    public class WormLikeLineGenerator : Generator
+    public class WormLineGenerator : BaseGenerator
     {
         [SerializeField] private int length = 50;
         [SerializeField] private float stepSize = 2;
