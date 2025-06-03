@@ -27,17 +27,7 @@ namespace CharacterComponents
         
         private IDisposable _addNewImprovementSubscription;
         private IDisposable _addHpSubscription;
-        protected override void Awake()
-        {
-            base.Awake();
-            _addNewImprovementSubscription = MessageBroker.Default
-                .Receive<AddNewImprovementEvent>()
-                .Subscribe(data => OnAddNewImprovement(data));
 
-            _addHpSubscription = MessageBroker.Default
-                .Receive<AddHpEvent>()
-                .Subscribe(data => OnAddHp(data));
-        }
         private void OnDestroy()
         {
             _addNewImprovementSubscription?.Dispose();
@@ -50,6 +40,14 @@ namespace CharacterComponents
 
         private void Start()
         {
+            _addNewImprovementSubscription = MessageBroker.Default
+                .Receive<AddNewImprovementEvent>()
+                .Subscribe(data => OnAddNewImprovement(data));
+
+            _addHpSubscription = MessageBroker.Default
+                .Receive<AddHpEvent>()
+                .Subscribe(data => OnAddHp(data));
+            
             foreach (var impResId in Saves.saveData.playerUpgradeResIds)
             {
                 var data = ResManager.Instance.Improvements[impResId];
@@ -64,6 +62,7 @@ namespace CharacterComponents
 
         private void OnAddNewImprovement(AddNewImprovementEvent data)
         {
+            Debug.Log("!!! AddImprovement 0");
             AddNewImprovement(data.Definition);
         }
 

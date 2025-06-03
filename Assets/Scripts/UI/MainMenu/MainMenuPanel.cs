@@ -34,16 +34,19 @@ namespace UI.MainMenu
 
         private void ExitGame()
         {
+            if(!IsActive) return;
             Application.Quit();
         }
 
         private void Settings()
         {
+            if(!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Settings });
         }
 
         private void StartGamePlay()
         {
+            if(!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
         }
     }

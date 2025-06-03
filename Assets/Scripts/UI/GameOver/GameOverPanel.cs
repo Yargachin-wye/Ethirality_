@@ -29,6 +29,7 @@ namespace UI.GameOver
 
         private void ExitToMenu()
         {
+            if(!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }

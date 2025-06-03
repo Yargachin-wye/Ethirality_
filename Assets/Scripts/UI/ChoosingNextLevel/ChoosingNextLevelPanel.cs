@@ -41,6 +41,8 @@ namespace UI.ChoosingNextLevel
 
         private void StartRandomLevel()
         {
+            if(!IsActive) return;
+            
             string nextLevelName = ResManager.Instance
                 .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
                 .randomLevelName;
@@ -50,6 +52,7 @@ namespace UI.ChoosingNextLevel
 
         private void StartOpenWorld()
         {
+            if(!IsActive) return;
             string nextLevelName = (ResManager.Instance
                 .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
                 .openWorldLevelName);
@@ -69,6 +72,7 @@ namespace UI.ChoosingNextLevel
 
         private void BackMenu()
         {
+            if(!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }

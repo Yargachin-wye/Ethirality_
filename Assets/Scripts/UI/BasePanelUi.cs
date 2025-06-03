@@ -15,7 +15,7 @@ namespace UI
         protected string panelName;
         [SerializeField] private GameObject panel;
         [SerializeField] private CanvasGroup canvasGroup;
-
+        protected bool IsActive = false;
         public virtual void Awake()
         {
             MessageBroker.Default
@@ -32,11 +32,13 @@ namespace UI
             if (data.PanelName == panelName)
             {
                 if (!panel.activeSelf) panel.SetActive(true);
+                IsActive = true;
                 OnPanelEnable();
             }
             else
             {
                 if (panel.activeSelf) panel.SetActive(false);
+                IsActive = false;
                 OnPanelDisable();
             }
         }
@@ -50,12 +52,16 @@ namespace UI
             if (data.PanelName == panelName)
             {
                 if (!panel.activeSelf) StartCoroutine(FadeOut());
+                IsActive = true;
                 OnPanelEnable();
+                
             }
             else
             {
                 if (panel.activeSelf) StartCoroutine(FadeIn());
+                IsActive = false;
                 OnPanelDisable();
+                
             }
         }
 
@@ -70,12 +76,16 @@ namespace UI
             }
 
             canvasGroup.alpha = 1;
+            IsActive = true;
             OnPanelEnable();
+            
         }
 
         protected virtual IEnumerator FadeIn()
         {
+            IsActive = false;
             OnPanelDisable();
+            
             canvasGroup.alpha = 1;
             while (canvasGroup.alpha > 0)
             {

@@ -88,6 +88,7 @@ namespace UI.LevelUp
 
         public void SelectHp()
         {
+            if(!IsActive) return;
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(true);
@@ -98,6 +99,7 @@ namespace UI.LevelUp
 
         public void SelectLevelUp()
         {
+            if(!IsActive) return;
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(false);
@@ -108,6 +110,7 @@ namespace UI.LevelUp
 
         public void SelectRandomLevelUp()
         {
+            if(!IsActive) return;
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(false);
@@ -119,6 +122,7 @@ namespace UI.LevelUp
 
         public void EndSelect()
         {
+            if(!IsActive) return;
             switch (_reward)
             {
                 case Reward.Hp:

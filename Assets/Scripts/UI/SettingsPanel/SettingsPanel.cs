@@ -41,6 +41,7 @@ namespace UI.SettingsPanel
 
         private void ExitSettings()
         {
+            if(!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent
                 { PanelName = _isGameplay ? UiConst.GamePlay : UiConst.MainMenu });
         }
@@ -48,6 +49,7 @@ namespace UI.SettingsPanel
 
         private void ExitGameplay()
         {
+            if(!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }

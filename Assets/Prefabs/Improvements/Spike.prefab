@@ -5010,7 +5010,7 @@ MonoBehaviour:
   improvement: {fileID: 2243534558452697653}
   dmg: 1
   isDestroyOnTrigger: 1
-  numberTouches: 8
+  numberTouches: 1000
 --- !u!58 &1184530327636421430
 CircleCollider2D:
   m_ObjectHideFlags: 0
