@@ -15,7 +15,9 @@ namespace CharacterComponents.Animations
         }
 
         [SerializeField] private SpriteRenderer image;
+        
         [SerializeField] private List<Sprite> openJawFrames;
+        
         [SerializeField, HideInInspector] private Sprite[] openJaw;
         [SerializeField, HideInInspector] private Sprite[] closeJaw;
 

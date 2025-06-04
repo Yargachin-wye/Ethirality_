@@ -20,6 +20,11 @@ namespace CharacterComponents.Animations
         [SerializeField] private EyeAnimator eye8;
         [Space]
         [SerializeField] private JawAnimator jaw;
+        
+        [SerializeField] private JawAnimator jawUp;
+        [SerializeField] private JawAnimator arrowUp;
+        [SerializeField] private JawAnimator dashUp;
+        
         [SerializeField, HideInInspector] private EyeAnimator[] eyes;
         private Stats Stats => character.Stats;
         private float _timerBlink = 0;
@@ -35,6 +40,10 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Validate();
+            
+            jawUp.Validate();
+            arrowUp.Validate();
+            dashUp.Validate();
         }
 
         public override void Init()
@@ -100,6 +109,10 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Update(Time.fixedDeltaTime);
+            
+            jawUp.Update(Time.fixedDeltaTime);
+            arrowUp.Update(Time.fixedDeltaTime);
+            dashUp.Update(Time.fixedDeltaTime);
 
             if (_timerBlink > 0)
             {
@@ -121,6 +134,10 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Play(JawAnimator.Animations.OpenJaw);
+            
+            jawUp.Play(JawAnimator.Animations.OpenJaw);
+            arrowUp.Play(JawAnimator.Animations.OpenJaw);
+            dashUp.Play(JawAnimator.Animations.OpenJaw);
         }
 
         public void CloseJaw()
@@ -132,6 +149,10 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Play(JawAnimator.Animations.CloseJaw);
+            
+            jawUp.Play(JawAnimator.Animations.CloseJaw);
+            arrowUp.Play(JawAnimator.Animations.CloseJaw);
+            dashUp.Play(JawAnimator.Animations.CloseJaw);
         }
 
         private void BlinkEyes()
