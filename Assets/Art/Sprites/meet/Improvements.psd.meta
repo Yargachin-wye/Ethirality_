@@ -256,6 +256,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Improvements_7
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 0
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aec48b5988bec12498aa01e956d9bbb7
+      internalID: 1755126282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -274,6 +295,7 @@ TextureImporter:
       Improvements_4: -478813192
       Improvements_5: 1427178006
       Improvements_6: -866197696
+      Improvements_7: 1755126282
       meet_0: 439055352
       meet_1: 1211081841
       meet_2: -24251519

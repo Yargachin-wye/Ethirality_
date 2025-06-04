@@ -27,6 +27,10 @@ namespace UniRxEvents
     }
     namespace GamePlay
     {
+        public struct UpdateDashTimerEvent
+        {
+            public float DashTimer;
+        }
         public struct StartRoundEvent
         {
             

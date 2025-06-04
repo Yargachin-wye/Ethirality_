@@ -114,11 +114,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 21
-        height: 21
+        y: 11
+        width: 73
+        height: 27
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,10 +134,31 @@ TextureImporter:
       name: defender_1
       rect:
         serializedVersion: 2
-        x: 25
-        y: 2
-        width: 15
-        height: 17
+        x: 82
+        y: 30
+        width: 13
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 395eded7a86e90049be9580024db4f4d
+      internalID: 1651888220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: defender_2
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 20
+        width: 6
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +166,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 757615f15f1b2a0469b53722c890e9c9
-      internalID: 1651888220
+      spriteID: 89172517e0dbb544b9da21f704d2f947
+      internalID: 244637857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: defender_3
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 20
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e9c1c1091d7929499fccbd854857016
+      internalID: 1680061724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: defender_4
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 11
+        width: 13
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f1d30ef2b139054193f036a09556b3c
+      internalID: -713187207
       vertices: []
       indices: 
       edges: []
@@ -164,6 +227,9 @@ TextureImporter:
     nameFileIdTable:
       defender_0: 700581193
       defender_1: 1651888220
+      defender_2: 244637857
+      defender_3: 1680061724
+      defender_4: -713187207
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

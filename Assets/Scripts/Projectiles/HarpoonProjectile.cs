@@ -1,6 +1,6 @@
 ﻿using System;
-using CharacterComponents;
 using CharacterComponents.CharacterStat;
+using CharacterComponents.Moving;
 using Definitions;
 using UnityEngine;
 
@@ -10,8 +10,7 @@ namespace Projectiles
     public class HarpoonProjectile : BaseProjectile
     {
         [SerializeField, HideInInspector] private Rigidbody2D rb2D;
-        private Fraction _fraction;
-        
+
         private GameObject _owner;
         private GameObject _trigger;
         private Stats _triggerStats;
@@ -108,12 +107,13 @@ namespace Projectiles
             }
         }
 
-        public override void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction, bool hasOwner = true)
+        public override void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction,
+            bool hasOwner = true)
         {
+            base.Shoot(direction, speed, owner, fraction, hasOwner);
             _inited = true;
             _hasOwner = hasOwner;
             _owner = owner;
-            _fraction = fraction;
             _isTrigered = false;
             _isAttached = false;
             _isForceOnAttached = false;
@@ -128,7 +128,7 @@ namespace Projectiles
             if (Definition.Recoil != 0)
             {
                 LumpMeatMovable lumpMeatMovable = owner.GetComponent<LumpMeatMovable>();
-                if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, Definition.Recoil);
+                if (lumpMeatMovable != null) lumpMeatMovable.Push(direction, Definition.Recoil);
             }
         }
 
@@ -138,8 +138,8 @@ namespace Projectiles
             _triggerStats = other.GetComponent<Stats>();
 
             if (_triggerStats == null ||
-                _triggerStats.Fraction == _fraction &&
-                _fraction != Fraction.All)
+                _triggerStats.Fraction == Fraction &&
+                Fraction != Fraction.All)
             {
                 return;
             }

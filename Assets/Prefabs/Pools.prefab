@@ -151,3 +151,6 @@ MonoBehaviour:
   - deadBodyInfo: {fileID: 11400000, guid: 8b3e8cc55961cf34b82a40d8a41cb56b, type: 2}
     numOnStart: 1
     objectsList: []
+  - deadBodyInfo: {fileID: 11400000, guid: c785e673a726b3448a52d21dae92b36b, type: 2}
+    numOnStart: 1
+    objectsList: []

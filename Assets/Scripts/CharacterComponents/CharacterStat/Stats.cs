@@ -74,8 +74,9 @@ namespace CharacterComponents.CharacterStat
         public void Cure(int val)
         {
             _currentHealth += val;
+            if (_currentHealth > MaxHealth) _currentHealth = MaxHealth;
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
-            // if (_currentHealth >= _maxHealth) return;
+
 
             OnCureAction?.Invoke(val);
         }

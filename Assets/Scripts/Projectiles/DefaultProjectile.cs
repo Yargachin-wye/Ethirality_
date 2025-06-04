@@ -1,10 +1,7 @@
-﻿using System;
-using CharacterComponents;
-using CharacterComponents.Animations;
-using CharacterComponents.CharacterStat;
+﻿using CharacterComponents.CharacterStat;
+using CharacterComponents.Moving;
 using Definitions;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Projectiles
 {
@@ -12,7 +9,6 @@ namespace Projectiles
     public class DefaultProjectile : BaseProjectile
     {
         [SerializeField] private Rigidbody2D rb2D;
-        private Fraction _fraction;
 
         private float _timer;
         private bool _inited = false;
@@ -44,10 +40,10 @@ namespace Projectiles
         public override void Shoot(Vector2 direction, float speed, GameObject owner, Fraction fraction,
             bool hasOwner = true)
         {
+            base.Shoot(direction, speed, owner, fraction, hasOwner);
             _inited = true;
-            _fraction = fraction;
             _isTriggered = false;
-            
+
             if (rb2D.bodyType == RigidbodyType2D.Dynamic)
             {
                 float angle = -Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
@@ -58,7 +54,7 @@ namespace Projectiles
             if (Definition.Recoil != 0)
             {
                 LumpMeatMovable lumpMeatMovable = owner.GetComponent<LumpMeatMovable>();
-                if (lumpMeatMovable != null) lumpMeatMovable.Dash(direction, Definition.Recoil);
+                if (lumpMeatMovable != null) lumpMeatMovable.Push(direction, Definition.Recoil);
             }
         }
 
@@ -68,14 +64,14 @@ namespace Projectiles
             var triggerStats = other.GetComponent<Stats>();
 
             if (triggerStats == null ||
-                triggerStats.Fraction == _fraction &&
-                _fraction != Fraction.All)
+                triggerStats.Fraction == Fraction &&
+                Fraction != Fraction.All)
             {
                 return;
             }
 
             triggerStats.Damage(Definition.Damage);
-            
+
             if (Definition.IsDestroyOnTrigger)
             {
                 gameObject.SetActive(false);

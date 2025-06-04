@@ -1,12 +1,12 @@
-﻿using System;
-using CharacterComponents.Animations;
+﻿using CharacterComponents.Animations;
 using CharacterComponents.CharacterStat;
 using CharacterComponents.Food;
-using Definitions;
 using Managers;
+using UniRx;
+using UniRxEvents.GamePlay;
 using UnityEngine;
 
-namespace CharacterComponents
+namespace CharacterComponents.Moving
 {
     [RequireComponent(typeof(Eater))]
     public class LumpMeatMovable : BaseCharacterComponent
@@ -45,6 +45,7 @@ namespace CharacterComponents
             if (_dashTimer > 0)
             {
                 _dashTimer -= Time.fixedDeltaTime;
+                MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
                 _isDash = true;
                 if (_dashTimer <= 0)
                 {
@@ -105,17 +106,20 @@ namespace CharacterComponents
             }
         }
 
-        public void Dash(Vector2 v2, float power)
+        public void Push(Vector2 v2, float power)
         {
             if (!lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
             _dashTimer = dashTime;
+            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
             character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * power, ForceMode2D.Impulse);
         }
 
         public void Dash(Vector2 v2)
         {
+            if (_dashTimer > 0) return;
             _dashTimer = dashTime;
+            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
             character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * powerDash, ForceMode2D.Impulse);
         }
@@ -123,6 +127,7 @@ namespace CharacterComponents
         public override void Init()
         {
             _gravityScale = character.rb2D.gravityScale;
+            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = 0 });
         }
 
         private void OnTriggerEnter2D(Collider2D other)

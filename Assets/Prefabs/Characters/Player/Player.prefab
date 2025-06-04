@@ -1434,7 +1434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2efa90d384d4144aeff5b765f9c91c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  improvement: {fileID: 0}
   indicator: {fileID: 4583826394884011551}
 --- !u!114 &2128803351548732442
 MonoBehaviour:

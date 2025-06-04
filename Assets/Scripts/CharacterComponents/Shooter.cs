@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CharacterComponents.Animations;
+using CharacterComponents.Moving;
 using Definitions;
 using Pools;
 using Projectiles;

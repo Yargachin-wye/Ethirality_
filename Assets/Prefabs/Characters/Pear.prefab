@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6437734205313336316}
   - component: {fileID: 800559225619712956}
   m_Layer: 0
-  m_Name: Yummy Pear
+  m_Name: Pear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
