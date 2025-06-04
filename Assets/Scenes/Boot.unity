@@ -182,6 +182,9 @@ MonoBehaviour:
   improvements:
   - {fileID: 11400000, guid: 730a6f3ddd1f8f34198e3a95df334b9c, type: 2}
   - {fileID: 11400000, guid: ef06ccdc9c2552e42821406cb4745b96, type: 2}
+  - {fileID: 11400000, guid: ac6f3059468b0204b9d7370ad3ba05d3, type: 2}
+  - {fileID: 11400000, guid: f6fec3375a5029445b1e65b7d2ab0479, type: 2}
+  - {fileID: 11400000, guid: 97ea8c32190466a41911a6aa01551f8d, type: 2}
   difficultyLevelPacks:
   - allLevels:
     - Boot
@@ -3017,6 +3020,10 @@ PrefabInstance:
     - target: {fileID: 5251328299128859718, guid: 62319a2d7fe221a4e988757368265133, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614428062470915069, guid: 62319a2d7fe221a4e988757368265133, type: 3}
+      propertyPath: orthographic size
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

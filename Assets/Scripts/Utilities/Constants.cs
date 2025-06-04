@@ -11,4 +11,20 @@
 
         public static readonly string[] Panels = { LevelUp, MainMenu, GamePlay, Settings, GameOver, ChoosingNextLevel };
     }
+
+    public static class ImprovementsConst
+    {
+        public const string DashUp = "DashUp";
+        public const string ArrowUp = "ArrowUp";
+        public const string JawUp = "JawUp";
+
+        public const string Shield = "Shield";
+        public const string Spike = "Spike";
+
+        public static readonly string[] AllImps =
+        {
+            DashUp, ArrowUp, JawUp,
+            Shield, Spike
+        };
+    }
 }

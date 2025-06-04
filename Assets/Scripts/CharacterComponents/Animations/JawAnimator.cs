@@ -25,7 +25,9 @@ namespace CharacterComponents.Animations
         private float _timer = 0.75f;
         private bool _isAnimating = false;
         private int _index = 0;
-
+        
+        public SpriteRenderer Image => image;
+        
         public void Play(Animations animation)
         {
             _index = 0;

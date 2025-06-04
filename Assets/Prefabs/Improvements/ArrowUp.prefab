@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1765622973556447270}
   - component: {fileID: 4326201341915763732}
   - component: {fileID: 2243534558452697653}
-  - component: {fileID: 7480063064029445738}
-  - component: {fileID: -8286452589426185999}
+  - component: {fileID: 5146647045206319735}
+  - component: {fileID: 1492787736809200629}
   m_Layer: 0
-  m_Name: DashUp
+  m_Name: ArrowUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,10 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   improvement: {fileID: 2243534558452697653}
-  rb2D: {fileID: -8286452589426185999}
+  rb2D: {fileID: 1492787736809200629}
   baseCharacterImprovement:
-  - {fileID: 7480063064029445738}
---- !u!114 &7480063064029445738
+  - {fileID: 5146647045206319735}
+--- !u!114 &5146647045206319735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,11 +112,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2542342704398347295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d697b19241a74924a0df64aa109d29b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ef5d080ba2047b8be832f215494ceb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   improvement: {fileID: 2243534558452697653}
---- !u!50 &-8286452589426185999
+--- !u!50 &1492787736809200629
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

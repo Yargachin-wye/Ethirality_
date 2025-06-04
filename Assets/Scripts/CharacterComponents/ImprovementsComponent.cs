@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Bootstrapper;
 using Bootstrapper.Saves;
+using CharacterComponents.Animations;
 using Definitions;
 using UnityEngine;
 using Improvements;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Improvement;
+using Utilities;
 
 namespace CharacterComponents
 {
@@ -19,12 +21,13 @@ namespace CharacterComponents
         [SerializeField] private float rotationSpeed = 30f;
         [Space]
         [SerializeField] private List<Improvement> improvements;
+        [SerializeField] private LumpMeatAnimator lumpMeatAnimator;
 
         private List<Leash> _leashs = new();
         private List<Twister> _twisters = new();
 
         private SaveSystem Saves => SaveSystem.Instance;
-        
+
         private IDisposable _addNewImprovementSubscription;
         private IDisposable _addHpSubscription;
 
@@ -47,7 +50,7 @@ namespace CharacterComponents
             _addHpSubscription = MessageBroker.Default
                 .Receive<AddHpEvent>()
                 .Subscribe(data => OnAddHp(data));
-            
+
             foreach (var impResId in Saves.saveData.playerUpgradeResIds)
             {
                 var data = ResManager.Instance.Improvements[impResId];
@@ -98,6 +101,22 @@ namespace CharacterComponents
 
         public void AddImprovement(ImprovementDefinition data)
         {
+            if (data.IsPassive)
+            {
+                switch (data.ImprovementName)
+                {
+                    case ImprovementsConst.DashUp:
+                        lumpMeatAnimator.SetDashUp(true);
+                        break;
+                    case ImprovementsConst.ArrowUp:
+                        lumpMeatAnimator.SetArrowUp(true);
+                        break;
+                    case ImprovementsConst.JawUp:
+                        lumpMeatAnimator.SetJawUp(true);
+                        break;
+                }
+            }
+
             GameObject impGobj = Instantiate(data.Prefab);
             var imp = impGobj.GetComponent<Improvement>();
             AddMoving(impGobj);
@@ -146,12 +165,12 @@ namespace CharacterComponents
                 _twisters.Remove(twister);
             }
         }
-        
+
         private void OnDestroyImprovement(Improvement improvement, bool isRemove)
         {
             if (isRemove && Saves.saveData.playerUpgradeResIds.Contains(improvement.Definition.ResId))
                 Saves.saveData.playerUpgradeResIds.Remove(improvement.Definition.ResId);
-            
+
             improvements.Remove(improvement);
             RemoveMoving(improvement.gameObject);
             MessageBroker.Default.Publish(new RemoveImprovementEvent { Improvement = improvement });

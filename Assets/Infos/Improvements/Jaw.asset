@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5596820d7a14675ac2dd8c0dc070d7c, type: 3}
-  m_Name: Spike
+  m_Name: Jaw
   m_EditorClassIdentifier: 
-  resId: 0
-  prefab: {fileID: 2542342704398347295, guid: d6f6b3895ec818e4f9f5d4d6f00be5e1, type: 3}
+  resId: 4
+  prefab: {fileID: 2542342704398347295, guid: d0616dcf81e85f947a129850f405415a, type: 3}
   fraction: 0
-  preview: {fileID: -406991996, guid: 20cacc8e7ff03f84aa4baeff9929389e, type: 3}
+  preview: {fileID: -165773788, guid: 722e295267db1384085bdea18e2b9cfd, type: 3}
   description: "\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F \u0432\u043E\u043A\u0440\u0443\u0433
     \u0432\u0430\u0441, \u043D\u0430\u043D\u043E\u0441\u044F \u0443\u0449\u0435\u0440\u0431
     \u0432\u0441\u0435\u043C\u0443, \u043A \u0447\u0435\u043C\u0443 \u043F\u0440\u0438\u043A\u0430\u0441\u0430\u0435\u0442\u0441\u044F"
-  improvementName: Spike
-  isPassive: 0
+  improvementName: JawUp
+  isPassive: 1

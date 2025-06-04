@@ -20,17 +20,40 @@ namespace CharacterComponents.Animations
         [SerializeField] private EyeAnimator eye8;
         [Space]
         [SerializeField] private JawAnimator jaw;
-        
+        [Space]
         [SerializeField] private JawAnimator jawUp;
         [SerializeField] private JawAnimator arrowUp;
         [SerializeField] private JawAnimator dashUp;
         
         [SerializeField, HideInInspector] private EyeAnimator[] eyes;
+        
         private Stats Stats => character.Stats;
         private float _timerBlink = 0;
         private bool _isJawOpen = false;
         public bool IsJawOpen => _isJawOpen;
+        protected override void Awake()
+        {
+            base.Awake();
+            SetJawUp(false);
+            SetArrowUp(false);
+            SetDashUp(false);
+        }
 
+        public void SetJawUp(bool isActive)
+        {
+            jawUp.Image.gameObject.SetActive(isActive);
+        }
+        
+        public void SetArrowUp(bool isActive)
+        {
+            arrowUp.Image.gameObject.SetActive(isActive);
+        }
+        
+        public void SetDashUp(bool isActive)
+        {
+            dashUp.Image.gameObject.SetActive(isActive);
+        }
+        
         public void OnValidate()
         {
             eyes = new[] { eye0, eye1, eye2, eye3, eye4, eye5, eye7, eye8 };
@@ -123,8 +146,7 @@ namespace CharacterComponents.Animations
             _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
             BlinkEyes();
         }
-
-
+        
         public void OpenJaw()
         {
             _isJawOpen = true;
