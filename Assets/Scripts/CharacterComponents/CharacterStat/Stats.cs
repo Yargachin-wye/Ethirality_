@@ -76,8 +76,7 @@ namespace CharacterComponents.CharacterStat
             _currentHealth += val;
             if (_currentHealth > MaxHealth) _currentHealth = MaxHealth;
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
-
-
+            
             OnCureAction?.Invoke(val);
         }
     }
