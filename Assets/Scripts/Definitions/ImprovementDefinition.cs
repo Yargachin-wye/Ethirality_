@@ -18,6 +18,7 @@ namespace Definitions
         [SerializeField] private string description;
         [SerializeField, Dropdown("AllImps")] private string improvementName;
         [SerializeField] private bool isPassive;
+        [SerializeField] private int maxLevel;
         
         public string ImprovementName => improvementName;
 
@@ -26,6 +27,7 @@ namespace Definitions
         public Fraction Fraction => fraction;
         public string Description => description;
         public bool IsPassive => isPassive;
+        public int MaxLevel => maxLevel;
 
         public void SetResId(int i)
         {

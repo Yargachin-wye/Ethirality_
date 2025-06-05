@@ -265,7 +265,7 @@ TextureImporter:
         width: 3
         height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -273,6 +273,27 @@ TextureImporter:
       bones: []
       spriteID: aec48b5988bec12498aa01e956d9bbb7
       internalID: 1755126282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Improvements_8
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 67
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d1cda42ed905d743b0a64c5abb7dad2
+      internalID: -822150138
       vertices: []
       indices: 
       edges: []
@@ -296,6 +317,7 @@ TextureImporter:
       Improvements_5: 1427178006
       Improvements_6: -866197696
       Improvements_7: 1755126282
+      Improvements_8: -822150138
       meet_0: 439055352
       meet_1: 1211081841
       meet_2: -24251519

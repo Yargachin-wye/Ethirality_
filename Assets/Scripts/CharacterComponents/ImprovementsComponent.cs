@@ -115,6 +115,7 @@ namespace CharacterComponents
                         lumpMeatAnimator.SetJawUp(true);
                         break;
                 }
+                
             }
 
             GameObject impGobj = Instantiate(data.Prefab);

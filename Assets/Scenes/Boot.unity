@@ -2796,6 +2796,7 @@ MonoBehaviour:
   endBtn: {fileID: 638961880806785074}
   spriteHp: {fileID: 1114557760, guid: 20cacc8e7ff03f84aa4baeff9929389e, type: 3}
   spriteRandom: {fileID: -478813192, guid: 20cacc8e7ff03f84aa4baeff9929389e, type: 3}
+  spriteBlocked: {fileID: -822150138, guid: 20cacc8e7ff03f84aa4baeff9929389e, type: 3}
 --- !u!114 &980474212
 MonoBehaviour:
   m_ObjectHideFlags: 0

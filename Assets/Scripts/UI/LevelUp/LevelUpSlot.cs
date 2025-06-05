@@ -15,11 +15,13 @@ namespace UI.LevelUp
         [SerializeField] public Color color1;
         [SerializeField] public Color color2;
         [SerializeField] public Color colorSeleted;
+        public bool IsBlocked { get; private set; }
 
-        public void SetView(Sprite sprite, string description, int price)
+        public void SetView(Sprite sprite, string description, int price, bool b = false)
         {
             previewImage.sprite = sprite;
             textDescription.text = description;
+            IsBlocked = b;
 
             if (price < 0)
             {
@@ -33,6 +35,7 @@ namespace UI.LevelUp
 
         public void Select(bool isSelect)
         {
+            if (IsBlocked) return;
             frame.color = isSelect ? colorSeleted : Color.clear;
         }
     }

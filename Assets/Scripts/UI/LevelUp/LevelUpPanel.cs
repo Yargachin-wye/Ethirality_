@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Bootstrapper;
+using Bootstrapper.Saves;
 using Definitions;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -29,6 +31,7 @@ namespace UI.LevelUp
         [Space]
         [SerializeField] private Sprite spriteHp;
         [SerializeField] private Sprite spriteRandom;
+        [SerializeField] private Sprite spriteBlocked;
 
         private ImprovementDefinition _currentLevelUp;
         private Reward _reward;
@@ -66,26 +69,65 @@ namespace UI.LevelUp
 
         protected void OnLevelUp(LevelUpEvent data)
         {
-            _currentLevelUp = RandomImprovement();
-
+             
+            
             levelUpSlotHp.Select(false);
             levelUpSlot.Select(false);
             levelUpSlotRandom.Select(false);
 
             levelUpSlotHp.SetView(spriteHp, "Восстановите 1 единицу здоровья", 1);
-            levelUpSlot.SetView(_currentLevelUp.Preview, _currentLevelUp.Description, -2);
-            levelUpSlotRandom.SetView(spriteRandom, "Получите случайное улучшение", -1);
+            if (RandomImprovement(out _currentLevelUp))
+            {
+                levelUpSlot.SetView(_currentLevelUp.Preview, _currentLevelUp.Description, -2);
+                levelUpSlotRandom.SetView(spriteRandom, "Получите случайное улучшение", -1);
+            } 
+            else
+            {
+                levelUpSlot.SetView(spriteBlocked, "Заблокированно", -2,true);
+                levelUpSlotRandom.SetView(spriteBlocked, "Заблокированно", -1,true);
+            }
+            
             endBtn.gameObject.SetActive(false);
 
             _reward = Reward.Null;
         }
 
-        private ImprovementDefinition RandomImprovement()
+        private bool RandomImprovement(out ImprovementDefinition imp)
         {
-            return ResManager.Instance.Improvements[Random.Range(0, ResManager.Instance.Improvements.Length)];
+            Dictionary<int, int> flags = new Dictionary<int, int>();
+            foreach (var upgradeId in SaveSystem.Instance.saveData.playerUpgradeResIds)
+            {
+                if (!flags.ContainsKey(upgradeId))
+                {
+                    flags.Add(upgradeId, 1);
+                }
+                else
+                {
+                    flags[upgradeId]++;
+                }
+            }
+
+            List<ImprovementDefinition> availableImprovements = new List<ImprovementDefinition>();
+
+            for (int i = 0; i < ResManager.Instance.Improvements.Length; i++)
+            {
+                int currentLevel = flags.ContainsKey(i) ? flags[i] : 0;
+                if (currentLevel < ResManager.Instance.Improvements[i].MaxLevel)
+                {
+                    availableImprovements.Add(ResManager.Instance.Improvements[i]);
+                }
+            }
+            
+            if (availableImprovements.Count == 0)
+            {
+                imp = null;
+                return false;
+            }
+            
+            imp = availableImprovements[Random.Range(0, availableImprovements.Count)];
+            return true;
         }
-
-
+        
         public void SelectHp()
         {
             if(!IsActive) return;
@@ -100,6 +142,7 @@ namespace UI.LevelUp
         public void SelectLevelUp()
         {
             if(!IsActive) return;
+            if(levelUpSlot.IsBlocked) return;
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(false);
@@ -111,6 +154,7 @@ namespace UI.LevelUp
         public void SelectRandomLevelUp()
         {
             if(!IsActive) return;
+            if(levelUpSlotRandom.IsBlocked) return;
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(false);
@@ -137,8 +181,16 @@ namespace UI.LevelUp
                     break;
                 case Reward.Random:
                 {
-                    ImprovementDefinition def = RandomImprovement();
-                    MessageBroker.Default.Publish(new AddNewImprovementEvent { Definition = def });
+                    ImprovementDefinition def;
+                    if (RandomImprovement(out def))
+                    {
+                        MessageBroker.Default.Publish(new AddNewImprovementEvent { Definition = def });
+                    }
+                    else
+                    {
+                        // MessageBroker.Default.Publish(new AddNewImprovementEvent { Definition = def });
+                    }
+                    
                 }
                     break;
             }

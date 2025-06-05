@@ -21,3 +21,4 @@ MonoBehaviour:
     \u0432\u0441\u0435\u043C\u0443, \u043A \u0447\u0435\u043C\u0443 \u043F\u0440\u0438\u043A\u0430\u0441\u0430\u0435\u0442\u0441\u044F"
   improvementName: Spike
   isPassive: 0
+  maxLevel: 10
