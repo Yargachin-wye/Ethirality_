@@ -12,6 +12,7 @@ namespace CharacterComponents.Moving
     public class LumpMeatMovable : BaseCharacterComponent
     {
         [SerializeField] private LumpMeatAnimator lumpMeatAnimator;
+        [SerializeField] private float dashDelay;
         [SerializeField] private float dashTime;
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float decelerationRate;
@@ -26,6 +27,8 @@ namespace CharacterComponents.Moving
         private float _gravityScale;
         private Vector2 _lookDirection;
         private float _dashTimer = 0;
+        private float _dashDelayDelayTimer = 0;
+        public float DashDelayTimer => _dashDelayDelayTimer;
 
         public bool IsFreeze => _isFreeze;
 
@@ -42,10 +45,15 @@ namespace CharacterComponents.Moving
 
         private void FixedUpdate()
         {
+            if (_dashDelayDelayTimer > 0)
+            {
+                _dashDelayDelayTimer -= Time.fixedDeltaTime;
+                MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashDelayDelayTimer / dashDelay });
+            }
             if (_dashTimer > 0)
             {
                 _dashTimer -= Time.fixedDeltaTime;
-                MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
+                
 
                 _isDash = true;
                 if (_dashTimer <= 0)
@@ -74,13 +82,14 @@ namespace CharacterComponents.Moving
         public void Look(Vector2 direction)
         {
             _lookDirection = -direction;
+
             if (_lookDirection.magnitude < Inputer.JoysickMinMagnitude)
             {
                 if (lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.CloseJaw();
             }
             else
             {
-                if (!lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
+                if (DashDelayTimer <= 0 && !lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
             }
         }
 
@@ -110,17 +119,19 @@ namespace CharacterComponents.Moving
         public void Push(Vector2 v2, float power)
         {
             if (!lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.OpenJaw();
+            _dashDelayDelayTimer = dashDelay;
             _dashTimer = dashTime;
-            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
+            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashDelayDelayTimer / dashDelay });
             character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * power, ForceMode2D.Impulse);
         }
 
         public void Dash(Vector2 v2)
         {
-            if (_dashTimer > 0) return;
+            if (_dashDelayDelayTimer > 0) return;
+            _dashDelayDelayTimer = dashDelay;
             _dashTimer = dashTime;
-            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
+            MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashDelayDelayTimer / dashDelay });
             character.rb2D.velocity = Vector2.zero;
             character.rb2D.AddForce(transform.right.normalized * powerDash, ForceMode2D.Impulse);
         }
@@ -165,7 +176,7 @@ namespace CharacterComponents.Moving
 
         public void SetDashDelay(float dashSpeed)
         {
-            dashTime = dashSpeed;
+            dashDelay = dashSpeed;
         }
     }
 }

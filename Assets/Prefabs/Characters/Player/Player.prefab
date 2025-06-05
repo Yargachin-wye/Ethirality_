@@ -1410,7 +1410,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
   lumpMeatAnimator: {fileID: 5018167926291272715}
-  dashTime: 3
+  dashDelay: 3
+  dashTime: 0.7
   rotationSpeed: 10
   decelerationRate: 0.95
   powerDash: 50
