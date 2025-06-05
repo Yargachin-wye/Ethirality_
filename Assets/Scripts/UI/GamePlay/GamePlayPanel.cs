@@ -10,13 +10,19 @@ namespace UI.GamePlay
         [Space]
         [SerializeField] private Image dashTimerField;
         [SerializeField] private GameObject dashTimer;
-
+        [Space]
+        [SerializeField] private Image shotTimerField;
+        [SerializeField] private GameObject shotTimer;
         public override void Awake()
         {
             base.Awake();
             MessageBroker.Default
                 .Receive<UpdateDashTimerEvent>()
                 .Subscribe(data => OnUpdateDashTimer(data));
+            
+            MessageBroker.Default
+                .Receive<UpdateShotTimerEvent>()
+                .Subscribe(data => OnUpdateShotTimer(data));
         }
 
         private void OnUpdateDashTimer(UpdateDashTimerEvent data)
@@ -29,6 +35,19 @@ namespace UI.GamePlay
             {
                 dashTimer.gameObject.SetActive(true);
                 dashTimerField.fillAmount = data.DashTimer;
+            }
+        }
+        
+        private void OnUpdateShotTimer(UpdateShotTimerEvent data)
+        {
+            if (data.ShotTimer <= 0)
+            {
+                shotTimer.gameObject.SetActive(false);
+            }
+            else
+            {
+                shotTimer.gameObject.SetActive(true);
+                shotTimerField.fillAmount = data.ShotTimer;
             }
         }
 

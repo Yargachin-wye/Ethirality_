@@ -151,6 +151,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: arrow_2
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 0
+        width: 5
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00e1c8e507f7c1f48909e6c24e9b3bad
+      internalID: 338633196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -164,6 +185,7 @@ TextureImporter:
     nameFileIdTable:
       arrow_0: 177218079
       arrow_1: -71897784
+      arrow_2: 338633196
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

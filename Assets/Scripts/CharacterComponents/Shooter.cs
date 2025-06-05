@@ -4,6 +4,8 @@ using CharacterComponents.Moving;
 using Definitions;
 using Pools;
 using Projectiles;
+using UniRx;
+using UniRxEvents.GamePlay;
 using UnityEngine;
 
 namespace CharacterComponents
@@ -31,6 +33,7 @@ namespace CharacterComponents
         {
             _timer = shootDelay;
             _projectilePool = ProjectilePool.Instance;
+            MessageBroker.Default.Publish(new UpdateShotTimerEvent { ShotTimer = _timer / shootDelay });
         }
 
         protected override void Awake()
@@ -57,7 +60,7 @@ namespace CharacterComponents
         private void UpdateShots()
         {
             if (_timer >= 0) _timer -= Time.fixedDeltaTime;
-
+            MessageBroker.Default.Publish(new UpdateShotTimerEvent { ShotTimer = _timer / shootDelay });
             if (hasLumpMeatMovable && lumpMeatMovable.IsFreeze)
             {
                 _shoots.Clear();
