@@ -177,5 +177,10 @@ namespace CharacterComponents
         {
             public Vector2 Direction;
         }
+
+        public void SetSpeed(float shotSpeed)
+        {
+            shootDelay = shotSpeed;
+        }
     }
 }

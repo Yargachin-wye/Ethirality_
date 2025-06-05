@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   improvement: {fileID: 2243534558452697653}
+  dashSpeed: 1
 --- !u!50 &-8286452589426185999
 Rigidbody2D:
   serializedVersion: 4

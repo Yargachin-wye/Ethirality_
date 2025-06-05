@@ -46,7 +46,7 @@ namespace CharacterComponents.Moving
             {
                 _dashTimer -= Time.fixedDeltaTime;
                 MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashTimer / dashTime });
-                
+
                 _isDash = true;
                 if (_dashTimer <= 0)
                 {
@@ -156,6 +156,16 @@ namespace CharacterComponents.Moving
             {
                 stats.Damage(dashDmg);
             }
+        }
+
+        public void SetDmg(int dmg)
+        {
+            dashDmg = dmg;
+        }
+
+        public void SetDashDelay(float dashSpeed)
+        {
+            dashTime = dashSpeed;
         }
     }
 }

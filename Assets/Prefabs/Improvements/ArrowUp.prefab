@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   improvement: {fileID: 2243534558452697653}
+  shotSpeed: 0.2
 --- !u!50 &1492787736809200629
 Rigidbody2D:
   serializedVersion: 4

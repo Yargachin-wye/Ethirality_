@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 2281339711963540066}
   lumpMeatAnimator: {fileID: 5018167926291272715}
-  dashTime: 0.7
+  dashTime: 3
   rotationSpeed: 10
   decelerationRate: 0.95
   powerDash: 50
@@ -1432,7 +1432,7 @@ MonoBehaviour:
   projectileDefinition: {fileID: 11400000, guid: c551011fee7266846ae59a4db1794f3d, type: 2}
   speed: 1
   rotationSpeed: 25
-  shootDelay: 0.2
+  shootDelay: 1
   maxDistanceToProjectile: 25
   ropeDecaySpeed: 0.5
   lumpMeatMovable: {fileID: 295954416802910781}
