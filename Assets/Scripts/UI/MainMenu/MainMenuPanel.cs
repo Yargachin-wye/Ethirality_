@@ -1,4 +1,5 @@
 ﻿using Bootstrapper;
+using Bootstrapper.Saves;
 using UniRx;
 using UniRxEvents.Ui;
 using UnityEngine;
@@ -15,6 +16,11 @@ namespace UI.MainMenu
         [SerializeField] private Button playBtn;
         [SerializeField] private Button settingsBtn;
         [SerializeField] private Button exitBtn;
+        [Space]
+        [SerializeField] private Button restartBtn;
+        [SerializeField] private Button restartYesBtn;
+        [SerializeField] private Button restartNoBtn;
+        [SerializeField] private GameObject restartPanel;
 
         public override void Awake()
         {
@@ -22,6 +28,22 @@ namespace UI.MainMenu
             playBtn.onClick.AddListener(StartGamePlay);
             settingsBtn.onClick.AddListener(Settings);
             exitBtn.onClick.AddListener(ExitGame);
+
+            
+            restartBtn.onClick.AddListener(() => OpenRestartRunPanel(true));
+            restartYesBtn.onClick.AddListener(RestartRun);
+            restartNoBtn.onClick.AddListener(() => OpenRestartRunPanel(false));
+        }
+
+        private void OpenRestartRunPanel(bool isActive)
+        {
+            restartPanel.SetActive(isActive);
+        }
+
+        private void RestartRun()
+        {
+            SaveSystem.Instance.ResetGameData();
+            StartGamePlay();
         }
 
         protected override void OnPanelDisable()
@@ -30,23 +52,24 @@ namespace UI.MainMenu
 
         protected override void OnPanelEnable()
         {
+            restartPanel.SetActive(false);
         }
 
         private void ExitGame()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             Application.Quit();
         }
 
         private void Settings()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Settings });
         }
 
         private void StartGamePlay()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
         }
     }
