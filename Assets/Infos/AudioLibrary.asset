@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1178eb02ad14d53b6f687b008ace500, type: 3}
   m_Name: AudioLibrary
   m_EditorClassIdentifier: 
-  uiSounds: []
+  uiSounds:
+  - name: HarpoonShot
+    clip: {fileID: 8300000, guid: 55d2df482b6a36b4194fbc25131da5d9, type: 3}
+    volume: 0
+    pitch: 0
+    pitchFactor: 0
   vfxSounds:
   - name: HarpoonShot
     clip: {fileID: 8300000, guid: e4a88db7b1d31ef47b935fc70e31df75, type: 3}

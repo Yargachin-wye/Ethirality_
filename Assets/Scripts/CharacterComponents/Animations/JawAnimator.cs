@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Audio;
+using Constants;
 using UnityEngine;
 
 namespace CharacterComponents.Animations

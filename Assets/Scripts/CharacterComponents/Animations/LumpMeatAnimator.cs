@@ -1,5 +1,7 @@
 using System;
+using Audio;
 using CharacterComponents.CharacterStat;
+using Constants;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,13 +26,14 @@ namespace CharacterComponents.Animations
         [SerializeField] private JawAnimator jawUp;
         [SerializeField] private JawAnimator arrowUp;
         [SerializeField] private JawAnimator dashUp;
-        
+
         [SerializeField, HideInInspector] private EyeAnimator[] eyes;
-        
+
         private Stats Stats => character.Stats;
         private float _timerBlink = 0;
         private bool _isJawOpen = false;
         public bool IsJawOpen => _isJawOpen;
+
         protected override void Awake()
         {
             base.Awake();
@@ -43,17 +46,17 @@ namespace CharacterComponents.Animations
         {
             jawUp.Image.gameObject.SetActive(isActive);
         }
-        
+
         public void SetArrowUp(bool isActive)
         {
             arrowUp.Image.gameObject.SetActive(isActive);
         }
-        
+
         public void SetDashUp(bool isActive)
         {
             dashUp.Image.gameObject.SetActive(isActive);
         }
-        
+
         public void OnValidate()
         {
             eyes = new[] { eye0, eye1, eye2, eye3, eye4, eye5, eye7, eye8 };
@@ -63,7 +66,7 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Validate();
-            
+
             jawUp.Validate();
             arrowUp.Validate();
             dashUp.Validate();
@@ -71,7 +74,6 @@ namespace CharacterComponents.Animations
 
         public override void Init()
         {
-            
         }
 
         private void Start()
@@ -132,7 +134,7 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Update(Time.fixedDeltaTime);
-            
+
             jawUp.Update(Time.fixedDeltaTime);
             arrowUp.Update(Time.fixedDeltaTime);
             dashUp.Update(Time.fixedDeltaTime);
@@ -146,9 +148,10 @@ namespace CharacterComponents.Animations
             _timerBlink = Random.Range(blinkEyeDelayMin, blinkEyeDelayMax);
             BlinkEyes();
         }
-        
+
         public void OpenJaw()
         {
+            AudioManager.Instance.PlaySound(AudioConst.OpenJaw, AudioChannel.VFX, transform.position);
             _isJawOpen = true;
             foreach (var eye in eyes)
             {
@@ -156,7 +159,7 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Play(JawAnimator.Animations.OpenJaw);
-            
+
             jawUp.Play(JawAnimator.Animations.OpenJaw);
             arrowUp.Play(JawAnimator.Animations.OpenJaw);
             dashUp.Play(JawAnimator.Animations.OpenJaw);
@@ -164,6 +167,7 @@ namespace CharacterComponents.Animations
 
         public void CloseJaw()
         {
+            AudioManager.Instance.PlaySound(AudioConst.CloseJaw, AudioChannel.VFX, transform.position);
             _isJawOpen = false;
             foreach (var eye in eyes)
             {
@@ -171,7 +175,7 @@ namespace CharacterComponents.Animations
             }
 
             jaw.Play(JawAnimator.Animations.CloseJaw);
-            
+
             jawUp.Play(JawAnimator.Animations.CloseJaw);
             arrowUp.Play(JawAnimator.Animations.CloseJaw);
             dashUp.Play(JawAnimator.Animations.CloseJaw);
