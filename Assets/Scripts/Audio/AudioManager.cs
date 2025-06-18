@@ -55,7 +55,7 @@ namespace Audio
             var source = new GameObject($"SFX_{name}").AddComponent<AudioSource>();
             source.clip = entry.clip;
             source.volume = entry.volume;
-            source.pitch = entry.pitch + UnityEngine.Random.Range(-entry.pitch, entry.pitch) *entry.pitchFactor;
+            source.pitch = entry.pitch + Random.Range(-entry.pitch, entry.pitch) * entry.pitchFactor;
             source.outputAudioMixerGroup = channel == AudioChannel.UI ? uiMixer : vfxMixer;
             source.transform.position = position;
             source.spatialBlend = 1f; // 3D
@@ -79,7 +79,7 @@ namespace Audio
             var source = new GameObject($"UI_{name}").AddComponent<AudioSource>();
             source.clip = entry.clip;
             source.volume = entry.volume;
-            source.pitch = entry.pitch;
+            source.pitch = entry.pitch + Random.Range(-entry.pitch, entry.pitch) * entry.pitchFactor;
             source.outputAudioMixerGroup = uiMixer;
             source.spatialBlend = 0f; // 2D
             source.transform.SetParent(transform, false);
@@ -114,7 +114,8 @@ namespace Audio
         /// </summary>
         public void SetChannelVolume(AudioChannel channel, float decibels)
         {
-            var param = channel == AudioChannel.UI ? "UIVolume" : channel == AudioChannel.VFX ? "VFXVolume" : "MusicVolume";
+            var param = channel == AudioChannel.UI ? "UIVolume" :
+                channel == AudioChannel.VFX ? "VFXVolume" : "MusicVolume";
             AudioMixer mixer = (channel == AudioChannel.UI) ? uiMixer.audioMixer :
                 (channel == AudioChannel.VFX) ? vfxMixer.audioMixer : musicMixer.audioMixer;
             mixer.SetFloat(param, decibels);

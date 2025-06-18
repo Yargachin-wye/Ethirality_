@@ -13,14 +13,39 @@ MonoBehaviour:
   m_Name: AudioLibrary
   m_EditorClassIdentifier: 
   uiSounds:
-  - name: HarpoonShot
+  - name: Reward
     clip: {fileID: 8300000, guid: 55d2df482b6a36b4194fbc25131da5d9, type: 3}
-    volume: 0
-    pitch: 0
-    pitchFactor: 0
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.2
+  - name: UiClick
+    clip: {fileID: 8300000, guid: b7416a15e357b6b41be06e9292054a6b, type: 3}
+    volume: 0.429
+    pitch: 1
+    pitchFactor: 0.2
   vfxSounds:
   - name: HarpoonShot
-    clip: {fileID: 8300000, guid: e4a88db7b1d31ef47b935fc70e31df75, type: 3}
+    clip: {fileID: 8300000, guid: 28876e36a660fe841a18755cfaa9ea98, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  - name: HarpoonImpact
+    clip: {fileID: 8300000, guid: 28876e36a660fe841a18755cfaa9ea98, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  - name: OpenJaw
+    clip: {fileID: 8300000, guid: 4ec66b04f4825e94e9da02097d3ed864, type: 3}
+    volume: 1
+    pitch: 0.8
+    pitchFactor: 0.1
+  - name: CloseJaw
+    clip: {fileID: 8300000, guid: 3df29ea5624f8094dba38d8289d252a8, type: 3}
+    volume: 1
+    pitch: 0.8
+    pitchFactor: 0.1
+  - name: Whoosh
+    clip: {fileID: 8300000, guid: 6326e5b4db84e454892b3c970380f88c, type: 3}
     volume: 1
     pitch: 1
     pitchFactor: 0.1

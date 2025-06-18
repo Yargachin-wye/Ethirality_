@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using Audio;
+using Constants;
+using UniRx;
 using UniRxEvents.Ui;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +32,8 @@ namespace UI.GameOver
         private void ExitToMenu()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
+            
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }

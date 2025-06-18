@@ -1,6 +1,8 @@
-﻿using CharacterComponents.Animations;
+﻿using Audio;
+using CharacterComponents.Animations;
 using CharacterComponents.CharacterStat;
 using CharacterComponents.Food;
+using Constants;
 using Managers;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -130,6 +132,9 @@ namespace CharacterComponents.Moving
         {
             if (_dashDelayDelayTimer > 0) return;
             _dashDelayDelayTimer = dashDelay;
+            
+            AudioManager.Instance.PlaySound(AudioConst.Whoosh, AudioChannel.VFX, transform.position);
+            
             _dashTimer = dashTime;
             MessageBroker.Default.Publish(new UpdateDashTimerEvent { DashTimer = _dashDelayDelayTimer / dashDelay });
             character.rb2D.velocity = Vector2.zero;

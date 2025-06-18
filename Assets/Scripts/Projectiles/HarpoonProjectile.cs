@@ -1,6 +1,8 @@
 ﻿using System;
+using Audio;
 using CharacterComponents.CharacterStat;
 using CharacterComponents.Moving;
+using Constants;
 using Definitions;
 using UnityEngine;
 
@@ -143,7 +145,7 @@ namespace Projectiles
             {
                 return;
             }
-
+            AudioManager.Instance.PlaySound(AudioConst.HarpoonImpact, AudioChannel.VFX, transform.position);
             if (Definition.IsDestroyOnTrigger)
             {
                 gameObject.SetActive(false);
@@ -151,6 +153,7 @@ namespace Projectiles
             }
 
             _triggerStats.OnDeadAction += OnTriggerDead;
+            
             _isTrigered = true;
             _isAttached = false;
             _isForceOnAttached = false;

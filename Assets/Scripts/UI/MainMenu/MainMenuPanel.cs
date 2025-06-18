@@ -1,5 +1,7 @@
-﻿using Bootstrapper;
+﻿using Audio;
+using Bootstrapper;
 using Bootstrapper.Saves;
+using Constants;
 using UniRx;
 using UniRxEvents.Ui;
 using UnityEngine;
@@ -29,7 +31,6 @@ namespace UI.MainMenu
             settingsBtn.onClick.AddListener(Settings);
             exitBtn.onClick.AddListener(ExitGame);
 
-            
             restartBtn.onClick.AddListener(() => OpenRestartRunPanel(true));
             restartYesBtn.onClick.AddListener(RestartRun);
             restartNoBtn.onClick.AddListener(() => OpenRestartRunPanel(false));
@@ -37,11 +38,13 @@ namespace UI.MainMenu
 
         private void OpenRestartRunPanel(bool isActive)
         {
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             restartPanel.SetActive(isActive);
         }
 
         private void RestartRun()
         {
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             SaveSystem.Instance.ResetGameData();
             StartGamePlay();
         }
@@ -58,18 +61,21 @@ namespace UI.MainMenu
         private void ExitGame()
         {
             if (!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             Application.Quit();
         }
 
         private void Settings()
         {
             if (!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Settings });
         }
 
         private void StartGamePlay()
         {
             if (!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
         }
     }

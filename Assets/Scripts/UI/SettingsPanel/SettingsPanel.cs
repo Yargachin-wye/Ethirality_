@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using Audio;
+using Constants;
+using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
 using UnityEngine;
@@ -42,6 +44,7 @@ namespace UI.SettingsPanel
         private void ExitSettings()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(new OpenUiPanelEvent
                 { PanelName = _isGameplay ? UiConst.GamePlay : UiConst.MainMenu });
         }
@@ -50,6 +53,7 @@ namespace UI.SettingsPanel
         private void ExitGameplay()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }

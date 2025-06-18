@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Audio;
 using Bootstrapper;
 using Bootstrapper.Saves;
+using Constants;
 using Definitions;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -69,8 +71,6 @@ namespace UI.LevelUp
 
         protected void OnLevelUp(LevelUpEvent data)
         {
-             
-            
             levelUpSlotHp.Select(false);
             levelUpSlot.Select(false);
             levelUpSlotRandom.Select(false);
@@ -131,6 +131,7 @@ namespace UI.LevelUp
         public void SelectHp()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(true);
@@ -142,6 +143,7 @@ namespace UI.LevelUp
         public void SelectLevelUp()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             if(levelUpSlot.IsBlocked) return;
             endBtn.gameObject.SetActive(true);
 
@@ -154,6 +156,7 @@ namespace UI.LevelUp
         public void SelectRandomLevelUp()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             if(levelUpSlotRandom.IsBlocked) return;
             endBtn.gameObject.SetActive(true);
 
@@ -167,6 +170,7 @@ namespace UI.LevelUp
         public void EndSelect()
         {
             if(!IsActive) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             switch (_reward)
             {
                 case Reward.Hp:
@@ -190,7 +194,6 @@ namespace UI.LevelUp
                     {
                         // MessageBroker.Default.Publish(new AddNewImprovementEvent { Definition = def });
                     }
-                    
                 }
                     break;
             }
