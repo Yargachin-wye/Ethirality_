@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Audio;
 using CharacterComponents.Animations;
 using CharacterComponents.Moving;
+using Constants;
 using Definitions;
 using Pools;
 using Projectiles;
@@ -170,6 +172,7 @@ namespace CharacterComponents
 
             _timer = shootDelay;
             _shoots.Add(new ShootPack { Direction = direction.normalized });
+            AudioManager.Instance.PlaySound(AudioConst.HarpoonShot,AudioChannel.VFX, transform.position);
         }
 
 

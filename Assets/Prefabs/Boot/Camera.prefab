@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7614428062470915069}
   - component: {fileID: 2038279303548799465}
   - component: {fileID: 512313060255262390}
+  - component: {fileID: 8829862390586316924}
+  - component: {fileID: 4894012710467461583}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -70,7 +72,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -109,6 +111,34 @@ MonoBehaviour:
   smoothSpeed: 10
   camera: {fileID: 7614428062470915069}
   sizeSmoothSpeed: 5
+--- !u!114 &8829862390586316924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310799895732646464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9c50b325ff41e28f54f5e75fc64e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4894012710467461583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310799895732646464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9bb1d466154c66873553b2513e99e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiMixer: {fileID: 0}
+  vfxMixer: {fileID: 0}
+  musicMixer: {fileID: 0}
+  library: {fileID: 0}
 --- !u!1 &5021901132314044647
 GameObject:
   m_ObjectHideFlags: 0
