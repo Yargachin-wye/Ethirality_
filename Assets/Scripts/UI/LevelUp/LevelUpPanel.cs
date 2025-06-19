@@ -143,8 +143,8 @@ namespace UI.LevelUp
         public void SelectLevelUp()
         {
             if(!IsActive) return;
-            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             if(levelUpSlot.IsBlocked) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(false);
@@ -197,6 +197,7 @@ namespace UI.LevelUp
                 }
                     break;
             }
+            AudioManager.Instance.PlayUISound(AudioConst.Reward);
             MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.GamePlay });
         }
     }

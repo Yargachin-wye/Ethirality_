@@ -28,6 +28,7 @@ namespace Bootstrapper.Saves
     {
         public float musicVolume;
         public float sfxVolume;
+        public bool isSeeGuides;
     }
 
     public class SaveSystem : MonoBehaviour
@@ -40,7 +41,7 @@ namespace Bootstrapper.Saves
 
         public SaveGameData saveData;
 
-        public SaveSettingsData SettingsData { get; private set; }
+        public SaveSettingsData settingsData;
         public static SaveSystem Instance { get; private set; }
 
         private void Awake()
@@ -89,7 +90,7 @@ namespace Bootstrapper.Saves
         {
             try
             {
-                string jsonData = JsonUtility.ToJson(SettingsData, prettyPrint: true);
+                string jsonData = JsonUtility.ToJson(settingsData, prettyPrint: true);
                 File.WriteAllText(SettingsPath, jsonData);
                 Debug.Log($"Settings saved successfully to {SettingsPath}");
             }
@@ -130,12 +131,12 @@ namespace Bootstrapper.Saves
                 if (File.Exists(SettingsPath))
                 {
                     string jsonData = File.ReadAllText(SettingsPath);
-                    SettingsData = JsonUtility.FromJson<SaveSettingsData>(jsonData);
+                    settingsData = JsonUtility.FromJson<SaveSettingsData>(jsonData);
                     Debug.Log("Settings loaded successfully");
                 }
                 else
                 {
-                    SettingsData = new SaveSettingsData { musicVolume = 1.0f, sfxVolume = 1.0f };
+                    settingsData = new SaveSettingsData { musicVolume = 1.0f, sfxVolume = 1.0f };
                     Debug.Log("No settings file found, using default values");
                 }
             }

@@ -8,8 +8,18 @@
         public const string Settings = "SettingsPanel";
         public const string GameOver = "GameOverPanel";
         public const string ChoosingNextLevel = "ChoosingNextLevelPanel";
+        public const string Guides = "Guides";
 
-        public static readonly string[] Panels = { LevelUp, MainMenu, GamePlay, Settings, GameOver, ChoosingNextLevel };
+        public static readonly string[] Panels =
+        {
+            LevelUp,
+            MainMenu,
+            GamePlay,
+            Settings,
+            GameOver,
+            ChoosingNextLevel,
+            Guides
+        };
     }
 
     public static class ImprovementsConst

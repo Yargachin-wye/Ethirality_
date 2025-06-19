@@ -23,6 +23,7 @@ namespace Spawner
             Character character = CharactersPool.GetPooledObject(characterDefinition);
             character.gameObject.SetActive(true);
             character.transform.position = transform.position;
+            character.transform.rotation = transform.rotation;
             character.Init(characterDefinition);
         }
     }

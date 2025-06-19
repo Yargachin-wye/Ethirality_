@@ -12,16 +12,34 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 4f8577e5fdaef3948931c8067ab1837d
   - enabled: 1
-    path: Assets/Scenes/GamePlay.unity
+    path: Assets/Scenes/OpenWorld.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
+    path: Assets/Scenes/0_Level.unity
     guid: e72ca6d8ca125af4b8f372c13855a466
   - enabled: 1
-    path: Assets/Scenes/Level2.unity
+    path: Assets/Scenes/1_Level_1.unity
+    guid: 5931ae313f06e0146bbeacefcaaf11d4
+  - enabled: 1
+    path: Assets/Scenes/1_Level_2.unity
     guid: cee996ac3208d3b45b2ca2b61fb8cc1d
   - enabled: 1
-    path: Assets/Scenes/Level3.unity
+    path: Assets/Scenes/2_Level_1.unity
+    guid: dff6f8ec76194ee44b2b82c821130a6f
+  - enabled: 1
+    path: Assets/Scenes/2_Level_2.unity
     guid: fba8a15afffc77549bd3c84a79254f57
+  - enabled: 1
+    path: Assets/Scenes/3_Level_1.unity
+    guid: f130bdf52cbb49e4aa5e7a51e20f0528
+  - enabled: 1
+    path: Assets/Scenes/3_Level_2.unity
+    guid: 3d3f128439aea5c459581ec81a89aa58
+  - enabled: 1
+    path: Assets/Scenes/7_Level_1.unity
+    guid: 27990035bccbe4f489cfd96ffd8d77c1
+  - enabled: 1
+    path: Assets/Scenes/7_Level_2.unity
+    guid: 21ac0764a90bc3a43946de02c90f91f7
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 86d48dd5fd473f94fb7e1f290c5e8aab, type: 2}

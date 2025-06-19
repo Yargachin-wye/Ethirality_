@@ -303,25 +303,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unityEventlist:
-  - generator: {fileID: 2103105289}
+  - baseGenerator: {fileID: 2103105289}
     generate: 1
-  - generator: {fileID: 1520008709}
+  - baseGenerator: {fileID: 1520008709}
     generate: 1
-  - generator: {fileID: 1901094098}
+  - baseGenerator: {fileID: 1901094098}
     generate: 1
-  - generator: {fileID: 673050479}
+  - baseGenerator: {fileID: 673050479}
     generate: 1
-  - generator: {fileID: 300158554}
+  - baseGenerator: {fileID: 300158554}
     generate: 1
-  - generator: {fileID: 1909939236}
+  - baseGenerator: {fileID: 1909939236}
     generate: 1
-  - generator: {fileID: 1664216177}
+  - baseGenerator: {fileID: 1664216177}
     generate: 1
-  - generator: {fileID: 846448415}
+  - baseGenerator: {fileID: 846448415}
     generate: 1
-  - generator: {fileID: 1331198923}
+  - baseGenerator: {fileID: 1331198923}
     generate: 1
-  pointsContainer: {fileID: 1331198923}
+  pointsContainerGenerator: {fileID: 1331198923}
   seed: 1337
 --- !u!1 &673050477
 GameObject:
@@ -543,6 +543,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bf10b2b84d292f4cb2f082d2c6b51b3, type: 3}
+--- !u!1001 &911045224
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 428738284134789094, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841528259157920393, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_Name
+      value: DeadZone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
 --- !u!1 &1128819177
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,7 +684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309990b1ed95ca24ab0898051d03e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsContainer: {fileID: 1331198923}
+  pointsContainerGenerator: {fileID: 1331198923}
   distToChunk: 2
 --- !u!114 &1331198923
 MonoBehaviour:
@@ -815,9 +880,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsTypes: 4
-  generatorShell1: {fileID: 2103105289}
-  generatorShell2: {fileID: 1901094098}
-  wormLikeLineGenerator: {fileID: 1909939236}
+  shell1: {fileID: 2103105289}
+  shell2: {fileID: 1901094098}
+  wormLineGenerator: {fileID: 1909939236}
 --- !u!1 &1901094097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,3 +1083,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 871802906}
   - {fileID: 213113059}
+  - {fileID: 911045224}

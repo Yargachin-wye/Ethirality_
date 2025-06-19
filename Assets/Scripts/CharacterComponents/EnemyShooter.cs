@@ -1,5 +1,8 @@
-﻿using CharacterComponents.CharacterStat;
+﻿using Audio;
+using CharacterComponents.CharacterStat;
+using Constants;
 using Definitions;
+using EditorAttributes;
 using Pools;
 using UnityEngine;
 
@@ -7,11 +10,12 @@ namespace CharacterComponents
 {
     public class EnemyShooter : BaseCharacterComponent
     {
+        private static string[] collection = AudioConst.AllSounds;
         [SerializeField] private ProjectileDefinition projectileDefinition;
         [SerializeField] private float speed = 1;
         [SerializeField] private float shootDelay;
         [SerializeField] private float detectionRange = 10f;
-
+        [SerializeField,Dropdown("collection")] private string shotSound;
         private ProjectilePool _projectilePool;
         private float _timer;
 
@@ -75,6 +79,7 @@ namespace CharacterComponents
             Vector2 direction = (target.transform.position - transform.position).normalized;
 
             pooledObject.Shoot(direction, speed, gameObject, Fraction);
+            AudioManager.Instance.PlaySound(shotSound, AudioChannel.VFX, transform.position);
         }
     }
 }

@@ -16,6 +16,10 @@ namespace UniRxEvents
 
     namespace Ui
     {
+        public struct FocusGuideEvent
+        {
+            public int GuideId;
+        }
         public struct OpenUiPanelEvent
         {
             public string PanelName;
@@ -30,6 +34,10 @@ namespace UniRxEvents
         public struct UpdateShotTimerEvent
         {
             public float ShotTimer;
+        }
+        public struct PlayerInDeadZoneEvent
+        {
+            public bool IsDeadZone;
         }
         public struct UpdateDashTimerEvent
         {

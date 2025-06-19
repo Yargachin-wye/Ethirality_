@@ -13,16 +13,39 @@ namespace UI.GamePlay
         [Space]
         [SerializeField] private Image shotTimerField;
         [SerializeField] private GameObject shotTimer;
+        [Space]
+        [SerializeField] private GameObject deadZoneAlarm;
+
         public override void Awake()
         {
             base.Awake();
             MessageBroker.Default
+                .Receive<PlayerInDeadZoneEvent>()
+                .Subscribe(data => OnPlayerInDeadZone(data));
+
+            MessageBroker.Default
                 .Receive<UpdateDashTimerEvent>()
                 .Subscribe(data => OnUpdateDashTimer(data));
-            
+
             MessageBroker.Default
                 .Receive<UpdateShotTimerEvent>()
                 .Subscribe(data => OnUpdateShotTimer(data));
+
+            MessageBroker.Default
+                .Receive<StartRoundEvent>()
+                .Subscribe(data => StartRound());
+
+            deadZoneAlarm.SetActive(false);
+        }
+
+        private void StartRound()
+        {
+            deadZoneAlarm.SetActive(false);
+        }
+
+        private void OnPlayerInDeadZone(PlayerInDeadZoneEvent data)
+        {
+            deadZoneAlarm.SetActive(data.IsDeadZone);
         }
 
         private void OnUpdateDashTimer(UpdateDashTimerEvent data)
@@ -37,7 +60,7 @@ namespace UI.GamePlay
                 dashTimerField.fillAmount = data.DashTimer;
             }
         }
-        
+
         private void OnUpdateShotTimer(UpdateShotTimerEvent data)
         {
             if (data.ShotTimer <= 0)

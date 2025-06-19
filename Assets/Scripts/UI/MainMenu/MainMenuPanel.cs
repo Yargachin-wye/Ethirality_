@@ -20,6 +20,7 @@ namespace UI.MainMenu
         [SerializeField] private Button exitBtn;
         [Space]
         [SerializeField] private Button restartBtn;
+        [SerializeField] private Button guidesBtn;
         [SerializeField] private Button restartYesBtn;
         [SerializeField] private Button restartNoBtn;
         [SerializeField] private GameObject restartPanel;
@@ -31,9 +32,16 @@ namespace UI.MainMenu
             settingsBtn.onClick.AddListener(Settings);
             exitBtn.onClick.AddListener(ExitGame);
 
+            guidesBtn.onClick.AddListener(OpenGuidesPanel);
             restartBtn.onClick.AddListener(() => OpenRestartRunPanel(true));
             restartYesBtn.onClick.AddListener(RestartRun);
             restartNoBtn.onClick.AddListener(() => OpenRestartRunPanel(false));
+        }
+
+        private void OpenGuidesPanel()
+        {
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Guides });
         }
 
         private void OpenRestartRunPanel(bool isActive)

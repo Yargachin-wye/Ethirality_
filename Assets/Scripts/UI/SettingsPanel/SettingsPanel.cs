@@ -35,15 +35,22 @@ namespace UI.SettingsPanel
         protected override void OnPanelEnable()
         {
             exitGameplayBtn.gameObject.SetActive(_isGameplay);
+            Time.timeScale = 0;
         }
 
         protected override void OnPanelDisable()
         {
+            Time.timeScale = 1;
+        }
+        
+        private void OnDestroy()
+        {
+            Time.timeScale = 1;
         }
 
         private void ExitSettings()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(new OpenUiPanelEvent
                 { PanelName = _isGameplay ? UiConst.GamePlay : UiConst.MainMenu });
@@ -52,7 +59,7 @@ namespace UI.SettingsPanel
 
         private void ExitGameplay()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }

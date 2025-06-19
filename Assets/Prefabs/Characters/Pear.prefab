@@ -143,6 +143,8 @@ MonoBehaviour:
   maxHp: 5
   isImmortal: 0
   isInvulnerable: 0
+  dmgSound: EnemyDmg1Sound
+  deadSound: EnemyDead1Sound
   deadBodyInfo: {fileID: 11400000, guid: 7d00407943a863b4197eebb784ee05f8, type: 2}
 --- !u!114 &-8403810917303142040
 MonoBehaviour:
@@ -197,6 +199,7 @@ MonoBehaviour:
   speed: 1
   shootDelay: 4
   detectionRange: 12
+  shotSound: LaserShot
 --- !u!114 &800559225619712956
 MonoBehaviour:
   m_ObjectHideFlags: 0

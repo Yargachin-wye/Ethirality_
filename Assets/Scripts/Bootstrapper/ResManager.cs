@@ -4,6 +4,7 @@ using Definitions;
 using EditorAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Bootstrapper
 {
@@ -14,7 +15,7 @@ namespace Bootstrapper
         [SerializeField] private ImprovementDefinition[] improvements;
         [Space]
         [SerializeField] private DifficultyLevelPack[] difficultyLevelPacks;
-        
+
         public CharacterDefinition[] Characters => characters;
         public ImprovementDefinition[] Improvements => improvements;
         public DifficultyLevelPack[] DifficultyLevelPacks => difficultyLevelPacks;
@@ -60,15 +61,20 @@ namespace Bootstrapper
         }
 
         [Serializable]
+        public class LevelPack
+        {
+            [SerializeField, HideInInspector] public List<string> levelsCollection;
+
+            [SerializeField, Dropdown("levelsCollection")]
+            public string levelName;
+        }
+
+        [Serializable]
         public class DifficultyLevelPack
         {
-            [SerializeField, HideInInspector] private List<string> allLevels;
-            
-            [SerializeField, Dropdown("allLevels")]
-            public string openWorldLevelName;
-            
-            [SerializeField, Dropdown("allLevels")]
-            public string randomLevelName;
+            public LevelPack[] openWorldLevelName;
+
+            public LevelPack[] randomLevelName;
 
             private static List<string> FindAllLevels()
             {
@@ -87,7 +93,15 @@ namespace Bootstrapper
 
             public void Validate()
             {
-                allLevels = FindAllLevels();
+                foreach (var worldLevelName in openWorldLevelName)
+                {
+                    worldLevelName.levelsCollection = FindAllLevels();
+                }
+
+                foreach (var worldLevelName in randomLevelName)
+                {
+                    worldLevelName.levelsCollection = FindAllLevels();
+                }
             }
         }
     }

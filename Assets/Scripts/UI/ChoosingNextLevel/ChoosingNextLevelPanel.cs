@@ -46,9 +46,11 @@ namespace UI.ChoosingNextLevel
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
 
-            string nextLevelName = ResManager.Instance
+            var levels = ResManager.Instance
                 .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
-                .randomLevelName;
+                .randomLevelName; 
+            
+            string nextLevelName = levels[Random.Range(0, levels.Length)].levelName;
 
             StartCoroutine(StartLevel(nextLevelName));
         }
@@ -58,9 +60,12 @@ namespace UI.ChoosingNextLevel
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
 
-            string nextLevelName = (ResManager.Instance
+            var levels = ResManager.Instance
                 .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
-                .openWorldLevelName);
+                .openWorldLevelName;
+            
+            string nextLevelName = levels[Random.Range(0, levels.Length)].levelName;
+            
             StartCoroutine(StartLevel(nextLevelName));
         }
 
@@ -72,6 +77,13 @@ namespace UI.ChoosingNextLevel
             if (SaveSystem.Instance.saveData.currentDifficulty == 0)
             {
                 MessageBroker.Default.Publish(new GameStartEvent());
+            }
+
+            yield return new WaitForSeconds(0.1f);
+            if (!SaveSystem.Instance.settingsData.isSeeGuides)
+            {
+                SaveSystem.Instance.settingsData.isSeeGuides = true;
+                MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Guides });
             }
         }
 

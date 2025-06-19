@@ -4974,6 +4974,8 @@ MonoBehaviour:
   maxHp: 1
   isImmortal: 1
   isInvulnerable: 0
+  dmgSound: EnemyDmg1Sound
+  deadSound: EnemyDead1Sound
   deadBodyInfo: {fileID: 11400000, guid: 2caf2d82719d6dc41981f0e6a869839a, type: 2}
 --- !u!114 &5682062459205292983
 MonoBehaviour:
@@ -5032,7 +5034,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: 9925d7bce39b13d42bf24cd98bbab48e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 7c54bd12dfedfd04c89584a8d8ae843a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5041,7 +5043,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0
   MinDistance: 3
-  MaxDistance: 20
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0

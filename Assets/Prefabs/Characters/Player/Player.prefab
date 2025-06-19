@@ -1454,6 +1454,8 @@ MonoBehaviour:
   maxHp: 7
   isImmortal: 0
   isInvulnerable: 0
+  dmgSound: PlayerDmgSound
+  deadSound: PlayerDeadSound
   deadBodyInfo: {fileID: 11400000, guid: 8b3e8cc55961cf34b82a40d8a41cb56b, type: 2}
 --- !u!114 &3981084429929533095
 MonoBehaviour:

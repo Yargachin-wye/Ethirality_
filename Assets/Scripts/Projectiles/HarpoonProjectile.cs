@@ -145,7 +145,9 @@ namespace Projectiles
             {
                 return;
             }
+            
             AudioManager.Instance.PlaySound(AudioConst.HarpoonImpact, AudioChannel.VFX, transform.position);
+            
             if (Definition.IsDestroyOnTrigger)
             {
                 gameObject.SetActive(false);

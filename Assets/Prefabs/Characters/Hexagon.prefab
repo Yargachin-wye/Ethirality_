@@ -204,6 +204,8 @@ MonoBehaviour:
   maxHp: 2
   isImmortal: 1
   isInvulnerable: 1
+  dmgSound: EnemyDmg1Sound
+  deadSound: EnemyDead1Sound
   deadBodyInfo: {fileID: 11400000, guid: c785e673a726b3448a52d21dae92b36b, type: 2}
 --- !u!58 &7617761652462590631
 CircleCollider2D:

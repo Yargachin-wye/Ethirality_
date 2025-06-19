@@ -1,6 +1,9 @@
 ﻿using System;
+using Audio;
 using Bootstrapper.Saves;
+using Constants;
 using Definitions;
+using EditorAttributes;
 using Pools;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -12,10 +15,14 @@ namespace CharacterComponents.CharacterStat
 {
     public class Stats : BaseCharacterComponent
     {
+        private static string[] collection = AudioConst.AllSounds;
         [SerializeField] private int startHp;
         [SerializeField] private int maxHp;
         [SerializeField] private bool isImmortal;
         [SerializeField] private bool isInvulnerable;
+        [Space]
+        [SerializeField,Dropdown("collection")] private string dmgSound;
+        [SerializeField,Dropdown("collection")] private string deadSound;
         [Space]
         [SerializeField] private DeadBodyInfo deadBodyInfo;
 
@@ -64,9 +71,11 @@ namespace CharacterComponents.CharacterStat
             if (_currentHealth <= 0 && !isImmortal)
             {
                 Dead();
+                AudioManager.Instance.PlaySound(deadSound, AudioChannel.VFX, transform.position);
                 return true;
             }
 
+            AudioManager.Instance.PlaySound(dmgSound, AudioChannel.VFX, transform.position);
             OnDmgAction?.Invoke(val);
             return false;
         }
@@ -76,7 +85,7 @@ namespace CharacterComponents.CharacterStat
             _currentHealth += val;
             if (_currentHealth > MaxHealth) _currentHealth = MaxHealth;
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
-            
+
             OnCureAction?.Invoke(val);
         }
     }

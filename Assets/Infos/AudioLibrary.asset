@@ -49,4 +49,29 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     pitchFactor: 0.1
+  - name: EnemyDmg1Sound
+    clip: {fileID: 8300000, guid: be44a6a583bd9a5419b3e98e17c2d0e8, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  - name: EnemyDmg2Sound
+    clip: {fileID: 8300000, guid: 3e4c827ab5a0e064ba4265707628d9a8, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  - name: EnemyDead1Sound
+    clip: {fileID: 8300000, guid: dcecb85a8081e75459ee4c0051578bd0, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  - name: EnemyDead2Sound
+    clip: {fileID: 8300000, guid: 6990ef3575fb3ff44801f0c38b87bb16, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  - name: LaserShot
+    clip: {fileID: 8300000, guid: 63f301e7bd09cda4e8376b7b5467904f, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
   musicTracks: []

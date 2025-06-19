@@ -115,7 +115,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
   rb2D: {fileID: 2692462021808953985}
-  playerControllable: {fileID: 0}
   baseCharacterComponent:
   - {fileID: 8403955774680081991}
   - {fileID: -8568434519397170154}
@@ -139,6 +138,8 @@ MonoBehaviour:
   maxHp: 5
   isImmortal: 0
   isInvulnerable: 0
+  dmgSound: EnemyDmg1Sound
+  deadSound: EnemyDead1Sound
   deadBodyInfo: {fileID: 11400000, guid: 9ec80cc9cd8bdc5449bba2d05a78cdcb, type: 2}
 --- !u!114 &8045720563924149115
 MonoBehaviour:
@@ -152,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
+  character: {fileID: 8403955774680081991}
   dmgParticleSystem: {fileID: 7583259940349354843}
   spriteRenderer: {fileID: 7430208108823013727}
   hpSprites:
