@@ -740,9 +740,13 @@ MonoBehaviour:
     probabilities:
     - 0.5
     - 0.5
+    - 0.05
+    - 0.05
     characterDefinitionsPool:
     - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
     - {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
+    - {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
+    - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
   - name: 8
     color: {r: 1, g: 1, b: 1, a: 0.7058824}
     radius: 3

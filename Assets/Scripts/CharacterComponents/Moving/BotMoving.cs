@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CharacterComponents.Moving
 {
-    public class BotMoving : BaseCharacterComponent
+    public class VerticalMoving : BaseCharacterComponent
     {
         [SerializeField] private float _rotationSpeed = 1;
 
