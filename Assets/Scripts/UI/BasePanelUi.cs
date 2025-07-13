@@ -16,6 +16,7 @@ namespace UI
         [SerializeField] private GameObject panel;
         [SerializeField] private CanvasGroup canvasGroup;
         protected bool IsActive = false;
+        
         public virtual void Awake()
         {
             MessageBroker.Default
@@ -31,15 +32,10 @@ namespace UI
         {
             if (data.PanelName == panelName)
             {
-                if (!panel.activeSelf) panel.SetActive(true);
-                IsActive = true;
-                OnPanelEnable();
-            }
-            else
-            {
-                if (panel.activeSelf) panel.SetActive(false);
-                IsActive = false;
-                OnPanelDisable();
+                if (!panel.activeSelf) panel.SetActive(data.Active);
+                IsActive = data.Active;
+                if(IsActive) OnPanelEnable();
+                else OnPanelDisable();
             }
         }
 
@@ -51,50 +47,16 @@ namespace UI
         {
             if (data.PanelName == panelName)
             {
-                if (!panel.activeSelf) StartCoroutine(FadeOut());
+                if (!panel.activeSelf) panel.SetActive(true);
                 IsActive = true;
                 OnPanelEnable();
-                
             }
             else
             {
-                if (panel.activeSelf) StartCoroutine(FadeIn());
+                if (panel.activeSelf) panel.SetActive(false);
                 IsActive = false;
                 OnPanelDisable();
-                
             }
-        }
-
-        public virtual IEnumerator FadeOut()
-        {
-            panel.SetActive(true);
-            canvasGroup.alpha = 0;
-            while (canvasGroup.alpha < 1)
-            {
-                canvasGroup.alpha += Time.unscaledDeltaTime * 2;
-                yield return null;
-            }
-
-            canvasGroup.alpha = 1;
-            IsActive = true;
-            OnPanelEnable();
-            
-        }
-
-        protected virtual IEnumerator FadeIn()
-        {
-            IsActive = false;
-            OnPanelDisable();
-            
-            canvasGroup.alpha = 1;
-            while (canvasGroup.alpha > 0)
-            {
-                canvasGroup.alpha -= Time.unscaledDeltaTime * 2;
-                yield return null;
-            }
-
-            canvasGroup.alpha = 0;
-            panel.SetActive(false);
         }
     }
 }

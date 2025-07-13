@@ -27,6 +27,7 @@ namespace UniRxEvents
         public struct SetActivePanelEvent
         {
             public string PanelName;
+            public bool Active;
         } 
     }
     namespace GamePlay

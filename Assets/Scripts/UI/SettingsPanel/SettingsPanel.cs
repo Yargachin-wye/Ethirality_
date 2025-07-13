@@ -1,9 +1,11 @@
-﻿using Audio;
+﻿using System;
+using Audio;
 using Constants;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Utilities;
 
@@ -15,6 +17,7 @@ namespace UI.SettingsPanel
         [SerializeField] private Button exitGameplayBtn;
         [SerializeField] private Button backBtn;
         private bool _isGameplay;
+        private string _previousPanel = "";
 
         public override void Awake()
         {
@@ -30,6 +33,26 @@ namespace UI.SettingsPanel
 
             exitGameplayBtn.onClick.AddListener(ExitGameplay);
             backBtn.onClick.AddListener(ExitSettings);
+        }
+
+        private void Update()
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                ToggleSettings();
+            }
+        }
+
+        private void ToggleSettings()
+        {
+            if (IsActive)
+            {
+                MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = _previousPanel });
+            }
+            else
+            {
+                MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Settings });
+            }
         }
 
         protected override void OnPanelEnable()
@@ -56,11 +79,17 @@ namespace UI.SettingsPanel
                 { PanelName = _isGameplay ? UiConst.GamePlay : UiConst.MainMenu });
         }
 
+        public override void OpenPanel(OpenUiPanelEvent data)
+        {
+            base.OpenPanel(data);
+            if(data.PanelName != panelName)_previousPanel = data.PanelName;
+        }
 
         private void ExitGameplay()
         {
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
+            MessageBroker.Default.Publish(new StopRoundEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
         }
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CharacterComponents;
 using Definitions;
+using Generation;
 using Generator;
 using Pools;
 using Spawner;
@@ -23,6 +24,7 @@ namespace Managers.Pools
         Shell0,
         PlayerExit,
         Type10,
+        Food2
     }
 
     public class PointsContainerGenerator : BaseGenerator

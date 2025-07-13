@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Generator
+namespace Generation
 {
     public abstract class BaseGenerator : MonoBehaviour
     {

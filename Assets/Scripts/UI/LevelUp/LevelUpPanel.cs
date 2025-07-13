@@ -24,7 +24,7 @@ namespace UI.LevelUp
             LevelUp,
             Random,
         }
-        
+
         [Space]
         [SerializeField] private LevelUpSlot levelUpSlotHp;
         [SerializeField] private LevelUpSlot levelUpSlot;
@@ -37,7 +37,7 @@ namespace UI.LevelUp
 
         private ImprovementDefinition _currentLevelUp;
         private Reward _reward;
-        
+
         public override void Awake()
         {
             base.Awake();
@@ -80,13 +80,13 @@ namespace UI.LevelUp
             {
                 levelUpSlot.SetView(_currentLevelUp.Preview, _currentLevelUp.Description, -2);
                 levelUpSlotRandom.SetView(spriteRandom, "Получите случайное улучшение", -1);
-            } 
+            }
             else
             {
-                levelUpSlot.SetView(spriteBlocked, "Заблокированно", -2,true);
-                levelUpSlotRandom.SetView(spriteBlocked, "Заблокированно", -1,true);
+                levelUpSlot.SetView(spriteBlocked, "Заблокированно", -2, true);
+                levelUpSlotRandom.SetView(spriteBlocked, "Заблокированно", -1, true);
             }
-            
+
             endBtn.gameObject.SetActive(false);
 
             _reward = Reward.Null;
@@ -117,20 +117,20 @@ namespace UI.LevelUp
                     availableImprovements.Add(ResManager.Instance.Improvements[i]);
                 }
             }
-            
+
             if (availableImprovements.Count == 0)
             {
                 imp = null;
                 return false;
             }
-            
+
             imp = availableImprovements[Random.Range(0, availableImprovements.Count)];
             return true;
         }
-        
+
         public void SelectHp()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             endBtn.gameObject.SetActive(true);
 
@@ -142,8 +142,8 @@ namespace UI.LevelUp
 
         public void SelectLevelUp()
         {
-            if(!IsActive) return;
-            if(levelUpSlot.IsBlocked) return;
+            if (!IsActive) return;
+            if (levelUpSlot.IsBlocked) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             endBtn.gameObject.SetActive(true);
 
@@ -155,9 +155,9 @@ namespace UI.LevelUp
 
         public void SelectRandomLevelUp()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            if(levelUpSlotRandom.IsBlocked) return;
+            if (levelUpSlotRandom.IsBlocked) return;
             endBtn.gameObject.SetActive(true);
 
             levelUpSlotHp.Select(false);
@@ -169,7 +169,7 @@ namespace UI.LevelUp
 
         public void EndSelect()
         {
-            if(!IsActive) return;
+            if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             switch (_reward)
             {
@@ -197,8 +197,9 @@ namespace UI.LevelUp
                 }
                     break;
             }
+
             AudioManager.Instance.PlayUISound(AudioConst.Reward);
-            MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.GamePlay });
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
         }
     }
 }

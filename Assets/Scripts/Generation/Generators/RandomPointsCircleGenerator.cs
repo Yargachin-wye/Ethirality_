@@ -5,7 +5,7 @@ using Random = System.Random;
 
 namespace Generation.Generators
 {
-    public class RandomPointsCircleGenerator : global::Generator.BaseGenerator
+    public class RandomPointsCircleGenerator : global::Generation.BaseGenerator
     {
         [SerializeField] private PointsTypes pointsTypes;
         [SerializeField] private int maxPoints;

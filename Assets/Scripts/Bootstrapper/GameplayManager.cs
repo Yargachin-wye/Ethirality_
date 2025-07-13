@@ -33,16 +33,14 @@ namespace Bootstrapper
         private IEnumerator OnGameOver(GameOverEvent data)
         {
             yield return new WaitForSeconds(1f);
-            
+
             SaveSystem.Instance.ResetGameData();
             SaveSystem.Instance.SaveGame();
-            
-            yield return gameOverPanel.FadeOut();
-            
-            MessageBroker.Default.Publish(new StopRoundEvent());
-            MessageBroker.Default.Publish(new SetActivePanelEvent { PanelName = UiConst.GameOver });
 
-            
+            MessageBroker.Default.Publish(new StopRoundEvent());
+            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GameOver });
+
+
             yield return sceneLoader.LoadLobby();
             yield return new WaitForEndOfFrame();
         }

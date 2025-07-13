@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: DIABLO R
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -970849057
   material: {fileID: -2477578307869751149}
-  materialHashCode: 0
+  materialHashCode: 1131937695
   m_Version: 1.1.0
   m_SourceFontFileGUID: 50ae6016db3d3264b94926b9a6d7f3f0
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 50ae6016db3d3264b94926b9a6d7f3f0, type: 3}

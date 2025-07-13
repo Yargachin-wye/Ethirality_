@@ -729,6 +729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeadZone
       objectReference: {fileID: 0}
+    - target: {fileID: 7841528259157920393, guid: 7ceebe53b313e3a4ab3768336b8c0223, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

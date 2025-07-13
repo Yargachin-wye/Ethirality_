@@ -6,7 +6,7 @@ using Random = System.Random;
 
 namespace Generation.Generators
 {
-    public class RandomPointsSquareGenerator : global::Generator.BaseGenerator
+    public class RandomPointsSquareGenerator : global::Generation.BaseGenerator
     {
         [SerializeField] private PointsTypes pointsTypes;
 

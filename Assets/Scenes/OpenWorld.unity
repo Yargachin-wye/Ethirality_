@@ -153,6 +153,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 846448414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &172624508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 172624509}
+  - component: {fileID: 172624510}
+  m_Layer: 0
+  m_Name: PerlinNoise outside (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &172624509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172624508}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 596368951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &172624510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172624508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b648353ff7cc4eda99f51ac17097224b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points1Types: 10
+  points2Types: 10
+  maxPoints: 1000
+  size: {x: 500, y: 500}
+  isMandatoryGenerationEachPoint: 1
+  perlinMult: 0.1
+  perlinValMin: 0.4
+  perlinValMax: 0.5
+  perlinOffsetX: 100
+  perlinOffsetY: 100
+  isInWaypointsPath1: 0
+  isOutWaypointsPath1: 0
+  isInWaypointsPath2: 0
+  isOutWaypointsPath2: 1
+  maxY: -15
+  waypointsPath1: {fileID: 1520008708}
+  waypointsPath2: {fileID: 1901094099}
+  chancePointType2: 3
 --- !u!1 &213113058
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points1Types: 0
   points2Types: 0
-  maxPoints: 500
+  maxPoints: 1000
   size: {x: 200, y: 200}
   isMandatoryGenerationEachPoint: 1
   perlinMult: 0.2
@@ -283,6 +345,7 @@ Transform:
   - {fileID: 2103105291}
   - {fileID: 1901094100}
   - {fileID: 673050478}
+  - {fileID: 172624509}
   - {fileID: 300158553}
   - {fileID: 1909939237}
   - {fileID: 1664216176}
@@ -310,6 +373,8 @@ MonoBehaviour:
   - baseGenerator: {fileID: 1901094098}
     generate: 1
   - baseGenerator: {fileID: 673050479}
+    generate: 1
+  - baseGenerator: {fileID: 172624510}
     generate: 1
   - baseGenerator: {fileID: 300158554}
     generate: 1
@@ -369,11 +434,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points1Types: 5
   points2Types: 6
-  maxPoints: 1000
+  maxPoints: 1500
   size: {x: 500, y: 500}
   isMandatoryGenerationEachPoint: 1
   perlinMult: 0.1
-  perlinValMin: 0.534
+  perlinValMin: 0.5
   perlinValMax: 1
   perlinOffsetX: 100
   perlinOffsetY: 100
@@ -707,7 +772,7 @@ MonoBehaviour:
     characterDefinitionsPool:
     - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
   - name: 1
-    color: {r: 1, g: 0, b: 0, a: 0.69803923}
+    color: {r: 1, g: 0, b: 0.37499, a: 0.69803923}
     radius: 1.64
     probabilities:
     - 1
@@ -726,7 +791,7 @@ MonoBehaviour:
     probabilities:
     - 1
     characterDefinitionsPool:
-    - {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
+    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
   - name: 4
     color: {r: 0, g: 0.80884147, b: 1, a: 0.7058824}
     radius: 0.99
@@ -739,14 +804,12 @@ MonoBehaviour:
     radius: 0.87
     probabilities:
     - 0.5
-    - 0.5
-    - 0.05
-    - 0.05
+    - 0.01
+    - 0.01
     characterDefinitionsPool:
-    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
     - {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
-    - {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
     - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
+    - {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
   - name: 8
     color: {r: 1, g: 1, b: 1, a: 0.7058824}
     radius: 3
@@ -761,6 +824,13 @@ MonoBehaviour:
     - 1
     characterDefinitionsPool:
     - {fileID: 11400000, guid: 4bb0ad560fa7ce547b9e8533cdbbe3bf, type: 2}
+  - name: 10
+    color: {r: 1, g: 0, b: 0.030305386, a: 0.9098039}
+    radius: 0.6
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
   chunksController: {fileID: 1331198922}
   playerSpawner: {fileID: 839287355}
   distToPlayerForSpawn: 10

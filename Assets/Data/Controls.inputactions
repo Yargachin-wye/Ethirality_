@@ -37,7 +37,7 @@
                 {
                     "name": "",
                     "id": "d7162890-6b87-4508-9caf-7c3e3f224190",
-                    "path": "<AndroidJoystick>/stick",
+                    "path": "<Joystick>/stick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

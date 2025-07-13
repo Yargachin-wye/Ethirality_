@@ -52,7 +52,7 @@ namespace UI.Animations
                 if (_children == null || _children.Count == 0)
                     return;
 
-                float time = Application.isPlaying ? Time.time : (float)UnityEditor.EditorApplication.timeSinceStartup;
+                float time = Application.isPlaying ? Time.time : (float)0.02f;
 
                 for (int i = 0; i < _children.Count; i++)
                 {

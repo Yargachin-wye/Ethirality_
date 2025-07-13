@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Generation.Generators
 {
-    public class PerlinNoiseGenerator : global::Generator.BaseGenerator
+    public class PerlinNoiseGenerator : global::Generation.BaseGenerator
     {
         [SerializeField] private PointsTypes points1Types;
         [SerializeField] private PointsTypes points2Types;
@@ -33,7 +33,7 @@ namespace Generation.Generators
         [SerializeField] private WaypointsPath waypointsPath1;
         [SerializeField] private WaypointsPath waypointsPath2;
         [SerializeField, Range(0, 100)] private int chancePointType2;
-        int maxGenIters = 999999;
+        int maxGenIters = 99999999;
 
         public override IEnumerator Init(System.Random random, Vector2 position)
         {
