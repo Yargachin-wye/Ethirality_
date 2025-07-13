@@ -54,8 +54,8 @@ namespace UI
             else
             {
                 if (panel.activeSelf) panel.SetActive(false);
-                IsActive = false;
                 OnPanelDisable();
+                IsActive = false;
             }
         }
     }

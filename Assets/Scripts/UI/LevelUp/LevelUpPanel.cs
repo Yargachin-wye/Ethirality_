@@ -55,7 +55,7 @@ namespace UI.LevelUp
 
         protected override void OnPanelDisable()
         {
-            Time.timeScale = 1;
+            if (IsActive) Time.timeScale = 1;
         }
 
         protected override void OnPanelEnable()

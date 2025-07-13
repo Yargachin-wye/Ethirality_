@@ -63,9 +63,9 @@ namespace UI.SettingsPanel
 
         protected override void OnPanelDisable()
         {
-            Time.timeScale = 1;
+            if (IsActive) Time.timeScale = 1;
         }
-        
+
         private void OnDestroy()
         {
             Time.timeScale = 1;
@@ -82,7 +82,7 @@ namespace UI.SettingsPanel
         public override void OpenPanel(OpenUiPanelEvent data)
         {
             base.OpenPanel(data);
-            if(data.PanelName != panelName)_previousPanel = data.PanelName;
+            if (data.PanelName != panelName) _previousPanel = data.PanelName;
         }
 
         private void ExitGameplay()

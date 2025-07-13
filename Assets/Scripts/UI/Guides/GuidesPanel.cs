@@ -70,7 +70,7 @@ namespace UI.Guides
 
         protected override void OnPanelDisable()
         {
-            Time.timeScale = 1;
+            if (IsActive) Time.timeScale = 1;
         }
 
         private void OnDestroy()
