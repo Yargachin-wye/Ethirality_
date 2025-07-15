@@ -16,10 +16,6 @@ namespace UniRxEvents
 
     namespace Ui
     {
-        public struct FocusGuideEvent
-        {
-            public int GuideId;
-        }
         public struct OpenUiPanelEvent
         {
             public string PanelName;

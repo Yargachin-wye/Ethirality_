@@ -4,6 +4,7 @@ using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Utilities;
 
@@ -22,7 +23,7 @@ namespace UI.Guides
         private List<GuideSlot> _guideSlots = new List<GuideSlot>();
 
         private bool _isGameplay;
-
+        private string _previousPanel = "";
         public override void Awake()
         {
             base.Awake();
@@ -35,10 +36,6 @@ namespace UI.Guides
                 .Receive<StopRoundEvent>()
                 .Subscribe(data => _isGameplay = false);
 
-            MessageBroker.Default
-                .Receive<FocusGuideEvent>()
-                .Subscribe(data => OnFocusGuide(data));
-
             backBtn.onClick.AddListener(Exit);
 
             foreach (var guideInfo in guidesDefinition.GuideInfos)
@@ -49,8 +46,21 @@ namespace UI.Guides
                 gs.Stop();
                 _guideSlots.Add(gs);
             }
+        }
+        private void Update()
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                ToggleGuides();
+            }
+        }
 
-            _guideSlots[0].Play();
+        private void ToggleGuides()
+        {
+            if (IsActive)
+            {
+                MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = _previousPanel });
+            }
         }
 
         private void Exit()
@@ -59,13 +69,19 @@ namespace UI.Guides
                 { PanelName = _isGameplay ? UiConst.GamePlay : UiConst.MainMenu });
         }
 
-        private void OnFocusGuide(FocusGuideEvent data)
+        public override void OpenPanel(OpenUiPanelEvent data)
         {
+            base.OpenPanel(data);
+            if (data.PanelName != panelName) _previousPanel = data.PanelName;
         }
-
+        
         protected override void OnPanelEnable()
         {
+            
             Time.timeScale = 0;
+            _guideSlots[0].Play();
+            StopOver();
+            
         }
 
         protected override void OnPanelDisable()

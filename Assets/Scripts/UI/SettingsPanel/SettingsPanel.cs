@@ -45,6 +45,7 @@ namespace UI.SettingsPanel
 
         private void ToggleSettings()
         {
+            if(_previousPanel == UiConst.Guides) return;
             if (IsActive)
             {
                 MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = _previousPanel });
