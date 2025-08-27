@@ -764,6 +764,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsContainerPackList:
+  - name: 8
+    color: {r: 1, g: 1, b: 1, a: 0.7058824}
+    radius: 3
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
   - name: 7
     color: {r: 1, g: 0, b: 0.9345741, a: 0.7058824}
     radius: 1
@@ -785,38 +792,6 @@ MonoBehaviour:
     - 1
     characterDefinitionsPool:
     - {fileID: 11400000, guid: 1c8b3d65d0ed37647b7ec5a96f606255, type: 2}
-  - name: 0
-    color: {r: 0, g: 1, b: 0.18899345, a: 0.7058824}
-    radius: 0.93
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
-  - name: 4
-    color: {r: 0, g: 0.80884147, b: 1, a: 0.7058824}
-    radius: 0.99
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 3e52d05909a0c1d4e8232abe1cedfb39, type: 2}
-  - name: 5
-    color: {r: 1, g: 0.96826196, b: 0, a: 0.7058824}
-    radius: 0.87
-    probabilities:
-    - 0.5
-    - 0.01
-    - 0.01
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
-    - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
-    - {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
-  - name: 8
-    color: {r: 1, g: 1, b: 1, a: 0.7058824}
-    radius: 3
-    probabilities:
-    - 1
-    characterDefinitionsPool:
-    - {fileID: 11400000, guid: b744a019a2ae4e14dbecc4b34c2aa88c, type: 2}
   - name: 6
     color: {r: 0.022774696, g: 0, b: 1, a: 0.7058824}
     radius: 1.52
@@ -824,13 +799,44 @@ MonoBehaviour:
     - 1
     characterDefinitionsPool:
     - {fileID: 11400000, guid: 4bb0ad560fa7ce547b9e8533cdbbe3bf, type: 2}
+  - name: 0
+    color: {r: 0, g: 1, b: 0.18899345, a: 0.7058824}
+    radius: 0.93
+    probabilities:
+    - 1
+    - 1
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
+    - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
+    - {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
+  - name: 4
+    color: {r: 0, g: 0.80884147, b: 1, a: 0.7058824}
+    radius: 0.99
+    probabilities:
+    - 1
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
+  - name: 5
+    color: {r: 1, g: 0.96826196, b: 0, a: 0.7058824}
+    radius: 0.87
+    probabilities:
+    - 0.9
+    - 0.01
+    characterDefinitionsPool:
+    - {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
+    - {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
   - name: 10
     color: {r: 1, g: 0, b: 0.030305386, a: 0.9098039}
     radius: 0.6
     probabilities:
-    - 1
+    - 0.1
+    - 0.8
+    - 0.1
     characterDefinitionsPool:
     - {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
+    - {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
+    - {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
   chunksController: {fileID: 1331198922}
   playerSpawner: {fileID: 839287355}
   distToPlayerForSpawn: 10

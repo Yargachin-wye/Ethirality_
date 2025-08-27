@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1713043176, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  m_Sprite: {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,8 +99,9 @@ GameObject:
   - component: {fileID: 3113167696032994566}
   - component: {fileID: 7617761652462590631}
   - component: {fileID: 5752868437295147089}
+  - component: {fileID: 5583940985796389228}
   m_Layer: 0
-  m_Name: Hexagon
+  m_Name: HexagonLaser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,6 +170,7 @@ MonoBehaviour:
   - {fileID: 8274520558709118211}
   - {fileID: 3113167696032994566}
   - {fileID: 5752868437295147089}
+  - {fileID: 5583940985796389228}
   stats: {fileID: 3113167696032994566}
 --- !u!114 &8274520558709118211
 MonoBehaviour:
@@ -258,6 +260,22 @@ MonoBehaviour:
   - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   stats: {fileID: 3113167696032994566}
+--- !u!114 &5583940985796389228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52469d57643c485db0336dbb47cac270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  dmg: 1
+  fraction: 1
+  isDestroyOnTrigger: 1
 --- !u!1001 &2059956191728465532
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7376024986135659837}
   - component: {fileID: 4026738043886947821}
   m_Layer: 3
-  m_Name: Hexagon
+  m_Name: HexagonLaser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7114031a04b646ceb44047b23063a23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterDefinition: {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
+  characterDefinition: {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
   isSpawnOnStart: 0
 --- !u!212 &4026738043886947821
 SpriteRenderer:
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1713043176, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  m_Sprite: {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

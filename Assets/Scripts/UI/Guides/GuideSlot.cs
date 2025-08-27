@@ -28,7 +28,7 @@ namespace UI.Guides
         public void Play()
         {
             
-            _guidesPanel.StopOver();
+            _guidesPanel.StopAll();
             videoPlayer.Play();
             plug.SetActive(false);
         }
@@ -51,7 +51,8 @@ namespace UI.Guides
             videoPlayer.targetTexture = guideInfo.texture;
             rawImage.texture = guideInfo.texture;
             Debug.Log("Assigned texture: " + guideInfo.texture.name);
-            Play();
+            videoPlayer.Prepare();
+            videoPlayer.Play();
         }
     }
 }

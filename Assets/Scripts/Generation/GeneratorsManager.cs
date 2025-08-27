@@ -41,6 +41,21 @@ namespace Generator
 
             yield return null;
         }
+        IEnumerator GeneratePreView()
+        {
+            yield return StartCoroutine(pointsContainerGenerator.Clear());
+
+            _random = new Random(seed);
+            foreach (var uEvent in unityEventlist)
+            {
+                if (uEvent.generate)
+                {
+                    yield return StartCoroutine(uEvent.baseGenerator.Init(_random, new Vector2(0, 0)));
+                }
+            }
+
+            yield return null;
+        }
 
         [Serializable]
         public struct GeneratorPack

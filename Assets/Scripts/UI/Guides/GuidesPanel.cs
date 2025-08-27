@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Definitions;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -24,6 +26,7 @@ namespace UI.Guides
 
         private bool _isGameplay;
         private string _previousPanel = "";
+
         public override void Awake()
         {
             base.Awake();
@@ -43,10 +46,15 @@ namespace UI.Guides
                 var go = Instantiate(guidePrefab, container);
                 var gs = go.GetComponent<GuideSlot>();
                 gs.Init(guideInfo, this);
-                gs.Stop();
                 _guideSlots.Add(gs);
             }
         }
+
+        private void Start()
+        {
+            StopAll();
+        }
+
         private void Update()
         {
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
@@ -74,14 +82,18 @@ namespace UI.Guides
             base.OpenPanel(data);
             if (data.PanelName != panelName) _previousPanel = data.PanelName;
         }
-        
+
+        bool isInited = false;
+
         protected override void OnPanelEnable()
         {
-            
+            if (!isInited)
+            {
+                isInited = true;
+            }
+
             Time.timeScale = 0;
-            _guideSlots[0].Play();
-            StopOver();
-            
+            StopAll();
         }
 
         protected override void OnPanelDisable()
@@ -94,7 +106,7 @@ namespace UI.Guides
             Time.timeScale = 1;
         }
 
-        public void StopOver()
+        public void StopAll()
         {
             foreach (var guideSlot in _guideSlots)
             {
