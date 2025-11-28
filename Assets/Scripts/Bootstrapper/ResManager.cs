@@ -14,19 +14,16 @@ namespace Bootstrapper
         [SerializeField] private CharacterDefinition[] characters;
         [SerializeField] private ImprovementDefinition[] improvements;
         [Space]
-        [SerializeField] private DifficultyLevelPack[] difficultyLevelPacks;
+        [SerializeField] private LevelPack openWorldLevelName;
 
         public CharacterDefinition[] Characters => characters;
         public ImprovementDefinition[] Improvements => improvements;
-        public DifficultyLevelPack[] DifficultyLevelPacks => difficultyLevelPacks;
+        public LevelPack Level => openWorldLevelName;
 
         private void Validate()
         {
-            foreach (var difficultyLevelPacks in difficultyLevelPacks)
-            {
-                difficultyLevelPacks.Validate();
-            }
-
+            openWorldLevelName.FindAllLevels();
+            
             for (int i = 0; i < characters.Length; i++)
             {
                 characters[i].SetResId(i);
@@ -63,46 +60,23 @@ namespace Bootstrapper
         [Serializable]
         public class LevelPack
         {
-            [SerializeField, HideInInspector] public List<string> levelsCollection;
-
-            [SerializeField, Dropdown("levelsCollection")]
-            public string levelName;
-        }
-
-        [Serializable]
-        public class DifficultyLevelPack
-        {
-            public LevelPack[] openWorldLevelName;
-
-            public LevelPack[] randomLevelName;
-
-            private static List<string> FindAllLevels()
+            public void FindAllLevels()
             {
                 int sceneCount = SceneManager.sceneCountInBuildSettings;
-                List<string> sceneNames = new List<string>();
+                levelsCollection = new List<string>();
 
                 for (int i = 0; i < sceneCount; i++)
                 {
                     string path = SceneUtility.GetScenePathByBuildIndex(i);
                     string name = System.IO.Path.GetFileNameWithoutExtension(path);
-                    sceneNames.Add(name);
-                }
-
-                return sceneNames;
-            }
-
-            public void Validate()
-            {
-                foreach (var worldLevelName in openWorldLevelName)
-                {
-                    worldLevelName.levelsCollection = FindAllLevels();
-                }
-
-                foreach (var worldLevelName in randomLevelName)
-                {
-                    worldLevelName.levelsCollection = FindAllLevels();
+                    levelsCollection.Add(name);
                 }
             }
+
+            [SerializeField, HideInInspector] public List<string> levelsCollection;
+
+            [SerializeField, Dropdown("levelsCollection")]
+            public string levelName;
         }
     }
 }

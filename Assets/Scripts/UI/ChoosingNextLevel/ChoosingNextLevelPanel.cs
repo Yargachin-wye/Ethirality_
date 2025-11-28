@@ -17,16 +17,14 @@ namespace UI.ChoosingNextLevel
     {
         [Space]
         [SerializeField] private SceneLoader sceneLoader;
-        [SerializeField] private Button randomLevelBtn;
-        [SerializeField] private Button openWorldLevelBtn;
+        [SerializeField] private Button playBtn;
         [SerializeField] private Button backBtn;
         [SerializeField] private Image fieldDifficulty;
 
         public override void Awake()
         {
             base.Awake();
-            randomLevelBtn.onClick.AddListener(StartRandomLevel);
-            openWorldLevelBtn.onClick.AddListener(StartOpenWorld);
+            playBtn.onClick.AddListener(StartOpenWorld);
             backBtn.onClick.AddListener(BackMenu);
         }
 
@@ -37,36 +35,17 @@ namespace UI.ChoosingNextLevel
 
         protected override void OnPanelEnable()
         {
-            fieldDifficulty.fillAmount = (float)SaveSystem.Instance.saveData.currentDifficulty /
-                                         ResManager.Instance.DifficultyLevelPacks.Length;
+            fieldDifficulty.fillAmount = 0.5f;
         }
-
-        private void StartRandomLevel()
-        {
-            if (!IsActive) return;
-            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-
-            var levels = ResManager.Instance
-                .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
-                .randomLevelName; 
-            
-            string nextLevelName = levels[Random.Range(0, levels.Length)].levelName;
-
-            StartCoroutine(StartLevel(nextLevelName));
-        }
-
+        
         private void StartOpenWorld()
         {
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
 
-            var levels = ResManager.Instance
-                .DifficultyLevelPacks[SaveSystem.Instance.saveData.currentDifficulty]
-                .openWorldLevelName;
+            var level = ResManager.Instance.Level;
             
-            string nextLevelName = levels[Random.Range(0, levels.Length)].levelName;
-            
-            StartCoroutine(StartLevel(nextLevelName));
+            StartCoroutine(StartLevel(level.levelName));
         }
 
         private IEnumerator StartLevel(string nextLevelName)
@@ -74,11 +53,7 @@ namespace UI.ChoosingNextLevel
             yield return StartCoroutine(sceneLoader.Load(nextLevelName));
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.GamePlay });
             MessageBroker.Default.Publish(new StartRoundEvent());
-            if (SaveSystem.Instance.saveData.currentDifficulty == 0)
-            {
-                MessageBroker.Default.Publish(new GameStartEvent());
-            }
-
+            
             yield return new WaitForSeconds(0.1f);
             if (!SaveSystem.Instance.settingsData.isSeeGuides)
             {

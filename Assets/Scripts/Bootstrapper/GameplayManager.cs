@@ -47,11 +47,6 @@ namespace Bootstrapper
 
         public IEnumerator StopGameplay()
         {
-            if (SaveSystem.Instance.saveData.currentDifficulty < ResManager.Instance.DifficultyLevelPacks.Length - 1)
-            {
-                SaveSystem.Instance.saveData.currentDifficulty++;
-            }
-
             MessageBroker.Default.Publish(new StopRoundEvent());
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
             yield return sceneLoader.LoadLobby();

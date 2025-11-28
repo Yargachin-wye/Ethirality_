@@ -65,7 +65,7 @@ namespace Bootstrapper
                 GameAnalytics.NewProgressionEvent(
                     GAProgressionStatus.Fail, 
                     "round",
-                    SaveSystem.Instance.saveData.currentDifficulty);
+                    1);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Bootstrapper
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Start,
                 "run",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                1);
         }
 
         public void GameOver()
@@ -82,7 +82,7 @@ namespace Bootstrapper
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Complete,
                 "run",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                1);
         }
 
         public void StartRound()
@@ -90,7 +90,7 @@ namespace Bootstrapper
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Start,
                 "round",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                1);
             _isRound = true;
         }
 
@@ -99,7 +99,7 @@ namespace Bootstrapper
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Complete,
                 "round",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                1);
             _isRound = false;
         }
         
