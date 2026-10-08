@@ -9,10 +9,22 @@ namespace Generation
     [CreateAssetMenu(menuName = "Generation/Enemy Spawn Table")]
     public class EnemySpawnTable : ScriptableObject
     {
+        public enum EnemyRole
+        {
+            Melee,
+            Ranged,
+            Tank,
+            Swarm,
+            Elite,
+            Support,
+            Ambusher
+        }
+
         [Serializable]
         public struct Entry
         {
             public CharacterDefinition definition;
+            public EnemyRole role;
             [Min(0.01f)] public float threatCost;
             [Min(0f)] public float weight;
             [Range(0f, 1f)] public float unlockDifficulty;
@@ -22,6 +34,8 @@ namespace Generation
         }
 
         [SerializeField] private Entry[] entries;
+
+        public IReadOnlyList<Entry> Entries => entries;
 
         private readonly List<int> _candidates = new();
         private readonly List<float> _weights = new();

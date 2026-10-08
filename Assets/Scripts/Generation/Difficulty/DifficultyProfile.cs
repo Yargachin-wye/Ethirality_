@@ -19,18 +19,41 @@ namespace Generation
         [SerializeField] private AnimationCurve difficultyByProgress = AnimationCurve.Linear(0, 0, 1, 1);
         [SerializeField, Min(0f)] private float minThreatPerArea = 0.02f;
         [SerializeField, Min(0f)] private float maxThreatPerArea = 0.12f;
+        [SerializeField, Min(0.001f), Tooltip("Макс. прирост сложности между соседними слоями (pressure budget)")]
+        private float maxDifficultyDeltaPerLayer = 0.05f;
         [SerializeField] private PacingBeat[] pacing =
         {
-            new() {every = 5, offset = 4, threatMultiplier = 0.5f},
+            new() {every = 4, offset = 3, threatMultiplier = 0.45f},
             new() {every = 10, offset = 9, threatMultiplier = 1.5f}
         };
 
         public int LayerCount => layerCount;
 
+        private float[] _pressureClamped;
+
         public float EvaluateDifficulty(int layerIndex)
         {
-            float t = layerCount > 1 ? layerIndex / (float) (layerCount - 1) : 0f;
-            return Mathf.Clamp01(difficultyByProgress.Evaluate(t));
+            if (_pressureClamped == null || _pressureClamped.Length != layerCount)
+                BuildPressureBudget();
+
+            return _pressureClamped[Mathf.Clamp(layerIndex, 0, layerCount - 1)];
+        }
+
+        private void BuildPressureBudget()
+        {
+            _pressureClamped = new float[layerCount];
+            float prev = 0f;
+            for (int i = 0; i < layerCount; i++)
+            {
+                float t = layerCount > 1 ? i / (float) (layerCount - 1) : 0f;
+                float raw = Mathf.Clamp01(difficultyByProgress.Evaluate(t));
+                prev = _pressureClamped[i] = i == 0 ? raw : Mathf.Min(raw, prev + maxDifficultyDeltaPerLayer);
+            }
+        }
+
+        private void OnValidate()
+        {
+            _pressureClamped = null;
         }
 
         public float EvaluateThreat(float difficulty, float area, float pacingMultiplier, float layerMultiplier)

@@ -13,10 +13,59 @@ MonoBehaviour:
   m_Name: New Enemy Spawn Table
   m_EditorClassIdentifier: 
   entries:
-  - definition: {fileID: 0}
-    threatCost: 0
-    weight: 0
+  - definition: {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
+    role: 3
+    threatCost: 1
+    weight: 10
     unlockDifficulty: 0
-    fullWeightDifficulty: 0
+    fullWeightDifficulty: 0.05
+    retireDifficulty: 0.75
+    maxPerLayer: 0
+  - definition: {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
+    role: 2
+    threatCost: 2
+    weight: 6
+    unlockDifficulty: 0
+    fullWeightDifficulty: 0.1
     retireDifficulty: 0
     maxPerLayer: 0
+  - definition: {fileID: 11400000, guid: 116c564ab468ae04e9f2877d04282448, type: 2}
+    role: 2
+    threatCost: 3
+    weight: 4
+    unlockDifficulty: 0.1
+    fullWeightDifficulty: 0.3
+    retireDifficulty: 0
+    maxPerLayer: 4
+  - definition: {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
+    role: 2
+    threatCost: 4
+    weight: 3
+    unlockDifficulty: 0.3
+    fullWeightDifficulty: 0.55
+    retireDifficulty: 0
+    maxPerLayer: 3
+  - definition: {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
+    role: 6
+    threatCost: 5
+    weight: 2.5
+    unlockDifficulty: 0.45
+    fullWeightDifficulty: 0.65
+    retireDifficulty: 0
+    maxPerLayer: 2
+  - definition: {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
+    role: 1
+    threatCost: 6
+    weight: 3
+    unlockDifficulty: 0.25
+    fullWeightDifficulty: 0.5
+    retireDifficulty: 0
+    maxPerLayer: 3
+  - definition: {fileID: 11400000, guid: 60f41c75712fc4d4cb166e486e429d7e, type: 2}
+    role: 4
+    threatCost: 8
+    weight: 1.5
+    unlockDifficulty: 0.55
+    fullWeightDifficulty: 0.8
+    retireDifficulty: 0
+    maxPerLayer: 2

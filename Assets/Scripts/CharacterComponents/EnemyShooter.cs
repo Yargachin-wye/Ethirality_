@@ -19,6 +19,8 @@ namespace CharacterComponents
         private ProjectilePool _projectilePool;
         private float _timer;
 
+        public float DetectionRange => detectionRange;
+
         private Fraction Fraction => character.Fraction;
 
         public override void Init()
