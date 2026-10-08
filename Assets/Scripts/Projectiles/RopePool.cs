@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using CharacterComponents.Animations;
-using Managers.Pools;
 using UnityEngine;
 
 namespace Projectiles
