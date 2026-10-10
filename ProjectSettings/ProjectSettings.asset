@@ -795,23 +795,23 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: 
-    EmbeddedLinux: 
-    GameCoreScarlett: 
-    GameCoreXboxOne: 
-    LinuxHeadlessSimulation: 
-    Nintendo Switch: 
-    PS4: 
-    PS5: 
-    QNX: 
-    Stadia: 
-    Standalone: 
-    VisionOS: 
-    WebGL: 
-    Windows Store Apps: 
-    XboxOne: 
-    iPhone: 
-    tvOS: 
+    Android: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    EmbeddedLinux: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    GameCoreScarlett: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    GameCoreXboxOne: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    LinuxHeadlessSimulation: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    Nintendo Switch: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    PS4: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    PS5: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    QNX: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    Stadia: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    Standalone: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    VisionOS: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    WebGL: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    Windows Store Apps: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    XboxOne: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    iPhone: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
+    tvOS: DOTWEEN;DOTWEEN_UITOOLKIT;DOTWEEN_EPO
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

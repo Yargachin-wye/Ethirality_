@@ -17,6 +17,8 @@
         public const string LaserShot = "LaserShot";
         public const string EatSound = "EatSound";
         public const string DamageHitSound = "DamageHitSound";
+        public const string LaserProjectileHit = "LaserProjectileHit";
+        public const string LaserTriggerHit = "LaserTriggerHit";
         
         public const string UiClick = "UiClick";
 
@@ -37,6 +39,8 @@
             LaserShot,
             EatSound,
             DamageHitSound,
+            LaserProjectileHit,
+            LaserTriggerHit,
 
             UiClick
         };

@@ -3,6 +3,7 @@ using CharacterComponents.CharacterStat;
 using Constants;
 using CharacterComponents.Moving;
 using Definitions;
+using EditorAttributes;
 using UnityEngine;
 
 namespace Projectiles
@@ -10,7 +11,9 @@ namespace Projectiles
     [RequireComponent(typeof(Rigidbody2D))]
     public class DefaultProjectile : BaseProjectile
     {
+        private static string[] collection = AudioConst.AllSounds;
         [SerializeField] private Rigidbody2D rb2D;
+        [SerializeField, Dropdown("collection")] private string hitSound = AudioConst.LaserProjectileHit;
 
         private float _timer;
         private bool _inited = false;
@@ -27,7 +30,7 @@ namespace Projectiles
             if (!_inited) return;
             if (_timer <= 0)
             {
-                gameObject.SetActive(false);
+                Break();
                 return;
             }
 
@@ -72,17 +75,28 @@ namespace Projectiles
                 return;
             }
 
-            if (triggerStats.Fraction == Fraction.Player)
-                AudioManager.Instance.PlaySound(AudioConst.DamageHitSound, AudioChannel.VFX, transform.position);
             triggerStats.Damage(Definition.Damage);
 
             if (Definition.IsDestroyOnTrigger)
             {
-                gameObject.SetActive(false);
+                Break();
                 return;
             }
 
+            if (triggerStats.Fraction == Fraction.Player) PlayHitSound();
             _isTriggered = true;
+        }
+
+        private void PlayHitSound()
+        {
+            if (!string.IsNullOrEmpty(hitSound))
+                AudioManager.Instance.PlaySound(hitSound, AudioChannel.VFX, transform.position);
+        }
+
+        private void Break()
+        {
+            PlayHitSound();
+            gameObject.SetActive(false);
         }
     }
 }
