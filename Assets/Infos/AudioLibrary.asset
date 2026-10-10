@@ -79,6 +79,11 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     pitchFactor: 0.1
+  - name: LaserProjectileHit
+    clip: {fileID: 8300000, guid: 9d5979ceb82a1d448b987f2e88806c53, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
   - name: LaserTriggerHit
     clip: {fileID: 8300000, guid: 9d5979ceb82a1d448b987f2e88806c53, type: 3}
     volume: 1
