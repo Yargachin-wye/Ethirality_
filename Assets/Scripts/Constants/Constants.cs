@@ -15,6 +15,8 @@
         public const string PlayerDmgSound = "PlayerDmgSound";
         public const string PlayerDeadSound = "PlayerDeadSound";
         public const string LaserShot = "LaserShot";
+        public const string EatSound = "EatSound";
+        public const string DamageHitSound = "DamageHitSound";
         
         public const string UiClick = "UiClick";
 
@@ -33,6 +35,8 @@
             PlayerDmgSound,
             PlayerDeadSound,
             LaserShot,
+            EatSound,
+            DamageHitSound,
 
             UiClick
         };

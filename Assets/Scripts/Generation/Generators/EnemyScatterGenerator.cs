@@ -13,7 +13,8 @@ namespace Generation
             if (layer.SpawnTable == null) yield break;
 
             placement.Reset();
-            var enemies = layer.SpawnTable.Roll(layer.Random, layer.Difficulty, layer.ThreatBudget);
+            var enemies = layer.SpawnTable.Roll(layer.Random, layer.Difficulty, layer.ThreatBudget,
+                layer.Definition.Composition);
 
             foreach (var enemy in enemies)
                 placement.TryPlace(layer, enemy, attemptsPerEnemy);

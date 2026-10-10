@@ -27,7 +27,13 @@ namespace Generation
             new() {every = 10, offset = 9, threatMultiplier = 1.5f}
         };
 
+        [SerializeField, Min(0f), Tooltip("Рост угрозы после выхода на максимум кривой (бесконечный режим): 1 + k * ln(1 + слоёв сверх кривой)")]
+        private float endlessThreatGrowth = 0.5f;
+
         public int LayerCount => layerCount;
+
+        public float EvaluateEndlessMultiplier(int layerIndex) =>
+            1f + endlessThreatGrowth * Mathf.Log(1f + Mathf.Max(0, layerIndex - layerCount + 1));
 
         private float[] _pressureClamped;
 

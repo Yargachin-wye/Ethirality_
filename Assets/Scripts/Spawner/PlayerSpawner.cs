@@ -14,7 +14,7 @@ namespace Spawner
         private List<Vector2> _spawnPoints = new();
         private static CharactersPool CharactersPool => CharactersPool.Instance;
 
-        public void Spawn()
+        public Character Spawn()
         {
             Character character = CharactersPool.GetPooledObject(characterDefinition);
             character.gameObject.SetActive(true);
@@ -22,6 +22,7 @@ namespace Spawner
             character.Init(characterDefinition);
 
             _spawnPoints.Clear();
+            return character;
         }
 
         public void AddSpawnPoint(Vector2 position)

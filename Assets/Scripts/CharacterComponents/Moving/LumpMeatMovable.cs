@@ -70,11 +70,13 @@ namespace CharacterComponents.Moving
 
             if (_isFreeze)
             {
-                float angle = Mathf.Atan2(_lookDirection.y, _lookDirection.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 character.rb2D.angularVelocity = 0;
-                character.rb2D.SetRotation(Quaternion.Slerp(transform.rotation, rotation,
-                    Time.deltaTime * rotationSpeed));
+                if (_lookDirection.sqrMagnitude > 0.0001f)
+                {
+                    float angle = Mathf.Atan2(_lookDirection.y, _lookDirection.x) * Mathf.Rad2Deg;
+                    character.rb2D.MoveRotation(Mathf.LerpAngle(character.rb2D.rotation, angle,
+                        Mathf.Clamp01(Time.fixedDeltaTime * rotationSpeed)));
+                }
 
                 character.rb2D.velocity = Vector2.Lerp(character.rb2D.velocity, Vector2.zero,
                     1 - decelerationRate);
@@ -83,9 +85,10 @@ namespace CharacterComponents.Moving
 
         public void Look(Vector2 direction)
         {
-            _lookDirection = -direction;
+            if (direction.magnitude >= 0.5f) _lookDirection = -direction;
+            if (_isFreeze) Debug.Log($"[AimDbg] t={Time.time:F2} Look in={direction} stored={_lookDirection} rbRot={character.rb2D.rotation:F1}");
 
-            if (_lookDirection.magnitude < Inputer.JoysickMinMagnitude)
+            if (direction.magnitude < Inputer.JoysickMinMagnitude)
             {
                 if (lumpMeatAnimator.IsJawOpen) lumpMeatAnimator.CloseJaw();
             }
@@ -98,6 +101,7 @@ namespace CharacterComponents.Moving
         public void Freeze(bool freeze, Vector2 v2)
         {
             _isFreeze = freeze;
+            _lookDirection = Vector2.zero;
 
             if (_isFreeze)
             {

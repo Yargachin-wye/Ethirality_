@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: New Layer Definition
   m_EditorClassIdentifier: 
   spawnTable: {fileID: 11400000, guid: 010ca6a358660c34098448aad97948d1, type: 2}
+  composition: []
   widthRange: {x: 30, y: 40}
-  heightRange: {x: 15, y: 25}
+  heightRange: {x: 25, y: 50}
   weight: 1
   minDifficulty: 0
   maxDifficulty: 1

@@ -41,6 +41,7 @@ namespace Managers
         {
             _controls.Enable();
             _controls.PlayerMovable.Joystick.performed += Joystick;
+            _controls.PlayerMovable.Joystick.canceled += Joystick;
             _controls.PlayerMovable.LeftButton.started += Touch;
             _controls.PlayerMovable.LeftButton.canceled += ReleasedTouch;
             _controls.PlayerMovable.ScreenPosition.performed += ReadScreenPosition;
@@ -49,6 +50,7 @@ namespace Managers
         private void OnDisable()
         {
             _controls.PlayerMovable.Joystick.performed -= Joystick;
+            _controls.PlayerMovable.Joystick.canceled -= Joystick;
             _controls.PlayerMovable.LeftButton.started -= Touch;
             _controls.PlayerMovable.LeftButton.canceled -= ReleasedTouch;
             _controls.PlayerMovable.ScreenPosition.performed -= ReadScreenPosition;
@@ -64,6 +66,7 @@ namespace Managers
             _tapTimer = tapDelay;
             _touchPosition = _screenPosition;
             _detouchPosition = Vector2.zero;
+            _lookDirection = Vector2.zero;
         }
 
         public void ReadScreenPosition(InputAction.CallbackContext context)
@@ -89,15 +92,19 @@ namespace Managers
 
         public void Joystick(InputAction.CallbackContext context)
         {
-            if (!context.control.IsActuated()) return;
-            _detouchPosition = context.ReadValue<Vector2>();
+            var dev = context.control.device;
+            bool ignored = dev.displayName.Contains("vJoy") || dev.name.Contains("vJoy");
+            Debug.Log($"[AimDbg] t={Time.time:F2} Joystick ignored={ignored} phase={context.phase} value={context.ReadValue<Vector2>()} dev={dev.name} display={dev.displayName} iface={dev.description.interfaceName} product={dev.description.product}");
+            if (ignored) return;
+            _lookDirection = context.ReadValue<Vector2>();
+            if (context.control.IsActuated()) _detouchPosition = _lookDirection;
         }
         
         private void Update()
         {
             if (!_pressed) return;
 
-            OnInputLook?.Invoke(_detouchPosition);
+            OnInputLook?.Invoke(_lookDirection);
 
             if (_taped) return;
             _tapTimer -= Time.deltaTime;

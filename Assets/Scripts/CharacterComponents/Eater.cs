@@ -1,4 +1,6 @@
-﻿using CharacterComponents.Food;
+﻿using Audio;
+using CharacterComponents.Food;
+using Constants;
 
 namespace CharacterComponents
 {
@@ -10,6 +12,7 @@ namespace CharacterComponents
         }
         public void Eat(BaseFood food)
         {
+            AudioManager.Instance.PlaySound(AudioConst.EatSound, AudioChannel.VFX, transform.position);
             food.OnEaten(character);
         }
         

@@ -1,4 +1,6 @@
-﻿using CharacterComponents;
+﻿using Audio;
+using CharacterComponents;
+using Constants;
 using CharacterComponents.Animations;
 using CharacterComponents.CharacterStat;
 using Definitions;
@@ -33,6 +35,8 @@ namespace Improvements
             }
 
 
+            if (triggerStats.Fraction == Fraction.Player)
+                AudioManager.Instance.PlaySound(AudioConst.DamageHitSound, AudioChannel.VFX, transform.position);
             triggerStats.Damage(dmg);
 
             if (isDestroyOnTrigger)

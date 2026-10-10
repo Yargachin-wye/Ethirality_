@@ -1,4 +1,6 @@
-﻿using CharacterComponents.CharacterStat;
+﻿using Audio;
+using CharacterComponents.CharacterStat;
+using Constants;
 using CharacterComponents.Moving;
 using Definitions;
 using UnityEngine;
@@ -70,6 +72,8 @@ namespace Projectiles
                 return;
             }
 
+            if (triggerStats.Fraction == Fraction.Player)
+                AudioManager.Instance.PlaySound(AudioConst.DamageHitSound, AudioChannel.VFX, transform.position);
             triggerStats.Damage(Definition.Damage);
 
             if (Definition.IsDestroyOnTrigger)

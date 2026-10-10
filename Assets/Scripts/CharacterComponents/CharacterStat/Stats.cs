@@ -7,6 +7,7 @@ using EditorAttributes;
 using Pools;
 using UniRx;
 using UniRxEvents.GamePlay;
+using UI.Popups;
 using UniRxEvents.Ui;
 using UnityEngine;
 using Utilities;
@@ -65,6 +66,7 @@ namespace CharacterComponents.CharacterStat
         {
             if (isInvulnerable) return false;
             _currentHealth -= val;
+            PopupManager.Show(transform.position, val, PopupType.Damage);
 
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
 
@@ -82,8 +84,10 @@ namespace CharacterComponents.CharacterStat
 
         public void Cure(int val)
         {
+            int before = _currentHealth;
             _currentHealth += val;
             if (_currentHealth > MaxHealth) _currentHealth = MaxHealth;
+            PopupManager.Show(transform.position, _currentHealth - before, PopupType.Heal);
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
 
             OnCureAction?.Invoke(val);

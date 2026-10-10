@@ -89,8 +89,8 @@ MonoBehaviour:
   - every: 4
     offset: 3
     threatMultiplier: 0.45
-    forcedLayer: {fileID: 0}
+    forcedLayer: {fileID: 11400000, guid: a5d5d2da966b6de4dbf961adda291f0c, type: 2}
   - every: 10
     offset: 9
     threatMultiplier: 1.5
-    forcedLayer: {fileID: 0}
+    forcedLayer: {fileID: 11400000, guid: a5d5d2da966b6de4dbf961adda291f0c, type: 2}
