@@ -30,11 +30,13 @@ namespace CharacterComponents
 
         private IDisposable _addNewImprovementSubscription;
         private IDisposable _addHpSubscription;
+        private IDisposable _swapSubscription;
 
         private void OnDestroy()
         {
             _addNewImprovementSubscription?.Dispose();
             _addHpSubscription?.Dispose();
+            _swapSubscription?.Dispose();
         }
 
         public override void Init()
@@ -50,6 +52,10 @@ namespace CharacterComponents
             _addHpSubscription = MessageBroker.Default
                 .Receive<AddHpEvent>()
                 .Subscribe(data => OnAddHp(data));
+
+            _swapSubscription = MessageBroker.Default
+                .Receive<SwapImprovementsEvent>()
+                .Subscribe(data => OnSwapImprovements(data));
 
             foreach (var impResId in Saves.saveData.playerUpgradeResIds)
             {
@@ -175,6 +181,38 @@ namespace CharacterComponents
             improvements.Remove(improvement);
             RemoveMoving(improvement.gameObject);
             MessageBroker.Default.Publish(new RemoveImprovementEvent { Improvement = improvement });
+        }
+
+        private void OnSwapImprovements(SwapImprovementsEvent data)
+        {
+            var impA = data.ImprovementA;
+            var impB = data.ImprovementB;
+            if (impA == null || impB == null) return;
+
+            int idxA = improvements.IndexOf(impA);
+            int idxB = improvements.IndexOf(impB);
+            if (idxA >= 0 && idxB >= 0)
+                (improvements[idxA], improvements[idxB]) = (improvements[idxB], improvements[idxA]);
+
+            var twisterA = impA.GetComponent<Twister>();
+            var twisterB = impB.GetComponent<Twister>();
+            if (twisterA != null && twisterB != null)
+            {
+                int tIdxA = _twisters.IndexOf(twisterA);
+                int tIdxB = _twisters.IndexOf(twisterB);
+                if (tIdxA >= 0 && tIdxB >= 0)
+                    (_twisters[tIdxA], _twisters[tIdxB]) = (_twisters[tIdxB], _twisters[tIdxA]);
+            }
+
+            var leashA = impA.GetComponent<Leash>();
+            var leashB = impB.GetComponent<Leash>();
+            if (leashA != null && leashB != null)
+            {
+                int lIdxA = _leashs.IndexOf(leashA);
+                int lIdxB = _leashs.IndexOf(leashB);
+                if (lIdxA >= 0 && lIdxB >= 0)
+                    (_leashs[lIdxA], _leashs[lIdxB]) = (_leashs[lIdxB], _leashs[lIdxA]);
+            }
         }
 
         private void OnDrawGizmosSelected()

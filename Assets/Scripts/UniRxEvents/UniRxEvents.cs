@@ -12,6 +12,11 @@ namespace UniRxEvents
         {
             public Improvements.Improvement Improvement;
         }
+        public struct SwapImprovementsEvent
+        {
+            public Improvements.Improvement ImprovementA;
+            public Improvements.Improvement ImprovementB;
+        }
     }
 
     namespace Ui
