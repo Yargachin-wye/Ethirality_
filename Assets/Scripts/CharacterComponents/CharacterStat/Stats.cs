@@ -66,7 +66,7 @@ namespace CharacterComponents.CharacterStat
         {
             if (isInvulnerable) return false;
             _currentHealth -= val;
-            PopupManager.Show(transform.position, val, PopupType.Damage);
+            PopupManager.Show(transform.position, val, PopupType.Damage, Fraction);
 
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
 
@@ -87,7 +87,7 @@ namespace CharacterComponents.CharacterStat
             int before = _currentHealth;
             _currentHealth += val;
             if (_currentHealth > MaxHealth) _currentHealth = MaxHealth;
-            PopupManager.Show(transform.position, _currentHealth - before, PopupType.Heal);
+            PopupManager.Show(transform.position, _currentHealth - before, PopupType.Heal, Fraction);
             if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
 
             OnCureAction?.Invoke(val);

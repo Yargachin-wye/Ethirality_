@@ -89,4 +89,9 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     pitchFactor: 0.1
+  - name: EatSound
+    clip: {fileID: 8300000, guid: aa8d72136bd66c14e8f7c5507ab8f4f0, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
   musicTracks: []

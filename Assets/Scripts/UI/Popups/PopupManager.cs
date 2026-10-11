@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using Definitions;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UI.Popups
 {
@@ -20,10 +23,24 @@ namespace UI.Popups
 
         private readonly Queue<PopupItem> _free = new Queue<PopupItem>(Prewarm);
 
-        private static readonly Color DamageColor = new Color(1f, 0.25f, 0.2f);
-        private static readonly Color DamageOutline = new Color(0.35f, 0f, 0f);
-        private static readonly Color HealColor = new Color(0.35f, 1f, 0.45f);
-        private static readonly Color HealOutline = new Color(0f, 0.3f, 0.1f);
+        [SerializeField] private Color playerDamageColor = new Color(1f, 0.25f, 0.2f);
+        [SerializeField] private Color playerDamageOutline = new Color(0.35f, 0f, 0f);
+        [Space]
+        [SerializeField] private Color playerHealColor = new Color(0.35f, 1f, 0.45f);
+        [SerializeField] private Color playerHealOutline = new Color(0f, 0.3f, 0.1f);
+        [Space]
+        [SerializeField] private Color enemyDamageColor = new Color(1f, 0.25f, 0.2f);
+        [SerializeField] private Color enemyDamageOutline = new Color(0.35f, 0f, 0f);
+        [Space]
+        [SerializeField] private Color enemyHealColor = new Color(0.35f, 1f, 0.45f);
+        [SerializeField] private Color enemyHealOutline = new Color(0f, 0.3f, 0.1f);
+        [Space]
+        [SerializeField] private Color allDamageColor = new Color(1f, 0.25f, 0.2f);
+        [SerializeField] private Color allDamageOutline = new Color(0.35f, 0f, 0f);
+        [Space]
+        [SerializeField] private Color allHealColor = new Color(0.35f, 1f, 0.45f);
+        [SerializeField] private Color allHealOutline = new Color(0f, 0.3f, 0.1f);
+
 
         private sealed class PopupItem
         {
@@ -32,9 +49,17 @@ namespace UI.Popups
             public Sequence Seq;
         }
 
-        public static void Show(Vector3 position, int value, PopupType type)
+        private void Awake()
         {
-            if (value <= 0) return;
+            if (_instance == null)
+            {
+                _instance = this;
+                DontDestroyOnLoad(this);
+            }
+        }
+
+        public static void Show(Vector3 position, int value, PopupType type, Fraction fraction)
+        {
             if (_instance == null)
             {
                 var go = new GameObject("[Popups]");
@@ -42,7 +67,7 @@ namespace UI.Popups
                 for (int i = 0; i < Prewarm; i++) _instance._free.Enqueue(_instance.Create());
             }
 
-            _instance.Spawn(position, value, type);
+            _instance.Spawn(position, value, type, fraction);
         }
 
         private void OnDestroy()
@@ -65,7 +90,7 @@ namespace UI.Popups
             return new PopupItem { Tr = go.transform, Text = text };
         }
 
-        private void Spawn(Vector3 position, int value, PopupType type)
+        private void Spawn(Vector3 position, int value, PopupType type, Fraction fraction)
         {
             var item = _free.Count > 0 ? _free.Dequeue() : Create();
             bool isDamage = type == PopupType.Damage;
@@ -78,8 +103,25 @@ namespace UI.Popups
 
             text.text = isDamage ? value.ToString() : "+" + value;
             text.fontSize = size;
-            text.color = isDamage ? DamageColor : HealColor;
-            text.outlineColor = isDamage ? DamageOutline : HealOutline;
+            switch (fraction)
+            {
+                case Fraction.Player:
+                    text.color = isDamage ? playerDamageColor : playerHealColor;
+                    text.outlineColor = isDamage ? playerDamageOutline : playerHealOutline;
+                    break;
+                case Fraction.Enemy:
+                    text.color = isDamage ? enemyDamageColor : enemyHealColor;
+                    text.outlineColor = isDamage ? enemyDamageOutline : enemyHealOutline;
+                    break;
+                case Fraction.All:
+                    text.color = isDamage ? allDamageColor : allHealColor;
+                    text.outlineColor = isDamage ? allDamageOutline : allHealOutline;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(fraction), fraction, null);
+            }
+
+
             text.UpdateMeshPadding();
 
             float dir = Random.value < 0.5f ? -1f : 1f;
