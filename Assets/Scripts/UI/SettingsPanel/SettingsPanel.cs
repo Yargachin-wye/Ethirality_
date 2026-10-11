@@ -16,6 +16,8 @@ namespace UI.SettingsPanel
         [Space]
         [SerializeField] private Button exitGameplayBtn;
         [SerializeField] private Button backBtn;
+        [Space]
+        [SerializeField] private ImprovementsArrangeUI improvementsArrangeUI;
         private bool _isGameplay;
         private string _previousPanel = "";
 
@@ -60,11 +62,17 @@ namespace UI.SettingsPanel
         {
             exitGameplayBtn.gameObject.SetActive(_isGameplay);
             Time.timeScale = 0;
+
+            if (_isGameplay && improvementsArrangeUI != null)
+                improvementsArrangeUI.Show();
         }
 
         protected override void OnPanelDisable()
         {
             if (IsActive) Time.timeScale = 1;
+
+            if (improvementsArrangeUI != null)
+                improvementsArrangeUI.Hide();
         }
 
         private void OnDestroy()
