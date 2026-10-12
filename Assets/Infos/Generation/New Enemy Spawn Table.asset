@@ -69,3 +69,11 @@ MonoBehaviour:
     fullWeightDifficulty: 0.8
     retireDifficulty: 0
     maxPerLayer: 2
+  - definition: {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
+    role: 7
+    threatCost: 4
+    weight: 1
+    unlockDifficulty: 0.55
+    fullWeightDifficulty: 0.8
+    retireDifficulty: 0
+    maxPerLayer: 2

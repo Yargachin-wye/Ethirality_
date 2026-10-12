@@ -211,6 +211,8 @@ MonoBehaviour:
     onlyForLayers: []
   levelSpawner: {fileID: 596368953}
   playerSpawner: {fileID: 839287355}
+  generateAhead: 105
+  despawnBehind: 55
 --- !u!114 &596368953
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,7 +17,8 @@ namespace Generation
             Swarm,
             Elite,
             Support,
-            Ambusher
+            Ambusher,
+            Reward
         }
 
         [Serializable]
