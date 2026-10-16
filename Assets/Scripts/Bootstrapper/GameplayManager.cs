@@ -28,6 +28,14 @@ namespace Bootstrapper
             MessageBroker.Default
                 .Receive<GameOverEvent>()
                 .Subscribe(data => StartCoroutine(OnGameOver(data)));
+
+            MessageBroker.Default
+                .Receive<StartRoundEvent>()
+                .Subscribe(data => GameplayPause.Reset());
+
+            MessageBroker.Default
+                .Receive<StopRoundEvent>()
+                .Subscribe(data => GameplayPause.Reset());
         }
 
         private IEnumerator OnGameOver(GameOverEvent data)

@@ -4,6 +4,7 @@ using Definitions;
 using Projectiles;
 using UniRxEvents.Improvement;
 using UnityEngine;
+using Utilities;
 
 namespace Improvements
 {
@@ -14,7 +15,7 @@ namespace Improvements
 
         private void LateUpdate()
         {
-            if (!_target) return;
+            if (GameplayPause.IsPaused || !_target) return;
             Vector2 directionToCenter = transform.position - _target.position;
 
             if (directionToCenter.sqrMagnitude > 0.01f)

@@ -5,6 +5,7 @@ using Definitions;
 using EditorAttributes;
 using Pools;
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents
 {
@@ -30,6 +31,8 @@ namespace CharacterComponents
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             if (_timer > 0)
             {
                 _timer -= Time.fixedDeltaTime;

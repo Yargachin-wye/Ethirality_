@@ -3,6 +3,7 @@ using Audio;
 using CharacterComponents.CharacterStat;
 using Constants;
 using UnityEngine;
+using Utilities;
 using Random = UnityEngine.Random;
 
 namespace CharacterComponents.Animations
@@ -128,6 +129,8 @@ namespace CharacterComponents.Animations
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             foreach (var eye in eyes)
             {
                 eye.Update(Time.fixedDeltaTime);

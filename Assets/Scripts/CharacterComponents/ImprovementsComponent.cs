@@ -25,6 +25,7 @@ namespace CharacterComponents
 
         private List<Leash> _leashs = new();
         private List<Twister> _twisters = new();
+        private float _twistersAngle;
 
         private SaveSystem Saves => SaveSystem.Instance;
 
@@ -77,6 +78,10 @@ namespace CharacterComponents
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
+            _twistersAngle += Time.fixedDeltaTime * rotationSpeed;
+
             for (int i = 0, twisterIndex = 0, layer = 0, twistersInLayer = MaxTwistersOnLayer;
                  twisterIndex < _twisters.Count;
                  layer++, twistersInLayer += 2)
@@ -86,7 +91,7 @@ namespace CharacterComponents
                     float baseAngle = j * (360f / twistersInLayer);
 
                     int rotationDirection = (layer % 2 == 0) ? 1 : -1;
-                    float angle = baseAngle + Time.time * rotationSpeed * rotationDirection;
+                    float angle = baseAngle + _twistersAngle * rotationDirection;
 
                     float currentRadius = radius * (layer + 1);
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents
 {
@@ -19,6 +20,8 @@ namespace CharacterComponents
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             Vector3 difference = _dir * transform.right;
             difference.Normalize();
             float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
@@ -43,7 +46,12 @@ namespace CharacterComponents
                 _dir = -1;
             }
 
-            yield return new WaitForSeconds(timer);
+            float elapsed = 0f;
+            while (elapsed < timer)
+            {
+                if (!GameplayPause.IsPaused) elapsed += Time.deltaTime;
+                yield return null;
+            }
 
             StartCoroutine(Timer());
         }

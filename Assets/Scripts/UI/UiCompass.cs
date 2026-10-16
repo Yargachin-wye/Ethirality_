@@ -3,6 +3,7 @@ using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
 using UnityEngine;
+using Utilities;
 
 namespace UI
 {
@@ -53,7 +54,7 @@ namespace UI
 
         private void Update()
         {
-            if (_exits.Count <= 0)
+            if (GameplayPause.IsPaused || _exits.Count <= 0)
             {
                 return;
             }

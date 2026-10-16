@@ -9,6 +9,7 @@ using Projectiles;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents
 {
@@ -111,6 +112,8 @@ namespace CharacterComponents
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             UpdateShots();
             UpdateProjectiles();
             UpdateRopes();

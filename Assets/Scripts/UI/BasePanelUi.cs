@@ -16,6 +16,7 @@ namespace UI
         [SerializeField] private GameObject panel;
         [SerializeField] private CanvasGroup canvasGroup;
         protected bool IsActive = false;
+        protected virtual bool PausesGameplay => false;
         
         public virtual void Awake()
         {
@@ -34,6 +35,11 @@ namespace UI
             {
                 if (!panel.activeSelf) panel.SetActive(data.Active);
                 IsActive = data.Active;
+                if (PausesGameplay)
+                {
+                    if (IsActive) GameplayPause.Request(this);
+                    else GameplayPause.Release(this);
+                }
                 if(IsActive) OnPanelEnable();
                 else OnPanelDisable();
             }
@@ -49,11 +55,13 @@ namespace UI
             {
                 if (!panel.activeSelf) panel.SetActive(true);
                 IsActive = true;
+                if (PausesGameplay) GameplayPause.Request(this);
                 OnPanelEnable();
             }
             else
             {
                 if (panel.activeSelf) panel.SetActive(false);
+                if (PausesGameplay) GameplayPause.Release(this);
                 OnPanelDisable();
                 IsActive = false;
             }

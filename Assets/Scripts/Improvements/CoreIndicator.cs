@@ -3,6 +3,7 @@ using Definitions;
 using UI;
 using UniRxEvents.Improvement;
 using UnityEngine;
+using Utilities;
 
 namespace Improvements
 {
@@ -13,7 +14,7 @@ namespace Improvements
 
         private void LateUpdate()
         {
-            if (indicator == null)
+            if (GameplayPause.IsPaused || indicator == null)
                 return;
 
             if (Direction.sqrMagnitude > 0.01f)

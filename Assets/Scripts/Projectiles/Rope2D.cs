@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Projectiles;
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents.Animations
 {
@@ -107,6 +108,8 @@ namespace CharacterComponents.Animations
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             _waveSize = Mathf.Max(0, _waveSize - Time.fixedDeltaTime * wavesProgressionSpeed);
             if (!isUnpinFirstPos) rope.SetFirstSectionPos(start.position);
             if (!isUnpinLastPos) rope.SetLastSectionPos(target.position);

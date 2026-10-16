@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents.Moving
 {
@@ -8,6 +9,8 @@ namespace CharacterComponents.Moving
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             Vector3 difference = Vector3.up;
             difference.Normalize();
             float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;

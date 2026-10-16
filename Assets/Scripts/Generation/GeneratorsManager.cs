@@ -5,6 +5,7 @@ using CharacterComponents;
 using Generation;
 using Spawner;
 using UnityEngine;
+using Utilities;
 using Random = System.Random;
 
 namespace Generator
@@ -40,7 +41,7 @@ namespace Generator
 
         private void Update()
         {
-            if (Level == null) return;
+            if (GameplayPause.IsPaused || Level == null) return;
 
             if (_player != null && _player.gameObject.activeInHierarchy)
                 _lastPlayerY = _player.transform.position.y;
@@ -119,6 +120,8 @@ namespace Generator
             var layer = new LayerContext(i, bounds, difficulty, threat, definition, random);
             foreach (var pack in generators)
             {
+                while (GameplayPause.IsPaused) yield return null;
+
                 if (pack.generate && pack.generator != null && pack.Accepts(definition))
                     yield return StartCoroutine(pack.generator.Generate(layer));
             }

@@ -37,6 +37,7 @@ namespace UI.LevelUp
 
         private ImprovementDefinition _currentLevelUp;
         private Reward _reward;
+        protected override bool PausesGameplay => true;
 
         public override void Awake()
         {
@@ -55,18 +56,16 @@ namespace UI.LevelUp
 
         protected override void OnPanelDisable()
         {
-            if (IsActive) Time.timeScale = 1;
         }
 
         protected override void OnPanelEnable()
         {
-            Time.timeScale = 0;
         }
 
 
         private void OnDestroy()
         {
-            Time.timeScale = 1;
+            GameplayPause.Release(this);
         }
 
         protected void OnLevelUp(LevelUpEvent data)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CharacterComponents;
 using UnityEngine;
+using Utilities;
 
 namespace Camera
 {
@@ -64,7 +65,7 @@ namespace Camera
 
         private void FixedUpdate()
         {
-            if (_cameraTargetsList.Count == 0) return;
+            if (GameplayPause.IsPaused || _cameraTargetsList.Count == 0) return;
 
             Vector3 desiredPosition = new Vector3(_nowTarget.transform.position.x, _nowTarget.transform.position.y, _z);
             Vector3 smoothedPosition =

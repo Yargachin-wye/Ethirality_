@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utilities;
 
 namespace Managers
 {
@@ -60,7 +61,7 @@ namespace Managers
 
         public void Touch(InputAction.CallbackContext context)
         {
-            if (_pressed) return;
+            if (GameplayPause.IsPaused || _pressed) return;
             _taped = false;
             _pressed = true;
             _tapTimer = tapDelay;
@@ -78,6 +79,14 @@ namespace Managers
         {
             if (!_pressed) return;
             _pressed = false;
+
+            if (GameplayPause.IsPaused)
+            {
+                _taped = false;
+                OnInputFreeze?.Invoke(false, Vector2.zero);
+                return;
+            }
+
             if (_tapTimer > 0)
             {
                 Vector2 v = _cameraMain.ScreenToWorldPoint(_touchPosition);
@@ -92,6 +101,8 @@ namespace Managers
 
         public void Joystick(InputAction.CallbackContext context)
         {
+            if (GameplayPause.IsPaused) return;
+
             var dev = context.control.device;
             bool ignored = dev.displayName.Contains("vJoy") || dev.name.Contains("vJoy");
             Debug.Log($"[AimDbg] t={Time.time:F2} Joystick ignored={ignored} phase={context.phase} value={context.ReadValue<Vector2>()} dev={dev.name} display={dev.displayName} iface={dev.description.interfaceName} product={dev.description.product}");
@@ -102,7 +113,7 @@ namespace Managers
         
         private void Update()
         {
-            if (!_pressed) return;
+            if (GameplayPause.IsPaused || !_pressed) return;
 
             OnInputLook?.Invoke(_lookDirection);
 

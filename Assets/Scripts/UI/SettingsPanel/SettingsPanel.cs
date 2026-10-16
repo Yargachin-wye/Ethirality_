@@ -20,6 +20,7 @@ namespace UI.SettingsPanel
         [SerializeField] private ImprovementsArrangeUI improvementsArrangeUI;
         private bool _isGameplay;
         private string _previousPanel = "";
+        protected override bool PausesGameplay => true;
 
         public override void Awake()
         {
@@ -61,7 +62,6 @@ namespace UI.SettingsPanel
         protected override void OnPanelEnable()
         {
             exitGameplayBtn.gameObject.SetActive(_isGameplay);
-            Time.timeScale = 0;
 
             if (_isGameplay && improvementsArrangeUI != null)
                 improvementsArrangeUI.Show();
@@ -69,15 +69,13 @@ namespace UI.SettingsPanel
 
         protected override void OnPanelDisable()
         {
-            if (IsActive) Time.timeScale = 1;
-
             if (improvementsArrangeUI != null)
                 improvementsArrangeUI.Hide();
         }
 
         private void OnDestroy()
         {
-            Time.timeScale = 1;
+            GameplayPause.Release(this);
         }
 
         private void ExitSettings()

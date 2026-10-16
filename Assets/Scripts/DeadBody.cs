@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Utilities;
 
 public class DeadBody : MonoBehaviour
 {
@@ -55,6 +56,8 @@ public class DeadBody : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameplayPause.IsPaused) return;
+
         _timer -= Time.fixedDeltaTime;
         _curentColor.a = _timer / durationTime;
 

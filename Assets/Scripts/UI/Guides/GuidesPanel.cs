@@ -26,6 +26,7 @@ namespace UI.Guides
 
         private bool _isGameplay;
         private string _previousPanel = "";
+        protected override bool PausesGameplay => true;
 
         public override void Awake()
         {
@@ -92,18 +93,16 @@ namespace UI.Guides
                 isInited = true;
             }
 
-            Time.timeScale = 0;
             StopAll();
         }
 
         protected override void OnPanelDisable()
         {
-            if (IsActive) Time.timeScale = 1;
         }
 
         private void OnDestroy()
         {
-            Time.timeScale = 1;
+            GameplayPause.Release(this);
         }
 
         public void StopAll()

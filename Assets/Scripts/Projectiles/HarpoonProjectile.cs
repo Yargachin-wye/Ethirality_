@@ -5,6 +5,7 @@ using CharacterComponents.Moving;
 using Constants;
 using Definitions;
 using UnityEngine;
+using Utilities;
 
 namespace Projectiles
 {
@@ -43,7 +44,7 @@ namespace Projectiles
 
         private void FixedUpdate()
         {
-            if (!_inited) return;
+            if (GameplayPause.IsPaused || !_inited) return;
             if (_timer <= 0)
             {
                 gameObject.SetActive(false);

@@ -75,5 +75,9 @@ namespace UniRxEvents
         {
             public int Hp;
         }
+        public struct GameplayPauseChangedEvent
+        {
+            public bool IsPaused;
+        }
     }
 }

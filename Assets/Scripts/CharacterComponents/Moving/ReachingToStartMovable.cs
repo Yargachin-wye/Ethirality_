@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents.Moving
 {
@@ -15,6 +16,8 @@ namespace CharacterComponents.Moving
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             character.rb2D.position = Vector2.Lerp(character.rb2D.position, _startPosition,
                 Vector2.Distance(character.rb2D.position, _startPosition) *
                 Time.fixedDeltaTime *

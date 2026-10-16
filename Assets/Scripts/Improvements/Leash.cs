@@ -5,6 +5,7 @@ using Definitions;
 using Projectiles;
 using UniRxEvents.Improvement;
 using UnityEngine;
+using Utilities;
 
 namespace Improvements
 {
@@ -19,7 +20,7 @@ namespace Improvements
         
         private void FixedUpdate()
         {
-            if (!_hasTarget) return;
+            if (GameplayPause.IsPaused || !_hasTarget) return;
 
             float distance = Vector2.Distance(transform.position, _target.position);
 

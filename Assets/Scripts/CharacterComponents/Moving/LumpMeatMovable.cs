@@ -7,6 +7,7 @@ using Managers;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UnityEngine;
+using Utilities;
 
 namespace CharacterComponents.Moving
 {
@@ -47,6 +48,8 @@ namespace CharacterComponents.Moving
 
         private void FixedUpdate()
         {
+            if (GameplayPause.IsPaused) return;
+
             if (_dashDelayDelayTimer > 0)
             {
                 _dashDelayDelayTimer -= Time.fixedDeltaTime;
