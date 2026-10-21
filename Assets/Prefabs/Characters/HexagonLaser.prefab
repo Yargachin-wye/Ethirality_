@@ -97,10 +97,9 @@ GameObject:
   - component: {fileID: 8403955774680081991}
   - component: {fileID: 8274520558709118211}
   - component: {fileID: 3113167696032994566}
-  - component: {fileID: 7617761652462590631}
-  - component: {fileID: 8892031566409303946}
   - component: {fileID: 5752868437295147089}
   - component: {fileID: 5583940985796389228}
+  - component: {fileID: 7478451132990468011}
   m_Layer: 0
   m_Name: HexagonLaser
   m_TagString: Untagged
@@ -207,43 +206,45 @@ MonoBehaviour:
   dmgSound: EnemyDmg1Sound
   deadSound: EnemyDead1Sound
   deadBodyInfo: {fileID: 11400000, guid: c785e673a726b3448a52d21dae92b36b, type: 2}
---- !u!58 &7617761652462590631
-CircleCollider2D:
+--- !u!114 &5752868437295147089
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4839964847734336693}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
---- !u!61 &8892031566409303946
-BoxCollider2D:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 8403955774680081991}
+  dmgParticleSystem: {fileID: 3644327263742624798}
+  spriteRenderer: {fileID: 4578453699144805799}
+  hpSprites:
+  - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  stats: {fileID: 3113167696032994566}
+--- !u!114 &5583940985796389228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839964847734336693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52469d57643c485db0336dbb47cac270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  dmg: 1
+  hitSound: LaserTriggerHit
+  fraction: 1
+  isDestroyOnTrigger: 0
+  ignoreDashingTarget: 0
+--- !u!60 &7478451132990468011
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -284,45 +285,25 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.5, y: 0.18}
-  m_EdgeRadius: 0
---- !u!114 &5752868437295147089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839964847734336693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee07cb730c7445b5b22b6213869571f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 8403955774680081991}
-  dmgParticleSystem: {fileID: 3644327263742624798}
-  spriteRenderer: {fileID: 4578453699144805799}
-  hpSprites:
-  - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
-  - {fileID: 700581193, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
-  stats: {fileID: 3113167696032994566}
---- !u!114 &5583940985796389228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839964847734336693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52469d57643c485db0336dbb47cac270, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  dmg: 1
-  hitSound: LaserTriggerHit
-  fraction: 1
-  isDestroyOnTrigger: 1
+  m_Points:
+    m_Paths:
+    - - {x: 0.60474163, y: 0.55060667}
+      - {x: 0.22213982, y: 0.74998444}
+      - {x: -0.2106601, y: 0.7679636}
+      - {x: -0.58892626, y: 0.5783823}
+      - {x: -0.6709427, y: 0.10147017}
+      - {x: -2.2895255, y: 0.081477255}
+      - {x: -2.2670784, y: -0.112446845}
+      - {x: -0.6944479, y: -0.10428679}
+      - {x: -0.6078623, y: -0.58147734}
+      - {x: -0.20219159, y: -0.79231155}
+      - {x: 0.21047384, y: -0.7842971}
+      - {x: 0.60117, y: -0.5881696}
+      - {x: 0.6974562, y: -0.08972937}
+      - {x: 2.272351, y: -0.08653279}
+      - {x: 2.2824285, y: 0.096159175}
+      - {x: 0.690055, y: 0.07478508}
+  m_UseDelaunayMesh: 0
 --- !u!1001 &2059956191728465532
 PrefabInstance:
   m_ObjectHideFlags: 0

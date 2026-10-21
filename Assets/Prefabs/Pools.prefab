@@ -81,6 +81,15 @@ MonoBehaviour:
   - characterDefinition: {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
     numOnStart: 2
     objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 35071e5c77cb4b6dac7efaf8d251a416, type: 2}
+    numOnStart: 2
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 22acc0b255f34e7ba5d6e1d7372e8560, type: 2}
+    numOnStart: 2
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 6398b7900f7040f48f16bdae125daf76, type: 2}
+    numOnStart: 2
+    objectsList: []
   - characterDefinition: {fileID: 11400000, guid: bf3a0a68e67048b28b1f786cf8821b88, type: 2}
     numOnStart: 2
     objectsList: []

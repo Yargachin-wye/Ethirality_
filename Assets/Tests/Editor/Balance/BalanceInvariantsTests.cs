@@ -188,6 +188,115 @@ namespace BalanceTests
             Assert.AreEqual(5, full.ShieldCount);
         }
 
+        [Test]
+        public void HunterEnemyProfiles()
+        {
+            var chaser = ProfileOf("Chaser");
+            Assert.IsTrue(chaser.IsChaser);
+            Assert.AreEqual(2, chaser.Hp);
+            Assert.AreEqual(1, chaser.ContactDmg);
+            Assert.IsFalse(chaser.IsRanged);
+            Assert.IsFalse(chaser.IsHazard);
+            Assert.Greater(chaser.ChaseRadius, 0f);
+            Assert.IsTrue(chaser.IsEdible);
+            Assert.IsTrue(chaser.EatableByDash(1), "Chaser должен съедаться рывком без улучшений");
+
+            var movable = BalanceTestContext.Scenario.PlayerPrefab.GetComponentInChildren<LumpMeatMovable>(true);
+            var playerBody = BalanceTestContext.Scenario.PlayerPrefab.GetComponentInChildren<Rigidbody2D>(true);
+            float dashSpeed = movable.PowerDash / playerBody.mass;
+            Assert.Less(chaser.MoveSpeed, dashSpeed, "От Chaser можно убежать рывком");
+
+            var charger = ProfileOf("Charger");
+            Assert.IsTrue(charger.IsCharger);
+            Assert.AreEqual(0.7f, charger.ChargeTelegraph, 1e-6f);
+            Assert.AreEqual(3f, charger.ChargeCooldown, 1e-6f);
+            Assert.AreEqual(2, charger.ContactDmg);
+            Assert.IsFalse(charger.IsRanged);
+
+            var spitter = ProfileOf("Spitter");
+            Assert.IsTrue(spitter.IsRanged);
+            Assert.IsTrue(spitter.IsHoming);
+            Assert.AreEqual(1, spitter.ProjectileDmg);
+            Assert.Less(spitter.ProjectileSpeed, ProfileOf("Pear").ProjectileSpeed, "Снаряд Spitter медленнее Pear");
+            Assert.IsFalse(ProfileOf("Pear").IsHoming);
+        }
+
+        [Test]
+        public void BehaviorEnemyProfiles()
+        {
+            var mine = ProfileOf("Mine");
+            Assert.IsTrue(mine.IsMine);
+            Assert.AreEqual(2, mine.ContactDmg);
+            Assert.Greater(mine.MineFuse, 0f);
+            Assert.IsTrue(mine.KillableByDamage);
+            Assert.IsFalse(mine.IsEdible);
+            Assert.IsFalse(mine.IsHazard);
+
+            var leaper = ProfileOf("Leaper");
+            Assert.IsTrue(leaper.IsLeaper);
+            Assert.AreEqual(1, leaper.ContactDmg);
+            Assert.Greater(leaper.HopRange, 0f);
+
+            var runner = ProfileOf("Runner");
+            Assert.IsTrue(runner.IsFleer);
+            Assert.IsFalse(runner.IsThreat);
+            Assert.AreEqual(2, runner.HealOnEat);
+            Assert.IsTrue(runner.EatableByDash(1));
+
+            var table = BalanceTestContext.Scenario.LayerDefinitions[0].SpawnTable;
+            Assert.IsTrue(table.TryGetEntry(DefinitionOf("Mine"), out var e));
+            Assert.AreEqual(EnemySpawnTable.EnemyRole.Ambusher, e.role);
+            Assert.IsTrue(table.TryGetEntry(DefinitionOf("Leaper"), out e));
+            Assert.AreEqual(EnemySpawnTable.EnemyRole.Melee, e.role);
+            Assert.IsTrue(table.TryGetEntry(DefinitionOf("Runner"), out e));
+            Assert.AreEqual(EnemySpawnTable.SpawnKind.Food, e.kind);
+            Assert.AreEqual(EnemySpawnTable.EnemyRole.Swarm, e.role);
+        }
+
+        [Test]
+        public void HunterEnemiesInSpawnTable()
+        {
+            var table = BalanceTestContext.Scenario.LayerDefinitions[0].SpawnTable;
+            var expected = new Dictionary<string, EnemySpawnTable.EnemyRole>
+            {
+                { "Chaser", EnemySpawnTable.EnemyRole.Hunter },
+                { "Charger", EnemySpawnTable.EnemyRole.Ambusher },
+                { "Spitter", EnemySpawnTable.EnemyRole.Ranged }
+            };
+            foreach (var kv in expected)
+            {
+                Assert.IsTrue(table.TryGetEntry(DefinitionOf(kv.Key), out var entry), $"{kv.Key} нет в SpawnTable");
+                Assert.AreEqual(EnemySpawnTable.SpawnKind.Threat, entry.kind);
+                Assert.AreEqual(kv.Value, entry.role);
+                Assert.Greater(entry.maxPerLayer, 0);
+            }
+        }
+
+        [Test]
+        public void ExpectedDamageUsesChaseProbability()
+        {
+            var s = BalanceTestContext.Scenario;
+            var b = BalanceTestContext.Builds[0];
+            var chaser = new EnemyProfile { ContactDmg = 1, IsChaser = true };
+            var trap = new EnemyProfile { ContactDmg = 1 };
+            Assert.AreEqual(s.PChase, BalanceModel.ExpectedDamage(new[] { chaser }, b, s), 1e-6f);
+            Assert.AreEqual(s.PContact, BalanceModel.ExpectedDamage(new[] { trap }, b, s), 1e-6f);
+
+            var plain = new EnemyProfile { IsRanged = true, ShootDelay = 4f, ProjectileDmg = 1 };
+            var homing = new EnemyProfile { IsRanged = true, ShootDelay = 4f, ProjectileDmg = 1, IsHoming = true };
+            Assert.AreEqual(s.ExposureRanged / 4f * s.HitProbRanged, BalanceModel.ExpectedDamage(new[] { plain }, b, s), 1e-6f);
+            Assert.AreEqual(s.ExposureRanged / 4f * s.HitProbHoming, BalanceModel.ExpectedDamage(new[] { homing }, b, s), 1e-6f);
+        }
+
+        private static CharacterDefinition DefinitionOf(string name)
+        {
+            var def = AssetDatabase.LoadAssetAtPath<CharacterDefinition>($"Assets/Infos/Characters/{name}.asset");
+            Assert.NotNull(def, $"Нет CharacterDefinition {name}");
+            return def;
+        }
+
+        private static EnemyProfile ProfileOf(string name) => EnemyProfile.From(DefinitionOf(name));
+
         private static ImprovementDefinition FindImprovement(string improvementName)
         {
             foreach (var imp in BalanceTestContext.Scenario.Improvements)

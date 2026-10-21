@@ -35,6 +35,12 @@ namespace Balance
         public float ChargeTelegraph;
         public float ChargeCooldown;
         public bool IsHoming;
+        public bool IsMine;
+        public float MineFuse;
+        public bool IsLeaper;
+        public float HopRange;
+        public bool IsFleer;
+        public float FleeRadius;
 
         public bool Damageable => !IsInvulnerable;
         public bool DiesFromDamage => !IsImmortal;
@@ -99,6 +105,33 @@ namespace Balance
                 profile.IsChaser = true;
                 profile.ChaseRadius = chaser.ChaseRadius;
                 profile.MoveSpeed = chaser.Speed;
+            }
+
+            var mine = prefab.GetComponentInChildren<MineExplosion>(true);
+            if (mine != null)
+            {
+                profile.IsMine = true;
+                profile.MineFuse = mine.FuseTime;
+                profile.DetectionRange = mine.TriggerRadius;
+                profile.ContactDmg = mine.Dmg;
+                profile.ContactOneShot = true;
+            }
+
+            var leaper = prefab.GetComponentInChildren<LeaperMoving>(true);
+            if (leaper != null)
+            {
+                profile.IsLeaper = true;
+                profile.DetectionRange = leaper.DetectionRange;
+                profile.HopRange = leaper.HopRange;
+                profile.MoveSpeed = leaper.HopSpeed;
+            }
+
+            var fleer = prefab.GetComponentInChildren<FleerMoving>(true);
+            if (fleer != null)
+            {
+                profile.IsFleer = true;
+                profile.FleeRadius = fleer.FleeRadius;
+                profile.MoveSpeed = fleer.Speed;
             }
 
             var charger = prefab.GetComponentInChildren<ChargerMoving>(true);

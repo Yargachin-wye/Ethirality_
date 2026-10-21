@@ -14,7 +14,7 @@ namespace Balance
                               * (e.IsHoming ? s.HitProbHoming : s.HitProbRanged)
                               * b.RangedMitigation(s);
                 if (e.ContactDmg > 0)
-                    damage += e.ContactDmg * (e.IsChaser ? s.PChase : s.PContact);
+                    damage += e.ContactDmg * (e.IsChaser || e.IsLeaper ? s.PChase : s.PContact);
             }
             return damage;
         }

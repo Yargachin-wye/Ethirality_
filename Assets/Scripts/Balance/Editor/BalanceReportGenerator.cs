@@ -263,6 +263,12 @@ namespace Balance.Editor
                     list.Add($"{p.Name}: role={e.role}, IsChaser={p.IsChaser}");
                 if (p.IsCharger && e.role != EnemySpawnTable.EnemyRole.Ambusher)
                     list.Add($"{p.Name}: IsCharger, но role={e.role}");
+                if (p.IsMine && e.role != EnemySpawnTable.EnemyRole.Ambusher)
+                    list.Add($"{p.Name}: IsMine, но role={e.role}");
+                if (p.IsLeaper && e.role != EnemySpawnTable.EnemyRole.Melee)
+                    list.Add($"{p.Name}: IsLeaper, но role={e.role}");
+                if (p.IsFleer && e.kind != EnemySpawnTable.SpawnKind.Food)
+                    list.Add($"{p.Name}: IsFleer, но kind={e.kind}");
                 if (e.role == EnemySpawnTable.EnemyRole.Swarm && e.threatCost > 2f)
                     list.Add($"{p.Name}: role=Swarm, но threatCost={Fmt(e.threatCost)} > 2");
             }

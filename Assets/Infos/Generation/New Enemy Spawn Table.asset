@@ -39,7 +39,7 @@ MonoBehaviour:
     unlockDifficulty: 0.1
     fullWeightDifficulty: 0.3
     retireDifficulty: 0
-    maxPerLayer: 4
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
     kind: 0
     role: 2
@@ -48,7 +48,7 @@ MonoBehaviour:
     unlockDifficulty: 0.3
     fullWeightDifficulty: 0.55
     retireDifficulty: 0
-    maxPerLayer: 3
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
     kind: 0
     role: 6
@@ -57,7 +57,7 @@ MonoBehaviour:
     unlockDifficulty: 0.45
     fullWeightDifficulty: 0.65
     retireDifficulty: 0
-    maxPerLayer: 2
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
     kind: 0
     role: 1
@@ -66,7 +66,7 @@ MonoBehaviour:
     unlockDifficulty: 0.25
     fullWeightDifficulty: 0.5
     retireDifficulty: 0
-    maxPerLayer: 3
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 60f41c75712fc4d4cb166e486e429d7e, type: 2}
     kind: 0
     role: 4
@@ -75,7 +75,7 @@ MonoBehaviour:
     unlockDifficulty: 0.55
     fullWeightDifficulty: 0.8
     retireDifficulty: 0
-    maxPerLayer: 2
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: bf3a0a68e67048b28b1f786cf8821b88, type: 2}
     kind: 0
     role: 8
@@ -84,7 +84,7 @@ MonoBehaviour:
     unlockDifficulty: 0.2
     fullWeightDifficulty: 0.45
     retireDifficulty: 0
-    maxPerLayer: 4
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: d0c00bb346814fa4a2a5d2d4969751b7, type: 2}
     kind: 0
     role: 6
@@ -93,7 +93,7 @@ MonoBehaviour:
     unlockDifficulty: 0.35
     fullWeightDifficulty: 0.6
     retireDifficulty: 0
-    maxPerLayer: 3
+    maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 542270a9838d470ba9462b32c3de11e0, type: 2}
     kind: 0
     role: 1
@@ -102,4 +102,31 @@ MonoBehaviour:
     unlockDifficulty: 0.4
     fullWeightDifficulty: 0.7
     retireDifficulty: 0
-    maxPerLayer: 2
+    maxPerLayer: 0
+  - definition: {fileID: 11400000, guid: 35071e5c77cb4b6dac7efaf8d251a416, type: 2}
+    kind: 0
+    role: 6
+    threatCost: 4
+    weight: 3
+    unlockDifficulty: 0.3
+    fullWeightDifficulty: 0.55
+    retireDifficulty: 0
+    maxPerLayer: 0
+  - definition: {fileID: 11400000, guid: 22acc0b255f34e7ba5d6e1d7372e8560, type: 2}
+    kind: 0
+    role: 0
+    threatCost: 5
+    weight: 3
+    unlockDifficulty: 0.15
+    fullWeightDifficulty: 0.4
+    retireDifficulty: 0
+    maxPerLayer: 0
+  - definition: {fileID: 11400000, guid: 6398b7900f7040f48f16bdae125daf76, type: 2}
+    kind: 1
+    role: 3
+    threatCost: 2
+    weight: 4
+    unlockDifficulty: 0.1
+    fullWeightDifficulty: 0.4
+    retireDifficulty: 0
+    maxPerLayer: 0
