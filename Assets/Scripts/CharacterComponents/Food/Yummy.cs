@@ -7,6 +7,8 @@ namespace CharacterComponents.Food
     {
         [SerializeField] private int hpCure = 1;
 
+        public int HpCure => hpCure;
+
         public override void OnEaten(Character characterEater)
         {
             characterEater.Stats.Cure(hpCure);

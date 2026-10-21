@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 596368952}
   - component: {fileID: 596368953}
   - component: {fileID: 596368954}
+  - component: {fileID: 596368955}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -209,6 +210,9 @@ MonoBehaviour:
   - generator: {fileID: 596368954}
     generate: 1
     onlyForLayers: []
+  - generator: {fileID: 596368955}
+    generate: 1
+    onlyForLayers: []
   levelSpawner: {fileID: 596368953}
   playerSpawner: {fileID: 839287355}
   generateAhead: 105
@@ -245,6 +249,31 @@ MonoBehaviour:
     rangedMinRange: 2.5
     maxCoveringRanged: 2
   attemptsPerEnemy: 10
+--- !u!114 &596368955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596368950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1e7a3b9d2f4e68a7b4c0d1e2f3a495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reward:
+    rewardDefinition: {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
+    firstRewardLayer: 2
+    rewardEveryLayers: 3
+    rewardsPerLayer: {x: 1, y: 2}
+  placement:
+    edgeMargin: 2
+    minSpacing: 2
+    safeZoneHeight: 6
+    rangedEntryClearance: 1.5
+    rangedMinRange: 2.5
+    maxCoveringRanged: 2
+  attemptsPerReward: 10
 --- !u!1 &839287353
 GameObject:
   m_ObjectHideFlags: 0

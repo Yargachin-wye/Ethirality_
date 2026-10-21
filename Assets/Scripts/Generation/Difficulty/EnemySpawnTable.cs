@@ -18,13 +18,21 @@ namespace Generation
             Elite,
             Support,
             Ambusher,
-            Reward
+            Reward,
+            Hunter
+        }
+
+        public enum SpawnKind
+        {
+            Threat,
+            Food
         }
 
         [Serializable]
         public struct Entry
         {
             public CharacterDefinition definition;
+            public SpawnKind kind;
             public EnemyRole role;
             [Min(0.01f)] public float threatCost;
             [Min(0f)] public float weight;
@@ -41,7 +49,26 @@ namespace Generation
         private readonly List<int> _candidates = new();
         private readonly List<float> _weights = new();
 
-        public List<CharacterDefinition> Roll(Random random, float difficulty, float budget, int maxCount = int.MaxValue)
+        public bool TryGetEntry(CharacterDefinition definition, out Entry entry)
+        {
+            for (int i = 0; i < entries.Length; i++)
+            {
+                if (entries[i].definition != definition) continue;
+                entry = entries[i];
+                return true;
+            }
+
+            entry = default;
+            return false;
+        }
+
+        public List<CharacterDefinition> RollFood(Random random, float difficulty, float foodBudget, int maxCount = int.MaxValue) =>
+            Roll(SpawnKind.Food, random, difficulty, foodBudget, maxCount);
+
+        public List<CharacterDefinition> Roll(Random random, float difficulty, float budget, int maxCount = int.MaxValue) =>
+            Roll(SpawnKind.Threat, random, difficulty, budget, maxCount);
+
+        private List<CharacterDefinition> Roll(SpawnKind kind, Random random, float difficulty, float budget, int maxCount)
         {
             var result = new List<CharacterDefinition>();
             var counts = new int[entries.Length];
@@ -54,7 +81,7 @@ namespace Generation
                 for (int i = 0; i < entries.Length; i++)
                 {
                     Entry e = entries[i];
-                    if (e.definition == null || e.threatCost > budget) continue;
+                    if (e.definition == null || e.kind != kind || e.threatCost > budget) continue;
                     if (e.maxPerLayer > 0 && counts[i] >= e.maxPerLayer) continue;
                     float w = GetWeight(e, difficulty);
                     if (w <= 0f) continue;
@@ -136,7 +163,7 @@ namespace Generation
         private bool RoleAvailable(EnemyRole role, float difficulty)
         {
             for (int i = 0; i < entries.Length; i++)
-                if (entries[i].role == role && entries[i].definition != null
+                if (entries[i].kind == SpawnKind.Threat && entries[i].role == role && entries[i].definition != null
                     && GetWeight(entries[i], difficulty) > 0f)
                     return true;
             return false;
@@ -169,7 +196,7 @@ namespace Generation
             for (int i = 0; i < entries.Length; i++)
             {
                 Entry e = entries[i];
-                if (e.role != role || e.definition == null || e.threatCost > cap) continue;
+                if (e.kind != SpawnKind.Threat || e.role != role || e.definition == null || e.threatCost > cap) continue;
                 if (e.maxPerLayer > 0 && counts[i] >= e.maxPerLayer) continue;
                 float w = GetWeight(e, difficulty);
                 if (w <= 0f) continue;

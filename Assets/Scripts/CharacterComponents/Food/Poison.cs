@@ -6,6 +6,8 @@ namespace CharacterComponents.Food
     {
         [SerializeField] private int dmg = 1;
 
+        public int Dmg => dmg;
+
         public override void OnEaten(Character characterEater)
         {
             characterEater.Stats.Damage(dmg);

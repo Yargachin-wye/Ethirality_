@@ -17,6 +17,10 @@ namespace Improvements
         [SerializeField] private bool isDestroyOnTrigger = false;
         [SerializeField] private int numberTouches = 1;
 
+        public int Dmg => dmg;
+        public bool IsDestroyOnTrigger => isDestroyOnTrigger;
+        public int NumberTouches => numberTouches;
+
         public override void SetPlayer(ImprovementDefinition definition, Character character,
             ImprovementsComponent improvementsComponent)
         {

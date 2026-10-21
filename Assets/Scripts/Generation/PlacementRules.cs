@@ -49,14 +49,19 @@ namespace Generation
                 if (!Accepts(layer, point, definition)) continue;
 
                 layer.AddSpawn(definition, point);
-                _placed.Add(point);
-                float range = GetAttackRange(definition);
-                if (range >= rangedMinRange)
-                    _ranged.Add(new RangedSpot { Position = point, Range = range });
+                Register(definition, point);
                 return true;
             }
 
             return false;
+        }
+
+        public void Register(CharacterDefinition definition, Vector2 point)
+        {
+            _placed.Add(point);
+            float range = GetAttackRange(definition);
+            if (range >= rangedMinRange)
+                _ranged.Add(new RangedSpot { Position = point, Range = range });
         }
 
         public bool Accepts(LayerContext layer, Vector2 point, CharacterDefinition definition)

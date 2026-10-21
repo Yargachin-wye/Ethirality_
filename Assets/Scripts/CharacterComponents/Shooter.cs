@@ -32,6 +32,10 @@ namespace CharacterComponents
 
         private Fraction Fraction => character.Fraction;
 
+        public float ShootDelay => shootDelay;
+        public float Speed => speed;
+        public ProjectileDefinition ProjectileDefinition => projectileDefinition;
+
         public override void Init()
         {
             _timer = shootDelay;

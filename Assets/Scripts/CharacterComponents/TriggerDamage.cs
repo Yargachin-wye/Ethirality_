@@ -1,5 +1,6 @@
 ﻿using Audio;
 using CharacterComponents.CharacterStat;
+using CharacterComponents.Moving;
 using Constants;
 using Definitions;
 using EditorAttributes;
@@ -15,6 +16,11 @@ namespace CharacterComponents
         [SerializeField, Dropdown("collection")] private string hitSound = AudioConst.LaserTriggerHit;
         [SerializeField] private Fraction fraction = Fraction.Enemy;
         [SerializeField] private bool isDestroyOnTrigger = true;
+        [SerializeField] private bool ignoreDashingTarget;
+
+        public int Dmg => dmg;
+        public bool IsDestroyOnTrigger => isDestroyOnTrigger;
+        public Fraction TargetFraction => fraction;
 
         public override void Init()
         {
@@ -29,7 +35,9 @@ namespace CharacterComponents
             {
                 return;
             }
-            
+
+            if (ignoreDashingTarget && other.TryGetComponent(out LumpMeatMovable movable) && movable.IsDashing) return;
+
             if (triggerStats.Fraction == Fraction.Player && !string.IsNullOrEmpty(hitSound))
                 AudioManager.Instance.PlaySound(hitSound, AudioChannel.VFX, transform.position);
             triggerStats.Damage(dmg);

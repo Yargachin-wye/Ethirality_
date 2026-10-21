@@ -81,6 +81,15 @@ MonoBehaviour:
   - characterDefinition: {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
     numOnStart: 2
     objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: bf3a0a68e67048b28b1f786cf8821b88, type: 2}
+    numOnStart: 2
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: d0c00bb346814fa4a2a5d2d4969751b7, type: 2}
+    numOnStart: 2
+    objectsList: []
+  - characterDefinition: {fileID: 11400000, guid: 542270a9838d470ba9462b32c3de11e0, type: 2}
+    numOnStart: 1
+    objectsList: []
 --- !u!114 &7117551612263881185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +108,8 @@ MonoBehaviour:
   - projectileDefinitiop: {fileID: 11400000, guid: a1b051b71f9ba214189cfeea8aac46f6, type: 2}
     numOnStart: 1
   - projectileDefinitiop: {fileID: 11400000, guid: 8d0434ca19c3cb840911bd3584e699e1, type: 2}
+    numOnStart: 2
+  - projectileDefinitiop: {fileID: 11400000, guid: 220d1436d0984f85bca4da72c31c765b, type: 2}
     numOnStart: 2
 --- !u!114 &4907311579025119206
 MonoBehaviour:

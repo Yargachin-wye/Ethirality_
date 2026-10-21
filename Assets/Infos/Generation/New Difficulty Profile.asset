@@ -84,6 +84,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   minThreatPerArea: 0.02
   maxThreatPerArea: 0.12
+  minFoodPerArea: 0.012
+  maxFoodPerArea: 0.03
+  maxFoodBudget: 150
   maxDifficultyDeltaPerLayer: 0.05
   pacing:
   - every: 4

@@ -32,8 +32,13 @@ namespace CharacterComponents.Moving
         private float _dashTimer = 0;
         private float _dashDelayDelayTimer = 0;
         public float DashDelayTimer => _dashDelayDelayTimer;
+        public float DashDelay => dashDelay;
+        public float DashTime => dashTime;
+        public int DashDmg => dashDmg;
+        public float PowerDash => powerDash;
 
         public bool IsFreeze => _isFreeze;
+        public bool IsDashing => _dashTimer > 0;
 
         public void OnValidate()
         {

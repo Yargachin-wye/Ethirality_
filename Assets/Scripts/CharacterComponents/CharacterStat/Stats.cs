@@ -35,6 +35,9 @@ namespace CharacterComponents.CharacterStat
 
         public int CurrentHealth => _currentHealth;
         public int MaxHealth => maxHp;
+        public int StartHp => startHp;
+        public bool IsImmortal => isImmortal;
+        public bool IsInvulnerable => isInvulnerable;
 
         public override void Init()
         {

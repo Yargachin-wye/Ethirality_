@@ -11,18 +11,20 @@ namespace Generation
         public Rect Bounds { get; }
         public float Difficulty { get; }
         public float ThreatBudget { get; }
+        public float FoodBudget { get; }
         public LayerDefinition Definition { get; }
         public Random Random { get; }
         public List<SpawnRequest> Spawns { get; } = new();
 
         public EnemySpawnTable SpawnTable => Definition.SpawnTable;
 
-        public LayerContext(int index, Rect bounds, float difficulty, float threatBudget, LayerDefinition definition, Random random)
+        public LayerContext(int index, Rect bounds, float difficulty, float threatBudget, float foodBudget, LayerDefinition definition, Random random)
         {
             Index = index;
             Bounds = bounds;
             Difficulty = difficulty;
             ThreatBudget = threatBudget;
+            FoodBudget = foodBudget;
             Definition = definition;
             Random = random;
         }

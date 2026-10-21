@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b9e74bb1304af49a4167f6a2537ae6, type: 3}
+  m_Name: OpenWorld
+  m_EditorClassIdentifier: 
+  difficultyProfile: {fileID: 11400000, guid: 9db523ea6898f4a4c8aab53bf61aba18, type: 2}
+  layerDefinitions:
+  - {fileID: 11400000, guid: a5d5d2da966b6de4dbf961adda291f0c, type: 2}
+  playerPrefab: {fileID: 2611898077980423418, guid: 1fa1d7a478d13df4fb8ca514c19cff9c, type: 3}
+  improvements:
+  - {fileID: 11400000, guid: ac6f3059468b0204b9d7370ad3ba05d3, type: 2}
+  - {fileID: 11400000, guid: f6fec3375a5029445b1e65b7d2ab0479, type: 2}
+  - {fileID: 11400000, guid: 97ea8c32190466a41911a6aa01551f8d, type: 2}
+  - {fileID: 11400000, guid: ef06ccdc9c2552e42821406cb4745b96, type: 2}
+  - {fileID: 11400000, guid: 730a6f3ddd1f8f34198e3a95df334b9c, type: 2}
+  seed: 1337
+  attemptsPerEnemy: 10
+  placement:
+    edgeMargin: 2
+    minSpacing: 2
+    safeZoneHeight: 6
+    rangedEntryClearance: 1.5
+    rangedMinRange: 2.5
+    maxCoveringRanged: 2
+  simulatedLayers: 60
+  reward:
+    rewardDefinition: {fileID: 11400000, guid: a0ba482ab9c5ecb48ade0c8f7fc5a023, type: 2}
+    firstRewardLayer: 2
+    rewardEveryLayers: 3
+    rewardsPerLayer: {x: 1, y: 2}
+  exposureRanged: 6
+  hitProbRanged: 0.35
+  hitProbHoming: 0.5
+  pContact: 0.15
+  pChase: 0.4
+  eatShare: 0.5
+  pPickHp: 0.5
+  spikeDps: 0.25
+  shieldBlock: 0.25
+  runLengthBaseMin: 8
+  runLengthBaseMax: 14
+  runLengthFullMin: 25
+  maxPlacementLoss: 0.1
+  rewardWindow: 3
+  rewardCheckFromLayer: 2

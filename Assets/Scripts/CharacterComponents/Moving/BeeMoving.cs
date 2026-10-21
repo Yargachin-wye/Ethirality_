@@ -18,6 +18,8 @@ namespace CharacterComponents
         private float _rotationSpeed = 1;
         private float _dir = 1;
 
+        public float AverageSpeed => (minSpeed + maxSpeed) * 0.5f;
+
         private void FixedUpdate()
         {
             if (GameplayPause.IsPaused) return;

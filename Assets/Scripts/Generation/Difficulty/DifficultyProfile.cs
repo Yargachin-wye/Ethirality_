@@ -19,6 +19,11 @@ namespace Generation
         [SerializeField] private AnimationCurve difficultyByProgress = AnimationCurve.Linear(0, 0, 1, 1);
         [SerializeField, Min(0f)] private float minThreatPerArea = 0.02f;
         [SerializeField, Min(0f)] private float maxThreatPerArea = 0.12f;
+        [Header("Бюджет еды (отдельно от угроз)")]
+        [SerializeField, Min(0f)] private float minFoodPerArea = 0.012f;
+        [SerializeField, Min(0f)] private float maxFoodPerArea = 0.03f;
+        [SerializeField, Min(0f), Tooltip("Потолок бюджета еды на слой (0 = без потолка); держит PlacementLoss в цели")]
+        private float maxFoodBudget = 150f;
         [SerializeField, Min(0.001f), Tooltip("Макс. прирост сложности между соседними слоями (pressure budget)")]
         private float maxDifficultyDeltaPerLayer = 0.05f;
         [SerializeField] private PacingBeat[] pacing =
@@ -31,6 +36,7 @@ namespace Generation
         private float endlessThreatGrowth = 0.5f;
 
         public int LayerCount => layerCount;
+        public float MaxDifficultyDeltaPerLayer => maxDifficultyDeltaPerLayer;
 
         public float EvaluateEndlessMultiplier(int layerIndex) =>
             1f + endlessThreatGrowth * Mathf.Log(1f + Mathf.Max(0, layerIndex - layerCount + 1));
@@ -65,6 +71,12 @@ namespace Generation
         public float EvaluateThreat(float difficulty, float area, float pacingMultiplier, float layerMultiplier)
         {
             return Mathf.Lerp(minThreatPerArea, maxThreatPerArea, difficulty) * area * pacingMultiplier * layerMultiplier;
+        }
+
+        public float EvaluateFood(float difficulty, float area)
+        {
+            float budget = Mathf.Lerp(minFoodPerArea, maxFoodPerArea, difficulty) * area;
+            return maxFoodBudget > 0f ? Mathf.Min(budget, maxFoodBudget) : budget;
         }
 
         public bool TryGetBeat(int layerIndex, out PacingBeat beat)

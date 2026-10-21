@@ -16,7 +16,8 @@ namespace Generation
             Rect bounds = layer.Bounds;
             Vector2 entry = PlacementRules.EntryPoint(layer);
             float safeTop = bounds.yMin + (rules != null ? rules.SafeZoneHeight : 0f);
-            float spent = 0f;
+            float threatSpent = 0f;
+            float foodSpent = 0f;
 
             foreach (SpawnRequest spawn in layer.Spawns)
             {
@@ -44,21 +45,22 @@ namespace Generation
                             spawn.Definition);
                 }
 
-                spent += ThreatCost(table, spawn.Definition);
+                if (table != null && table.TryGetEntry(spawn.Definition, out var spawnEntry))
+                {
+                    if (spawnEntry.kind == EnemySpawnTable.SpawnKind.Food) foodSpent += spawnEntry.threatCost;
+                    else threatSpent += spawnEntry.threatCost;
+                }
             }
 
-            if (spent > layer.ThreatBudget + 0.001f)
+            if (threatSpent > layer.ThreatBudget + 0.001f)
                 Debug.LogWarning(
                     $"[LayerValidator] Слой {layer.Index}: перерасход бюджета угроз " +
-                    $"{spent:0.#} > {layer.ThreatBudget:0.#}");
-        }
+                    $"{threatSpent:0.#} > {layer.ThreatBudget:0.#}");
 
-        private static float ThreatCost(EnemySpawnTable table, CharacterDefinition definition)
-        {
-            if (table?.Entries == null) return 0f;
-            foreach (EnemySpawnTable.Entry e in table.Entries)
-                if (e.definition == definition) return e.threatCost;
-            return 0f;
+            if (foodSpent > layer.FoodBudget + 0.001f)
+                Debug.LogWarning(
+                    $"[LayerValidator] Слой {layer.Index}: перерасход бюджета еды " +
+                    $"{foodSpent:0.#} > {layer.FoodBudget:0.#}");
         }
     }
 }
