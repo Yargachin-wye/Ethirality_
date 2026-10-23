@@ -123,8 +123,10 @@ namespace Generator
             {
                 var layer = _activeLayers.Dequeue();
                 Level.Layers.Remove(layer);
-                if (levelSpawner != null) levelSpawner.DespawnLayer(layer);
+                if (levelSpawner != null) levelSpawner.DespawnLayer(layer, limit);
             }
+
+            if (levelSpawner != null) levelSpawner.DespawnStragglers(limit);
         }
 
         [Serializable]

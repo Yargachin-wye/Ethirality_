@@ -188,8 +188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  startHp: 2
-  maxHp: 2
+  startHp: 1
+  maxHp: 1
   isImmortal: 0
   isInvulnerable: 0
   dmgSound: EnemyDmg1Sound
@@ -262,7 +262,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.6
 --- !u!114 &-2160959833885538057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,8 +279,7 @@ MonoBehaviour:
   dmgParticleSystem: {fileID: 5955918581441455834}
   spriteRenderer: {fileID: 579056277537200731}
   hpSprites:
-  - {fileID: -368298945, guid: d285f72ef535b204b8fe56225cbc7643, type: 3}
-  - {fileID: -368298945, guid: d285f72ef535b204b8fe56225cbc7643, type: 3}
+  - {fileID: -860802001, guid: 0cfb50d95d8e8c34890a0089b28173af, type: 3}
   stats: {fileID: 3113167696032994566}
 --- !u!114 &7210000000000000011
 MonoBehaviour:
@@ -523,7 +522,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.8588236, g: 0.9450981, b: 1, a: 1}
+      maxColor: {r: 1, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
