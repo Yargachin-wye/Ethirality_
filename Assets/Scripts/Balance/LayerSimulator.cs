@@ -21,6 +21,10 @@ namespace Balance
         public float ExpectedDamage;
         public float ExpectedHeal;
         public float ExpectedLevelUpHp;
+        public float ClimbTime;
+        public float MaxGap;
+        public bool Climbable;
+        public float ClimbPenaltyHp;
     }
 
     [Serializable]
@@ -30,16 +34,29 @@ namespace Balance
         public bool Empty;
         public float Difficulty;
         public float PacingMultiplier;
-        public float Budget;
+        public float ThreatBudget;
         public float FoodBudget;
+        public float MobilityBudget;
         public float Height;
+        public float YMin;
         public int Rolled;
         public int Placed;
         public float PlacementLoss;
-        public float Spent;
-        public float FoodSpent;
+        public float SpentThreat;
+        public float SpentFood;
+        public float SpentMobility;
         public int ThreatPlaced;
         public int FoodPlaced;
+        public int MobilityPlaced;
+        public int MinSupports;
+        public int SupportCount;
+        public int ChainLength;
+        public float ChainMaxStep;
+        public float ChainMobility;
+        public float HarmfulChainMobility;
+        public List<Vector2> ChainNodes = new();
+        public Vector2 ClimbStart;
+        public Vector2 ClimbEnd;
         public Dictionary<EnemySpawnTable.EnemyRole, int> CountsByRole = new();
         public Dictionary<string, int> CountsByName = new();
         public int Rewards;
@@ -56,6 +73,10 @@ namespace Balance
         public int RunLength;
         public bool Died;
         public List<float> HpTrace = new();
+        public List<float> ClimbTrace = new();
+        public float ClimbTime;
+        public float ClimbPenaltyHp;
+        public int UnclimbableLayers;
     }
 
     public static class LayerSimulator
@@ -74,21 +95,26 @@ namespace Balance
 
             report.Difficulty = layer.Difficulty;
             report.PacingMultiplier = pacing;
-            report.Budget = layer.ThreatBudget;
+            report.ThreatBudget = layer.ThreatBudget;
             report.FoodBudget = layer.FoodBudget;
+            report.MobilityBudget = layer.MobilityBudget;
+            report.MinSupports = layer.Climb?.MinSupports ?? 0;
             report.Height = layer.Bounds.height;
+            report.YMin = layer.Bounds.yMin;
 
             var populated = LayerPopulator.Populate(layer, s.Placement, s.AttemptsPerEnemy);
             report.Rolled = populated.Rolled;
             report.Placed = populated.Placed;
             report.ThreatPlaced = populated.ThreatPlaced;
             report.FoodPlaced = populated.FoodPlaced;
+            report.MobilityPlaced = populated.MobilityPlaced;
             report.PlacementLoss = report.Rolled > 0 ? 1f - (float)report.Placed / report.Rolled : 0f;
 
             RewardPlanner.Generate(layer, s.Reward, s.Placement, s.AttemptsPerEnemy);
 
             var profiles = new Dictionary<CharacterDefinition, EnemyProfile>();
             var placed = new List<EnemyProfile>();
+            var supports = new List<Vector2>();
             foreach (SpawnRequest spawn in layer.Spawns)
             {
                 if (spawn.Definition == null) continue;
@@ -102,8 +128,10 @@ namespace Balance
                 report.Spawns.Add(new SpawnInfo { Name = spawn.Definition.name, Position = spawn.Position });
                 if (layer.SpawnTable.TryGetEntry(spawn.Definition, out var entry))
                 {
-                    if (entry.kind == EnemySpawnTable.SpawnKind.Food) report.FoodSpent += entry.threatCost;
-                    else report.Spent += entry.threatCost;
+                    if (entry.kind == EnemySpawnTable.SpawnKind.Food) report.SpentFood += entry.FoodValue;
+                    else if (entry.kind == EnemySpawnTable.SpawnKind.Mobility) report.SpentMobility += entry.MobilityValue;
+                    else report.SpentThreat += entry.ThreatValue;
+                    if (entry.IsSupport) supports.Add(spawn.Position);
                 }
 
                 var role = spawn.Definition == s.Reward.RewardDefinition
@@ -120,11 +148,23 @@ namespace Balance
             }
 
             report.KillableHp = BalanceModel.KillableHpPool(placed);
+            report.SupportCount = supports.Count;
+            FillChain(report, layer);
+
+            Rect bounds = layer.Bounds;
+            float startX = layer.Climb?.StartX ?? bounds.center.x, endX = layer.Climb?.EndX ?? bounds.center.x;
+            report.ClimbStart = new Vector2(startX, bounds.yMin - (layer.Climb?.ExitOffset ?? 0f));
+            report.ClimbEnd = new Vector2(endX, bounds.yMax + (layer.Climb?.EntryOffset ?? 0f));
 
             foreach (var build in s.Builds())
             {
+                var climb = ClimbAnalyzer.Analyze(supports, report.ClimbStart, report.ClimbEnd, build, report.Height);
                 report.Metrics[build.Name] = new BuildLayerMetrics
                 {
+                    ClimbTime = climb.ClimbTime,
+                    MaxGap = climb.MaxGap,
+                    Climbable = climb.Climbable,
+                    ClimbPenaltyHp = climb.Climbable ? 0f : s.UnclimbablePenaltyHp,
                     Dps = build.Dps(s),
                     TimeToClear = report.Placed > 0 ? BalanceModel.TimeToClear(placed, build, s) : 0f,
                     ExpectedDamage = BalanceModel.ExpectedDamage(placed, build, s),
@@ -156,8 +196,12 @@ namespace Balance
             for (int i = 0; i < layers.Count; i++)
             {
                 var m = layers[i].Metrics[b.Name];
-                hp = Mathf.Min(b.MaxHp, hp - m.ExpectedDamage + m.ExpectedHeal + m.ExpectedLevelUpHp);
+                hp = Mathf.Min(b.MaxHp, hp - m.ExpectedDamage - m.ClimbPenaltyHp + m.ExpectedHeal + m.ExpectedLevelUpHp);
                 run.HpTrace.Add(hp);
+                run.ClimbTrace.Add(m.ClimbTime);
+                run.ClimbTime += m.ClimbTime;
+                run.ClimbPenaltyHp += m.ClimbPenaltyHp;
+                if (!m.Climbable) run.UnclimbableLayers++;
                 if (hp <= 0f)
                 {
                     run.RunLength = i;
@@ -168,6 +212,22 @@ namespace Balance
             run.RunLength = layers.Count;
             run.Died = false;
             return run;
+        }
+
+        private static void FillChain(LayerReport report, LayerContext layer)
+        {
+            report.ChainLength = layer.Chain.Count;
+            for (int i = 0; i < layer.Chain.Count; i++)
+            {
+                var node = layer.Chain[i];
+                report.ChainNodes.Add(node.Position);
+                if (i > 0)
+                    report.ChainMaxStep = Mathf.Max(report.ChainMaxStep,
+                        Vector2.Distance(layer.Chain[i - 1].Position, node.Position));
+                if (layer.SpawnTable == null || !layer.SpawnTable.TryGetEntry(node.Definition, out var entry)) continue;
+                report.ChainMobility += entry.MobilityValue;
+                if (node.Harmful) report.HarmfulChainMobility += entry.MobilityValue;
+            }
         }
 
         private static EnemySpawnTable.EnemyRole RoleOf(EnemySpawnTable table, CharacterDefinition definition)

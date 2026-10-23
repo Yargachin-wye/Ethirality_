@@ -25,7 +25,8 @@ namespace Generation
         public enum SpawnKind
         {
             Threat,
-            Food
+            Food,
+            Mobility
         }
 
         [Serializable]
@@ -34,17 +35,42 @@ namespace Generation
             public CharacterDefinition definition;
             public SpawnKind kind;
             public EnemyRole role;
-            [Min(0.01f)] public float threatCost;
+            [Min(0f)] public float threat;
+            [Min(0f)] public float food;
+            [Min(0f)] public float mobility;
+            public MobilityKind mobilityKind;
+            [Min(0f), Tooltip("Ручной множитель к выведенному из профиля threat (0 = 1)")] public float threatScale;
+            [Min(0f), Tooltip("Ручной множитель к выведенному из профиля food (0 = 1)")] public float foodScale;
+            [Min(0f), Tooltip("Ручной множитель к выведенному из профиля mobility (0 = 1)")] public float mobilityScale;
+            [HideInInspector, Tooltip("Устаревшее единое поле; используется только пока запись не мигрирована")] public float threatCost;
             [Min(0f)] public float weight;
             [Range(0f, 1f)] public float unlockDifficulty;
             [Range(0f, 1f)] public float fullWeightDifficulty;
             [Range(0f, 1f)] public float retireDifficulty;
             [Min(0)] public int maxPerLayer;
+
+            public bool IsMigrated => threat > 0f || food > 0f || mobility > 0f;
+            public float ThreatValue => IsMigrated ? threat : kind == SpawnKind.Threat ? threatCost : 0f;
+            public float FoodValue => IsMigrated ? food : kind == SpawnKind.Food ? threatCost : 0f;
+            public float MobilityValue => IsMigrated ? mobility : 0f;
+            public bool IsSupport => kind != SpawnKind.Food && MobilityValue > 0f;
+            public bool IsHarmful => ThreatValue > 0f;
+
+            public float CostFor(SpawnKind pool) => pool switch
+            {
+                SpawnKind.Threat => ThreatValue,
+                SpawnKind.Food => FoodValue,
+                _ => MobilityValue
+            };
+
+            public static float Scale(float value) => value > 0f ? value : 1f;
         }
 
         [SerializeField] private Entry[] entries;
 
         public IReadOnlyList<Entry> Entries => entries;
+
+        private const float CostTolerance = 1e-4f;
 
         private readonly List<int> _candidates = new();
         private readonly List<float> _weights = new();
@@ -65,6 +91,18 @@ namespace Generation
         public List<CharacterDefinition> RollFood(Random random, float difficulty, float foodBudget, int maxCount = int.MaxValue) =>
             Roll(SpawnKind.Food, random, difficulty, foodBudget, maxCount);
 
+        public List<CharacterDefinition> RollMobility(Random random, float difficulty, float mobilityBudget, int maxCount = int.MaxValue) =>
+            Roll(SpawnKind.Mobility, random, difficulty, mobilityBudget, maxCount);
+
+        public float MaxMobilityCost()
+        {
+            float max = 0f;
+            for (int i = 0; i < entries.Length; i++)
+                if (entries[i].definition != null && entries[i].kind == SpawnKind.Mobility)
+                    max = Mathf.Max(max, entries[i].MobilityValue);
+            return max;
+        }
+
         public List<CharacterDefinition> Roll(Random random, float difficulty, float budget, int maxCount = int.MaxValue) =>
             Roll(SpawnKind.Threat, random, difficulty, budget, maxCount);
 
@@ -81,7 +119,8 @@ namespace Generation
                 for (int i = 0; i < entries.Length; i++)
                 {
                     Entry e = entries[i];
-                    if (e.definition == null || e.kind != kind || e.threatCost > budget) continue;
+                    float cost = e.CostFor(kind);
+                    if (e.definition == null || e.kind != kind || cost <= 0f || cost > budget + CostTolerance) continue;
                     if (e.maxPerLayer > 0 && counts[i] >= e.maxPerLayer) continue;
                     float w = GetWeight(e, difficulty);
                     if (w <= 0f) continue;
@@ -101,7 +140,7 @@ namespace Generation
                 }
 
                 counts[picked]++;
-                budget -= entries[picked].threatCost;
+                budget -= entries[picked].CostFor(kind);
                 result.Add(entries[picked].definition);
             }
 
@@ -151,7 +190,7 @@ namespace Generation
                 }
 
                 counts[picked]++;
-                float cost = entries[picked].threatCost;
+                float cost = entries[picked].ThreatValue;
                 quotas[roleIdx] -= cost;
                 remaining -= cost;
                 result.Add(entries[picked].definition);
@@ -196,7 +235,8 @@ namespace Generation
             for (int i = 0; i < entries.Length; i++)
             {
                 Entry e = entries[i];
-                if (e.kind != SpawnKind.Threat || e.role != role || e.definition == null || e.threatCost > cap) continue;
+                if (e.kind != SpawnKind.Threat || e.role != role || e.definition == null || e.ThreatValue <= 0f ||
+                    e.ThreatValue > cap) continue;
                 if (e.maxPerLayer > 0 && counts[i] >= e.maxPerLayer) continue;
                 float w = GetWeight(e, difficulty);
                 if (w <= 0f) continue;

@@ -12,19 +12,38 @@ namespace Generation
         public float Difficulty { get; }
         public float ThreatBudget { get; }
         public float FoodBudget { get; }
+        public float MobilityBudget => Climb?.MobilityBudget ?? 0f;
+        public ClimbPlan Climb { get; }
         public LayerDefinition Definition { get; }
         public Random Random { get; }
         public List<SpawnRequest> Spawns { get; } = new();
+        public List<ChainNode> Chain { get; } = new();
+
+        public readonly struct ChainNode
+        {
+            public readonly CharacterDefinition Definition;
+            public readonly Vector2 Position;
+            public readonly bool Harmful;
+
+            public ChainNode(CharacterDefinition definition, Vector2 position, bool harmful)
+            {
+                Definition = definition;
+                Position = position;
+                Harmful = harmful;
+            }
+        }
 
         public EnemySpawnTable SpawnTable => Definition.SpawnTable;
 
-        public LayerContext(int index, Rect bounds, float difficulty, float threatBudget, float foodBudget, LayerDefinition definition, Random random)
+        public LayerContext(int index, Rect bounds, float difficulty, float threatBudget, float foodBudget, LayerDefinition definition, Random random,
+            ClimbPlan climb = null)
         {
             Index = index;
             Bounds = bounds;
             Difficulty = difficulty;
             ThreatBudget = threatBudget;
             FoodBudget = foodBudget;
+            Climb = climb;
             Definition = definition;
             Random = random;
         }

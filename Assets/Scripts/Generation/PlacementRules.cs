@@ -56,6 +56,15 @@ namespace Generation
             return false;
         }
 
+        public bool TryPlaceAt(LayerContext layer, CharacterDefinition definition, Vector2 point)
+        {
+            if (!Accepts(layer, point, definition)) return false;
+
+            layer.AddSpawn(definition, point);
+            Register(definition, point);
+            return true;
+        }
+
         public void Register(CharacterDefinition definition, Vector2 point)
         {
             _placed.Add(point);

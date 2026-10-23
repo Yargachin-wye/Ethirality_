@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1713043176, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
+  m_Sprite: {fileID: -2116861471, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -188,8 +188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8403955774680081991}
-  startHp: 2
-  maxHp: 2
+  startHp: 1
+  maxHp: 1
   isImmortal: 0
   isInvulnerable: 0
   dmgSound: EnemyDmg1Sound
@@ -262,7 +262,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.81854993
 --- !u!114 &-2160959833885538057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,8 +279,7 @@ MonoBehaviour:
   dmgParticleSystem: {fileID: 5955918581441455834}
   spriteRenderer: {fileID: 579056277537200731}
   hpSprites:
-  - {fileID: -860802001, guid: 0cfb50d95d8e8c34890a0089b28173af, type: 3}
-  - {fileID: -860802001, guid: 0cfb50d95d8e8c34890a0089b28173af, type: 3}
+  - {fileID: -2116861471, guid: 19161c8e790d04844ba445bf036487fb, type: 3}
   stats: {fileID: 3113167696032994566}
 --- !u!114 &7210000000000000012
 MonoBehaviour:

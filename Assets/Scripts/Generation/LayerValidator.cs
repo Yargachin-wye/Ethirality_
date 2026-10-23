@@ -18,6 +18,7 @@ namespace Generation
             float safeTop = bounds.yMin + (rules != null ? rules.SafeZoneHeight : 0f);
             float threatSpent = 0f;
             float foodSpent = 0f;
+            float mobilitySpent = 0f;
 
             foreach (SpawnRequest spawn in layer.Spawns)
             {
@@ -47,8 +48,9 @@ namespace Generation
 
                 if (table != null && table.TryGetEntry(spawn.Definition, out var spawnEntry))
                 {
-                    if (spawnEntry.kind == EnemySpawnTable.SpawnKind.Food) foodSpent += spawnEntry.threatCost;
-                    else threatSpent += spawnEntry.threatCost;
+                    if (spawnEntry.kind == EnemySpawnTable.SpawnKind.Food) foodSpent += spawnEntry.FoodValue;
+                    else if (spawnEntry.kind == EnemySpawnTable.SpawnKind.Mobility) mobilitySpent += spawnEntry.MobilityValue;
+                    else threatSpent += spawnEntry.ThreatValue;
                 }
             }
 
@@ -61,6 +63,20 @@ namespace Generation
                 Debug.LogWarning(
                     $"[LayerValidator] Слой {layer.Index}: перерасход бюджета еды " +
                     $"{foodSpent:0.#} > {layer.FoodBudget:0.#}");
+
+            if (mobilitySpent > layer.MobilityBudget + 0.001f)
+                Debug.LogWarning(
+                    $"[LayerValidator] Слой {layer.Index}: перерасход бюджета мобильности " +
+                    $"{mobilitySpent:0.#} > {layer.MobilityBudget:0.#}");
+
+            if (layer.Climb != null && layer.Climb.ChainEnabled)
+                for (int i = 1; i < layer.Chain.Count; i++)
+                {
+                    float step = Vector2.Distance(layer.Chain[i - 1].Position, layer.Chain[i].Position);
+                    if (step > layer.Climb.StepCap + 0.001f)
+                        Debug.LogWarning(
+                            $"[LayerValidator] Слой {layer.Index}: шаг цепочки опор {step:0.#} > {layer.Climb.StepCap:0.#}");
+                }
         }
     }
 }

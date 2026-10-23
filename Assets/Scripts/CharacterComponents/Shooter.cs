@@ -34,6 +34,7 @@ namespace CharacterComponents
 
         public float ShootDelay => shootDelay;
         public float Speed => speed;
+        public float MaxDistanceToProjectile => maxDistanceToProjectile;
         public ProjectileDefinition ProjectileDefinition => projectileDefinition;
 
         public override void Init()

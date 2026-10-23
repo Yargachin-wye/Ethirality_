@@ -276,7 +276,7 @@ MonoBehaviour:
   dmgParticleSystem: {fileID: 5955918581441455834}
   spriteRenderer: {fileID: 579056277537200731}
   hpSprites:
-  - {fileID: -368298945, guid: d285f72ef535b204b8fe56225cbc7643, type: 3}
+  - {fileID: -806906038, guid: 0cfb50d95d8e8c34890a0089b28173af, type: 3}
   stats: {fileID: 3113167696032994566}
 --- !u!1 &9159091053395830613
 GameObject:

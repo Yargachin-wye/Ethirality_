@@ -158,3 +158,37 @@ X ~ равномерно(доступные) ; «случайное» — ещё
 
 ## 3.14 Границы — `DeadZone`
 Вне триггера зоны: 1 урон каждые `dmgDelay` (1 с). Слои центрированы по x, ширина 50.
+
+## 3.15 Досягаемость игрока - `PlayerBuild`
+
+Вход (префабы): масса 2, linearDrag 0.5, gravityScale 1, `Physics2D.gravity.y` = -9.81, `fixedDeltaTime` 0.02, `powerDash` 50,
+`dashTime` 0.7, гарпун: `ownerForce` 50, `attachedForceDelay` 0.25, `maxDistanceToProjectile` 25, снаряд: импульс 10 / масса 0.25 = 40 ед/с.
+```
+v0        = impulse / mass = 50 / 2 = 25                      (рывок и подтягивание гарпуном дают одинаковый dv)
+шаг       : v += g·gravityScale·dt ; v *= 1/(1 + dt·drag) ; y += v·dt   (порядок Box2D), пока v > 0
+Apex(v0)  = 17.6 ед.   ReachDash = Apex(DashSpeed)   ReachHarpoon = min(harpoonRange, Apex(PullSpeed))
+MaxVerticalGap = max(ReachHarpoon, ReachDash) = 17.6 для Base / Passive / Full
+```
+Допущения: (1) рывок/подтягивание направлены строго вверх (лучший случай); (2) freeze бесплатен (A9), поэтому игрок может зависнуть
+в любой точке - высота подъёма за действие ограничена `Apex`, а кулдауны (`dashDelay`, `shootDelay`) влияют только на **время**;
+(3) улучшения не меняют досягаемость - сборки различаются темпом, не высотой; (4) гарпун цепляет любой объект со `Stats`.
+Генерация использует baked `referenceMaxGap = 17.5` (<= слабейшей сборки, тест `ReferenceGapMatchesPlayer`).
+
+## 3.16 Три бюджета слоя - `DifficultyProfile`, `LayerPlanner`
+```
+threatBudget   = EvaluateThreat (3.2)
+foodBudget     = EvaluateFood   (3.2.1)                       теперь в HP
+mobilityBudget = max( lerp(2.4, 1.6, d) · height , K · maxSupportMobility · 1.001 )
+K              = ceil((height - entryOffset - exitOffset) / (stepCap · 0.85)) + 1      stepCap = 0.8 · referenceMaxGap = 14
+```
+Для height = 100: K = 9, нижняя граница бюджета 157.5 (инвариант проходимости), 227.5 при d ~ 0. С ростом d опор становится меньше
+(до K), а доля опор цепочки, занятых вредными объектами, растёт: `riskShare = lerp(0, 0.5, d)`.
+`Roll` тратит только основной ресурс пула (Threat -> threat, Food -> food, Mobility -> mobility); записи с нулевой стоимостью пула пропускаются.
+
+## 3.17 Размещение: цепочка опор - `SupportChain`, `LayerPopulator`
+Порядок на слой: ролл угроз -> ролл опор -> ролл еды -> **цепочка опор** -> остаток опор -> угрозы -> еда -> награды.
+Цепочка: n = число выброшенных безопасных опор; уровни по высоте от `yMin + 6.1` до `yMax - 2.1` (равномерно ± 10 % шага);
+x - случайный в интервале, где евклидов шаг <= `stepCap` и достижим конец цепочки. Стыки слоёв: `x = center + (2u-1)·…`,
+`u = hash(seed, i)` - одна точка для верха слоя i и низа слоя i+1 (разрыв между последней и первой опорой ~ 8 ед. < 17.5).
+На внутренних уровнях с вероятностью `riskShare` опору заменяет вредный стационарный объект из ролла угроз (если `Accepts`),
+иначе ставится безопасная. Детерминировано по `(seed, i)`; `LayerSimulator` вызывает тот же `LayerPopulator`.

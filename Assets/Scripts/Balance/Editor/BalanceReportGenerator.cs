@@ -45,7 +45,7 @@ namespace Balance.Editor
 
             var sb = new StringBuilder();
             WriteScenario(sb, s);
-            WriteEntities(sb, entries);
+            WriteEntities(sb, s, entries);
             WriteBuilds(sb, s, builds);
             WriteLayers(sb, s, builds, layers);
             WriteRuns(sb, s, builds, runs);
@@ -80,25 +80,36 @@ namespace Balance.Editor
             sb.AppendLine($"  - pPickHp = {Fmt(s.PPickHp)}");
             sb.AppendLine($"  - spikeDps = {Fmt(s.SpikeDps)}");
             sb.AppendLine($"  - shieldBlock = {Fmt(s.ShieldBlock)}");
+            sb.AppendLine($"  - threatPerExpectedDamage = {Fmt(s.ThreatPerExpectedDamage)}, threatPerEffort = {Fmt(s.ThreatPerEffort)}");
+            sb.AppendLine($"  - eatDashMobilityShare = {Fmt(s.EatDashMobilityShare)}, unclimbablePenaltyHp = {Fmt(s.UnclimbablePenaltyHp)}");
             sb.AppendLine("- Цели баланса:");
             sb.AppendLine($"  - runLengthBase = [{s.RunLengthBaseMin}, {s.RunLengthBaseMax}]");
             sb.AppendLine($"  - runLengthFull >= {s.RunLengthFullMin}");
             sb.AppendLine($"  - maxPlacementLoss = {Fmt(s.MaxPlacementLoss)}");
             sb.AppendLine($"  - rewardWindow = {s.RewardWindow}, rewardCheckFromLayer = {s.RewardCheckFromLayer}");
+            sb.AppendLine($"  - harmfulMobilityShare = [{Fmt(s.HarmfulMobilityShareMin)}, {Fmt(s.HarmfulMobilityShareMax)}] с слоя {s.HarmfulShareFromLayer}");
             sb.AppendLine();
         }
 
-        private static void WriteEntities(StringBuilder sb,
+        private static void WriteEntities(StringBuilder sb, BalanceScenario s,
             List<(EnemySpawnTable.Entry entry, EnemyProfile profile)> entries)
         {
+            var reference = SpawnTableMigrator.WeakestBuild(s);
             sb.AppendLine("## Сущности");
             sb.AppendLine();
-            sb.AppendLine("| Имя | Вид | Роль | threatCost | weight | unlock | full | retire | maxPerLayer | Hp | Damageable | DiesFromDamage | ContactDmg | Ranged delay | Ranged range | ProjDmg | HealOnEat | IsLevelUp | IsHazard | EatableByDash(1) | EatableByDash(2) |");
-            sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|");
+            sb.AppendLine("Ресурсы объекта: threat (опасность), food (HP при съедании), mobility (высота подъёма от опоры). " +
+                          "`profile` — значение, выведенное из префаба (`EntityResourceModel.Derive`); `scale` — ручной множитель; " +
+                          "итог = profile × scale.");
+            sb.AppendLine();
+            sb.AppendLine("| Имя | Пул | Роль | threat | threat profile × scale | food | food profile × scale | mobility | mobility profile × scale | mobilityKind | weight | unlock | full | retire | maxPerLayer | Hp | Damageable | DiesFromDamage | ContactDmg | Ranged delay | Ranged range | ProjDmg | HealOnEat | IsLevelUp | IsHazard | EatableByDash(1) | EatableByDash(2) |");
+            sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|");
             foreach (var (e, p) in entries)
             {
-                sb.AppendLine($"| {p.Name} | {e.kind} | {e.role} | {Fmt(e.threatCost)} | {Fmt(e.weight)} " +
-                              $"| {Fmt(e.unlockDifficulty)} | {Fmt(e.fullWeightDifficulty)} | {Fmt(e.retireDifficulty)} " +
+                var d = EntityResourceModel.Derive(p, e.kind, reference, s);
+                sb.AppendLine($"| {p.Name} | {e.kind} | {e.role} | {Fmt(e.ThreatValue)} | {Fmt(d.Threat)} × {Fmt(EnemySpawnTable.Entry.Scale(e.threatScale))} " +
+                              $"| {Fmt(e.FoodValue)} | {Fmt(d.Food)} × {Fmt(EnemySpawnTable.Entry.Scale(e.foodScale))} " +
+                              $"| {Fmt(e.MobilityValue)} | {Fmt(d.Mobility)} × {Fmt(EnemySpawnTable.Entry.Scale(e.mobilityScale))} | {e.mobilityKind} " +
+                              $"| {Fmt(e.weight)} | {Fmt(e.unlockDifficulty)} | {Fmt(e.fullWeightDifficulty)} | {Fmt(e.retireDifficulty)} " +
                               $"| {e.maxPerLayer} | {p.Hp} | {YN(p.Damageable)} | {YN(p.DiesFromDamage)} " +
                               $"| {p.ContactDmg} | {(p.IsRanged ? Fmt(p.ShootDelay) : "-")} " +
                               $"| {(p.IsRanged ? Fmt(p.DetectionRange) : "-")} | {(p.IsRanged ? p.ProjectileDmg.ToString() : "-")} " +
@@ -121,6 +132,25 @@ namespace Balance.Editor
                               $"| {Fmt(b.Dps(s))} | {Fmt(b.RangedMitigation(s))} |");
             }
             sb.AppendLine();
+
+            sb.AppendLine("### Досягаемость (mobility игрока)");
+            sb.AppendLine();
+            var first = builds[0];
+            sb.AppendLine($"Вход из префабов: mass = {Fmt(first.Mass)}, linearDrag = {Fmt(first.LinearDrag)}, gravityScale = {Fmt(first.GravityScale)}, " +
+                          $"Physics2D.gravity.y = {Fmt(Physics2D.gravity.y)}, fixedDeltaTime = {Fmt(Time.fixedDeltaTime)}, powerDash = {Fmt(first.PowerDash)}, " +
+                          $"dashTime = {Fmt(first.DashTime)}, harpoon pull = {Fmt(first.HarpoonPull)}, attachDelay = {Fmt(first.HarpoonAttachDelay)}, " +
+                          $"harpoon range = {Fmt(first.HarpoonRange)}, projectile speed = {Fmt(first.HarpoonProjectileSpeed)}.");
+            sb.AppendLine();
+            sb.AppendLine("| Сборка | DashSpeed | PullSpeed | ReachDash | ReachHarpoon | MaxVerticalGap | DashDelay | ShootDelay | Время гарпун-хопа на шаг цепочки | Время рывка на шаг цепочки |");
+            sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|");
+            float step = s.DifficultyProfile.StepCap;
+            foreach (var b in builds)
+                sb.AppendLine($"| {b.Name} | {Fmt(b.DashSpeed)} | {Fmt(b.PullSpeed)} | {Fmt(b.ReachDash)} | {Fmt(b.ReachHarpoon)} " +
+                              $"| {Fmt(b.MaxVerticalGap)} | {Fmt(b.DashDelay)} | {Fmt(b.ShootDelay)} | {Fmt(b.HarpoonTime(step))} | {Fmt(b.DashClimbTime(step))} |");
+            sb.AppendLine();
+            sb.AppendLine($"Опорная досягаемость генерации: referenceMaxGap = {Fmt(s.DifficultyProfile.ReferenceMaxGap)}, " +
+                          $"chainStepFraction = {Fmt(s.DifficultyProfile.ChainStepFraction)} -> шаг цепочки <= {Fmt(step)}.");
+            sb.AppendLine();
         }
 
         private static void WriteLayers(StringBuilder sb, BalanceScenario s, IReadOnlyList<PlayerBuild> builds,
@@ -128,12 +158,12 @@ namespace Balance.Editor
         {
             sb.AppendLine("## Слои");
             sb.AppendLine();
-            var header = new StringBuilder("| i | d | pacing | threatBudget | foodBudget | rolled | placed | loss% | threatSpent | foodSpent | rewards | hazards | killableHp | состав");
-            foreach (var b in builds) header.Append($" | {b.Name} TTC | {b.Name} dmg | {b.Name} heal");
+            var header = new StringBuilder("| i | d | pacing | threatBudget | foodBudget | mobilityBudget | rolled | placed | loss% | spentThreat | spentFood | spentMobility | K мин | цепочка | harm mob% | опор | rewards | hazards | killableHp | состав");
+            foreach (var b in builds) header.Append($" | {b.Name} TTC | {b.Name} dmg | {b.Name} heal | {b.Name} MaxGap | {b.Name} climb t | {b.Name} climbable");
             header.Append(" |");
             sb.AppendLine(header.ToString());
-            var sep = new StringBuilder("|---|---|---|---|---|---|---|---|---|---|---|---|---|");
-            foreach (var _ in builds) sep.Append("|---|---|---");
+            var sep = new StringBuilder("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|");
+            foreach (var _ in builds) sep.Append("|---|---|---|---|---|---");
             sep.Append("|");
             sb.AppendLine(sep.ToString());
 
@@ -141,7 +171,7 @@ namespace Balance.Editor
             {
                 if (r.Empty)
                 {
-                    sb.AppendLine($"| {r.Index} | - | - | - | - | 0 | 0 | - | - | - | - | - | - | пустой |");
+                    sb.AppendLine($"| {r.Index} | - | - | - | - | - | 0 | 0 | - | - | - | - | - | - | - | - | - | - | - | пустой |");
                     continue;
                 }
                 var comp = new StringBuilder();
@@ -151,12 +181,13 @@ namespace Balance.Editor
                     comp.Append($"{kv.Key}×{kv.Value}");
                 }
                 var row = new StringBuilder($"| {r.Index} | {Fmt(r.Difficulty)} | {Fmt(r.PacingMultiplier)} " +
-                                            $"| {Fmt(r.Budget)} | {Fmt(r.FoodBudget)} | {r.Rolled} | {r.Placed} | {Fmt(r.PlacementLoss * 100f)} " +
-                                            $"| {Fmt(r.Spent)} | {Fmt(r.FoodSpent)} | {r.Rewards} | {r.Hazards} | {Fmt(r.KillableHp)} | {comp}");
+                                            $"| {Fmt(r.ThreatBudget)} | {Fmt(r.FoodBudget)} | {Fmt(r.MobilityBudget)} | {r.Rolled} | {r.Placed} | {Fmt(r.PlacementLoss * 100f)} " +
+                                            $"| {Fmt(r.SpentThreat)} | {Fmt(r.SpentFood)} | {Fmt(r.SpentMobility)} | {r.MinSupports} | {r.ChainLength} " +
+                                            $"| {Fmt(HarmShare(r) * 100f)} | {r.SupportCount} | {r.Rewards} | {r.Hazards} | {Fmt(r.KillableHp)} | {comp}");
                 foreach (var b in builds)
                 {
                     var m = r.Metrics[b.Name];
-                    row.Append($" | {Fmt(m.TimeToClear)} | {Fmt(m.ExpectedDamage)} | {Fmt(m.ExpectedHeal)}");
+                    row.Append($" | {Fmt(m.TimeToClear)} | {Fmt(m.ExpectedDamage)} | {Fmt(m.ExpectedHeal)} | {Fmt(m.MaxGap)} | {Fmt(m.ClimbTime)} | {YN(m.Climbable)}");
                 }
                 row.Append(" |");
                 sb.AppendLine(row.ToString());
@@ -164,15 +195,21 @@ namespace Balance.Editor
             sb.AppendLine();
         }
 
+        public static float HarmShare(LayerReport r) => r.ChainMobility > 0f ? r.HarmfulChainMobility / r.ChainMobility : 0f;
+
         private static void WriteRuns(StringBuilder sb, BalanceScenario s, IReadOnlyList<PlayerBuild> builds,
             List<RunReport> runs)
         {
             sb.AppendLine("## Забег");
             sb.AppendLine();
-            sb.AppendLine("| Сборка | RunLength | Died |");
-            sb.AppendLine("|---|---|---|");
+            sb.AppendLine("| Сборка | RunLength | Died | Время подъёма всего, с | Время подъёма на слой, с | Штраф за непроходимость, HP | Непроходимых слоёв |");
+            sb.AppendLine("|---|---|---|---|---|---|---|");
             foreach (var r in runs)
-                sb.AppendLine($"| {r.BuildName} | {r.RunLength} | {YN(r.Died)} |");
+            {
+                int layersPlayed = Mathf.Max(1, r.ClimbTrace.Count);
+                sb.AppendLine($"| {r.BuildName} | {r.RunLength} | {YN(r.Died)} | {Fmt(r.ClimbTime)} | {Fmt(r.ClimbTime / layersPlayed)} " +
+                              $"| {Fmt(r.ClimbPenaltyHp)} | {r.UnclimbableLayers} |");
+            }
             sb.AppendLine();
             sb.AppendLine("### HP-трасса (первые 20 слоёв)");
             sb.AppendLine();
@@ -237,6 +274,32 @@ namespace Balance.Editor
             else foreach (var l in bad) sb.AppendLine($"- {l}");
             sb.AppendLine();
 
+            sb.AppendLine("### Слои и сборки без проходимой цепочки опор");
+            var blocked = new List<string>();
+            foreach (var r in layers)
+            {
+                if (r.Empty) continue;
+                foreach (var b in builds)
+                    if (!r.Metrics[b.Name].Climbable) blocked.Add($"слой {r.Index} / {b.Name} (MaxGap {Fmt(r.Metrics[b.Name].MaxGap)})");
+            }
+            if (blocked.Count == 0) sb.AppendLine("- Нет.");
+            else foreach (var l in blocked) sb.AppendLine($"- {l}");
+            sb.AppendLine();
+
+            sb.AppendLine("### Доля mobility вредных объектов в цепочке");
+            var lateShare = new List<float>();
+            foreach (var r in layers)
+                if (!r.Empty && r.Index >= s.HarmfulShareFromLayer) lateShare.Add(HarmShare(r));
+            if (lateShare.Count == 0) sb.AppendLine("- Нет данных.");
+            else
+            {
+                float avg = 0f;
+                foreach (float v in lateShare) avg += v;
+                avg /= lateShare.Count;
+                sb.AppendLine($"- Слои >= {s.HarmfulShareFromLayer}: среднее {Fmt(avg * 100f)}% (цель {Fmt(s.HarmfulMobilityShareMin * 100f)}–{Fmt(s.HarmfulMobilityShareMax * 100f)}%).");
+            }
+            sb.AppendLine();
+
             sb.AppendLine("### Несоответствия роли и профиля");
             var mismatches = RoleMismatches(entries);
             if (mismatches.Count == 0) sb.AppendLine("- Нет.");
@@ -269,8 +332,8 @@ namespace Balance.Editor
                     list.Add($"{p.Name}: IsLeaper, но role={e.role}");
                 if (p.IsFleer && e.kind != EnemySpawnTable.SpawnKind.Food)
                     list.Add($"{p.Name}: IsFleer, но kind={e.kind}");
-                if (e.role == EnemySpawnTable.EnemyRole.Swarm && e.threatCost > 2f)
-                    list.Add($"{p.Name}: role=Swarm, но threatCost={Fmt(e.threatCost)} > 2");
+                if (e.role == EnemySpawnTable.EnemyRole.Swarm && e.CostFor(e.kind) > 2f)
+                    list.Add($"{p.Name}: role=Swarm, но стоимость={Fmt(e.CostFor(e.kind))} > 2");
             }
             return list;
         }
@@ -279,8 +342,8 @@ namespace Balance.Editor
             List<LayerReport> layers)
         {
             var sb = new StringBuilder();
-            var head = new StringBuilder("i;difficulty;pacing;threatBudget;foodBudget;rolled;placed;loss;threatSpent;foodSpent;rewards;hazards;killableHp;composition");
-            foreach (var b in builds) head.Append($";{b.Name}_ttc;{b.Name}_dmg;{b.Name}_heal");
+            var head = new StringBuilder("i;difficulty;pacing;threatBudget;foodBudget;mobilityBudget;rolled;placed;loss;spentThreat;spentFood;spentMobility;minSupports;chain;harmShare;supports;rewards;hazards;killableHp;composition");
+            foreach (var b in builds) head.Append($";{b.Name}_ttc;{b.Name}_dmg;{b.Name}_heal;{b.Name}_maxGap;{b.Name}_climbTime;{b.Name}_climbable");
             sb.AppendLine(head.ToString());
             foreach (var r in layers)
             {
@@ -291,14 +354,15 @@ namespace Balance.Editor
                     comp.Append($"{kv.Key}x{kv.Value}");
                 }
                 var row = new StringBuilder($"{r.Index};{C(r.Difficulty)};{C(r.PacingMultiplier)};" +
-                                            $"{C(r.Budget)};{C(r.FoodBudget)};{r.Rolled};{r.Placed};{C(r.PlacementLoss)};" +
-                                            $"{C(r.Spent)};{C(r.FoodSpent)};{r.Rewards};{r.Hazards};{C(r.KillableHp)};{comp}");
+                                            $"{C(r.ThreatBudget)};{C(r.FoodBudget)};{C(r.MobilityBudget)};{r.Rolled};{r.Placed};{C(r.PlacementLoss)};" +
+                                            $"{C(r.SpentThreat)};{C(r.SpentFood)};{C(r.SpentMobility)};{r.MinSupports};{r.ChainLength};{C(HarmShare(r))};{r.SupportCount};" +
+                                            $"{r.Rewards};{r.Hazards};{C(r.KillableHp)};{comp}");
                 foreach (var b in builds)
                 {
                     if (r.Empty || !r.Metrics.TryGetValue(b.Name, out var m))
-                        row.Append(";;;");
+                        row.Append(";;;;;;");
                     else
-                        row.Append($";{C(m.TimeToClear)};{C(m.ExpectedDamage)};{C(m.ExpectedHeal)}");
+                        row.Append($";{C(m.TimeToClear)};{C(m.ExpectedDamage)};{C(m.ExpectedHeal)};{C(m.MaxGap)};{C(m.ClimbTime)};{(m.Climbable ? 1 : 0)}");
                 }
                 sb.AppendLine(row.ToString());
             }

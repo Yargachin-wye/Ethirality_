@@ -28,6 +28,22 @@ namespace BalanceTests
         }
 
         [Test]
+        public void HarmfulMobilityShareInRange()
+        {
+            var s = BalanceTestContext.Scenario;
+            var bad = new List<string>();
+            foreach (var r in BalanceTestContext.Layers)
+            {
+                if (r.Empty || r.Index < s.HarmfulShareFromLayer) continue;
+                float share = BalanceReportGenerator.HarmShare(r);
+                if (share < s.HarmfulMobilityShareMin || share > s.HarmfulMobilityShareMax)
+                    bad.Add($"слой {r.Index}: {share:0.###}");
+            }
+            if (bad.Count > 0)
+                BalanceTestContext.Warn($"Доля вредной mobility вне [{s.HarmfulMobilityShareMin}, {s.HarmfulMobilityShareMax}]: {string.Join(", ", bad)}");
+        }
+
+        [Test]
         public void RewardCadence()
         {
             var s = BalanceTestContext.Scenario;

@@ -8,9 +8,11 @@ namespace Generation
             public int ThreatPlaced;
             public int FoodRolled;
             public int FoodPlaced;
+            public int MobilityRolled;
+            public int MobilityPlaced;
 
-            public int Rolled => ThreatRolled + FoodRolled;
-            public int Placed => ThreatPlaced + FoodPlaced;
+            public int Rolled => ThreatRolled + FoodRolled + MobilityRolled;
+            public int Placed => ThreatPlaced + FoodPlaced + MobilityPlaced;
         }
 
         public static Result Populate(LayerContext layer, PlacementRules placement, int attempts)
@@ -22,16 +24,35 @@ namespace Generation
 
             var threats = layer.SpawnTable.Roll(layer.Random, layer.Difficulty, layer.ThreatBudget,
                 layer.Definition.Composition);
+            var supports = layer.SpawnTable.RollMobility(layer.Random, layer.Difficulty, layer.MobilityBudget);
+            var food = layer.SpawnTable.RollFood(layer.Random, layer.Difficulty, layer.FoodBudget);
             result.ThreatRolled = threats.Count;
+            result.MobilityRolled = supports.Count;
+            result.FoodRolled = food.Count;
+
+            int chainPlaced = SupportChain.Build(layer, placement, supports, threats);
+            int chainThreats = CountChainThreats(layer);
+            result.MobilityPlaced += chainPlaced - chainThreats;
+            result.ThreatPlaced += chainThreats;
+
+            foreach (var def in supports)
+                if (placement.TryPlace(layer, def, attempts)) result.MobilityPlaced++;
+
             foreach (var def in threats)
                 if (placement.TryPlace(layer, def, attempts)) result.ThreatPlaced++;
 
-            var food = layer.SpawnTable.RollFood(layer.Random, layer.Difficulty, layer.FoodBudget);
-            result.FoodRolled = food.Count;
             foreach (var def in food)
                 if (placement.TryPlace(layer, def, attempts)) result.FoodPlaced++;
 
             return result;
+        }
+
+        private static int CountChainThreats(LayerContext layer)
+        {
+            int count = 0;
+            foreach (var node in layer.Chain)
+                if (node.Harmful) count++;
+            return count;
         }
     }
 }

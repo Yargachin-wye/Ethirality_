@@ -87,3 +87,38 @@
 
 Пассивные применяют значение **абсолютно**, а не множителем: повторное получение (невозможно
 при maxLevel 1) ничего не изменило бы. Выбор «случайное» равновероятен среди всех доступных.
+
+## Три ресурса объекта (threat / food / mobility)
+
+Вместо единого `threatCost` каждая запись `EnemySpawnTable.Entry` описана тремя явными ресурсами:
+
+| Поле | Смысл | Значение по умолчанию (из профиля префаба, `EntityResourceModel.Derive`) |
+|---|---|---|
+| `threat` | опасность для игрока | `threatPerExpectedDamage · ExpectedDamage(Base) + threatPerEffort · KillableHp / Dps(Base)`; 0, если не `IsThreat` |
+| `food` | HP при съедании | `HealOnEat`, если `EatableByDash(dashDmg Base)`; LevelUp -> `pPickHp` |
+| `mobility` | высота подъёма от опоры, ед. | `referenceMaxGap` для стационарных объектов со `Stats`; 0 для подвижных и для пула Food |
+
+Итог = выведенное значение × ручной множитель (`threatScale/foodScale/mobilityScale`, 0 читается как 1). Значения запечены в ассет
+(`Tools/Balance/Migrate Spawn Tables`, идемпотентно); тест `ResourceValuesMatchProfile` ловит расхождение с префабом.
+Старое поле `threatCost` оставлено для обратной совместимости: пока запись не мигрирована, оно трактуется как threat/food по `kind`.
+
+`kind` = пул, из бюджета которого платит объект: `Threat`, `Food`, `Mobility` (новый, для безвредных опор: Capsule, Hex).
+`mobilityKind`: `HarpoonAnchor` (стационарный объект со Stats: Capsule, Pear, Spitter, Mine, Circle1, HexLaser),
+`SolidPlatform` (неуязвимый и безвредный: Hex), `EatDash` (съедобный подвижный: Bee, Runner, Chaser, Leaper, Charger; в коде съедение
+не обновляет рывок, поэтому mobility = 0, множитель `eatDashMobilityShare`), `DashPushoff` (зарезервирован), `None`.
+
+Миграция существующих записей (threat сохранён множителем, food = HP):
+
+| Объект | Пул | threat (profile × scale) | food | mobility | mobilityKind |
+|---|---|---|---|---|---|
+| Bee, Circle0 | Food | 0 | 1 | 0 | EatDash |
+| Capsule | Mobility (был Threat 3) | 0 | 0 | 17.5 | HarpoonAnchor |
+| Hex | Mobility (был Threat 4) | 0 | 0 | 17.5 | SolidPlatform |
+| HexLaser | Threat | 5 (1.5 × 3.33) | 0 | 17.5 | HarpoonAnchor |
+| Pear | Threat | 6 (9 × 0.67) | 1 | 17.5 | HarpoonAnchor |
+| Circle1 | Threat | 8 (1.5 × 5.33) | 0 | 17.5 | HarpoonAnchor |
+| LevelUp | вне таблицы (награда) | 0 | `pPickHp` = 0.5 | 0 | - |
+
+Chaser, Charger, Spitter, Mine, Leaper, Runner мигрированы тем же правилом (точные числа - в таблице «Сущности» отчёта).
+Множители показывают, где ручной cost расходился с формулой (R2). Capsule получил `unlock = full = 0`, у опор `maxPerLayer = 0`
+(опора нужна при любой сложности). Pear и Spitter получили `maxPerLayer` 3 и 2, чтобы вернуть PlacementLoss <= 10 % (в HEAD капов не было).

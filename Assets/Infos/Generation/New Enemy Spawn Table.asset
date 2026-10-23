@@ -16,6 +16,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 575d3270d917bef46bbc718e710385fa, type: 2}
     kind: 1
     role: 3
+    threat: 0
+    food: 1
+    mobility: 0
+    mobilityKind: 4
+    threatScale: 1
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 1
     weight: 10
     unlockDifficulty: 0
@@ -25,6 +32,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: f6335c78d7dec6b43801a5a8cef45829, type: 2}
     kind: 1
     role: 2
+    threat: 0
+    food: 1
+    mobility: 16
+    mobilityKind: 4
+    threatScale: 1
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 2
     weight: 6
     unlockDifficulty: 0
@@ -32,17 +46,31 @@ MonoBehaviour:
     retireDifficulty: 0
     maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 116c564ab468ae04e9f2877d04282448, type: 2}
-    kind: 0
+    kind: 2
     role: 2
+    threat: 0
+    food: 0
+    mobility: 17.5
+    mobilityKind: 1
+    threatScale: 1
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 3
     weight: 4
-    unlockDifficulty: 0.1
-    fullWeightDifficulty: 0.3
+    unlockDifficulty: 0
+    fullWeightDifficulty: 0
     retireDifficulty: 0
     maxPerLayer: 0
   - definition: {fileID: 11400000, guid: 9b6d340757bce204297723b42850aa94, type: 2}
-    kind: 0
+    kind: 2
     role: 2
+    threat: 0
+    food: 0
+    mobility: 17.5
+    mobilityKind: 3
+    threatScale: 1
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 4
     weight: 3
     unlockDifficulty: 0.3
@@ -52,6 +80,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 99a6150c23739194fba77ab27fc91189, type: 2}
     kind: 0
     role: 6
+    threat: 5
+    food: 0
+    mobility: 17.5
+    mobilityKind: 1
+    threatScale: 3.3333333
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 5
     weight: 2.5
     unlockDifficulty: 0.45
@@ -61,15 +96,29 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 1980bc833d723374f913d444cbb80c31, type: 2}
     kind: 0
     role: 1
+    threat: 6
+    food: 1
+    mobility: 17.5
+    mobilityKind: 1
+    threatScale: 0.6666667
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 6
     weight: 3
     unlockDifficulty: 0.25
     fullWeightDifficulty: 0.5
     retireDifficulty: 0
-    maxPerLayer: 0
+    maxPerLayer: 3
   - definition: {fileID: 11400000, guid: 60f41c75712fc4d4cb166e486e429d7e, type: 2}
     kind: 0
     role: 4
+    threat: 8
+    food: 0
+    mobility: 17.5
+    mobilityKind: 1
+    threatScale: 5.3333335
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 8
     weight: 1.5
     unlockDifficulty: 0.55
@@ -79,6 +128,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: bf3a0a68e67048b28b1f786cf8821b88, type: 2}
     kind: 0
     role: 8
+    threat: 4
+    food: 1
+    mobility: 0
+    mobilityKind: 4
+    threatScale: 0.84210527
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 4
     weight: 3
     unlockDifficulty: 0.2
@@ -88,6 +144,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: d0c00bb346814fa4a2a5d2d4969751b7, type: 2}
     kind: 0
     role: 6
+    threat: 6.0000005
+    food: 1
+    mobility: 0
+    mobilityKind: 4
+    threatScale: 1.1428572
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 6
     weight: 2.5
     unlockDifficulty: 0.35
@@ -97,15 +160,29 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 542270a9838d470ba9462b32c3de11e0, type: 2}
     kind: 0
     role: 1
+    threat: 7
+    food: 1
+    mobility: 17.5
+    mobilityKind: 1
+    threatScale: 0.8484849
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 7
     weight: 2
     unlockDifficulty: 0.4
     fullWeightDifficulty: 0.7
     retireDifficulty: 0
-    maxPerLayer: 0
+    maxPerLayer: 2
   - definition: {fileID: 11400000, guid: 35071e5c77cb4b6dac7efaf8d251a416, type: 2}
     kind: 0
     role: 6
+    threat: 4
+    food: 0
+    mobility: 17.5
+    mobilityKind: 1
+    threatScale: 1.0666667
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 4
     weight: 3
     unlockDifficulty: 0.3
@@ -115,6 +192,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 22acc0b255f34e7ba5d6e1d7372e8560, type: 2}
     kind: 0
     role: 0
+    threat: 5
+    food: 1
+    mobility: 0
+    mobilityKind: 4
+    threatScale: 0.90909094
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 5
     weight: 3
     unlockDifficulty: 0.15
@@ -124,6 +208,13 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 6398b7900f7040f48f16bdae125daf76, type: 2}
     kind: 1
     role: 3
+    threat: 0
+    food: 4
+    mobility: 0
+    mobilityKind: 4
+    threatScale: 1
+    foodScale: 1
+    mobilityScale: 1
     threatCost: 2
     weight: 4
     unlockDifficulty: 0.1

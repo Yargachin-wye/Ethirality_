@@ -59,7 +59,38 @@ namespace Generation
 
             float food = profile.EvaluateFood(difficulty, width * height);
 
-            return new LayerContext(i, bounds, difficulty, threat, food, definition, random);
+            return new LayerContext(i, bounds, difficulty, threat, food, definition, random,
+                PlanClimb(seed, i, bounds, difficulty, profile, definition));
+        }
+
+        public static float BoundaryU(int seed, int boundaryIndex)
+        {
+            unchecked
+            {
+                uint h = (uint) ((seed * 668265263) ^ (boundaryIndex * 374761393) ^ 0x27d4eb2f);
+                h = (h ^ (h >> 13)) * 1274126177u;
+                h ^= h >> 16;
+                return (h & 0xFFFFFF) / (float) 0x1000000;
+            }
+        }
+
+        public static float BoundaryX(Rect bounds, float u, DifficultyProfile profile)
+        {
+            float half = Mathf.Max(0f, bounds.width / 2f - profile.ChainEdgeReserve) * profile.ChainBoundarySpread;
+            return bounds.center.x + (u * 2f - 1f) * half;
+        }
+
+        private static ClimbPlan PlanClimb(int seed, int index, Rect bounds, float difficulty, DifficultyProfile profile,
+            LayerDefinition definition)
+        {
+            var table = definition.SpawnTable;
+            float maxSupport = table != null ? table.MaxMobilityCost() : 0f;
+            int minSupports = profile.EvaluateMinSupports(bounds.height);
+            float budget = profile.EvaluateMobility(difficulty, bounds.height, minSupports, maxSupport);
+            return new ClimbPlan(budget, profile.StepCap, minSupports, profile.EvaluateRiskShare(difficulty),
+                profile.ChainEntryOffset, profile.ChainExitOffset, profile.ChainEdgeReserve,
+                BoundaryX(bounds, BoundaryU(seed, index), profile),
+                BoundaryX(bounds, BoundaryU(seed, index + 1), profile), profile.SupportChain);
         }
     }
 }

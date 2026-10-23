@@ -33,6 +33,15 @@ namespace Balance
         [SerializeField] private float spikeDps = 0.25f;
         [SerializeField] private float shieldBlock = 0.25f;
 
+        [Header("Модель ресурсов объекта (значения по умолчанию из профиля)")]
+        [SerializeField, Tooltip("threat = threatPerExpectedDamage * ExpectedDamage(Base) + threatPerEffort * KillableHp / Dps(Base)")]
+        private float threatPerExpectedDamage = 10f;
+        [SerializeField] private float threatPerEffort = 1f;
+        [SerializeField, Range(0f, 1f), Tooltip("Доля досягаемости, которую даёт съедобный подвижный объект (съедение не обновляет рывок -> 0)")]
+        private float eatDashMobilityShare = 0f;
+        [SerializeField, Min(0f), Tooltip("Штраф HP за слой без проходимой цепочки опор (допущение, калибруется телеметрией)")]
+        private float unclimbablePenaltyHp = 3f;
+
         [Header("Цели баланса")]
         [SerializeField] private int runLengthBaseMin = 8;
         [SerializeField] private int runLengthBaseMax = 14;
@@ -40,6 +49,12 @@ namespace Balance
         [SerializeField] private float maxPlacementLoss = 0.10f;
         [SerializeField] private int rewardWindow = 3;
         [SerializeField] private int rewardCheckFromLayer = 2;
+        [SerializeField, Range(0f, 1f), Tooltip("Доля mobility цепочки, приходящаяся на вредные объекты, на поздних слоях: нижняя граница")]
+        private float harmfulMobilityShareMin = 0.10f;
+        [SerializeField, Range(0f, 1f), Tooltip("Верхняя граница доли вредной mobility")]
+        private float harmfulMobilityShareMax = 0.70f;
+        [SerializeField, Tooltip("Слои, начиная с которых проверяется доля вредной mobility")]
+        private int harmfulShareFromLayer = 30;
 
         public DifficultyProfile DifficultyProfile => difficultyProfile;
         public IReadOnlyList<LayerDefinition> LayerDefinitions => layerDefinitions;
@@ -61,12 +76,27 @@ namespace Balance
         public float SpikeDps => spikeDps;
         public float ShieldBlock => shieldBlock;
 
+        public float ThreatPerExpectedDamage => threatPerExpectedDamage;
+        public float ThreatPerEffort => threatPerEffort;
+        public float EatDashMobilityShare => eatDashMobilityShare;
+        public float UnclimbablePenaltyHp => unclimbablePenaltyHp;
+        public float HarmfulMobilityShareMin => harmfulMobilityShareMin;
+        public float HarmfulMobilityShareMax => harmfulMobilityShareMax;
+        public int HarmfulShareFromLayer => harmfulShareFromLayer;
+
         public int RunLengthBaseMin => runLengthBaseMin;
         public int RunLengthBaseMax => runLengthBaseMax;
         public int RunLengthFullMin => runLengthFullMin;
         public float MaxPlacementLoss => maxPlacementLoss;
         public int RewardWindow => rewardWindow;
         public int RewardCheckFromLayer => rewardCheckFromLayer;
+
+        public float WeakestMaxVerticalGap()
+        {
+            float gap = float.PositiveInfinity;
+            foreach (var build in Builds()) gap = Mathf.Min(gap, build.MaxVerticalGap);
+            return gap;
+        }
 
         public IReadOnlyList<PlayerBuild> Builds()
         {

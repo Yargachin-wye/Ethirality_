@@ -115,3 +115,26 @@ RunLength = первый i с hp ≤ 0 (или число слоёв, если �
 5. После релиза — сверить константы 4.5 с GameAnalytics (`GameAnalyticsBeh`): нужны события
    `Design:Layer:Enter(i, hp)`, `Design:Damage(source)`, `Design:Eat(enemy)`, `Design:Shot(hit)`.
    Их сейчас нет — см. `06`, рекомендация R7.
+
+## 4.8 Метрики мобильности и подъёма
+
+Слой (`LayerReport`): `SpentThreat`, `SpentFood`, `SpentMobility` (по пулу записи), `ThreatBudget/FoodBudget/MobilityBudget`, `MinSupports` (K),
+`ChainLength`, `ChainMaxStep`, `SupportCount`, `ChainMobility`, `HarmfulChainMobility` (доля = `HarmShare`).
+Сборка (`BuildLayerMetrics`): `Climbable`, `MaxGap`, `ClimbTime`, `ClimbPenaltyHp`.
+
+`ClimbAnalyzer`: узлы = виртуальный вход (последняя опора слоя i-1) + все размещённые объекты с `IsSupport` (mobility > 0, пул != Food) +
+виртуальный выход (первая опора слоя i+1). `Climbable` - существует путь вверх, где каждый шаг (евклидов) <= `MaxVerticalGap` сборки.
+`MaxGap` - максимальный вертикальный разрыв между соседними по высоте опорами. `ClimbTime` - динамика по узлам с весом шага
+`min(HarpoonTime, DashClimbTime)`: гарпун = `shootDelay + D/скорость снаряда + attachDelay + время полёта`, рывок = `dashDelay + время полёта`;
+при непроходимости - `FreeClimbTime` (рывки без опор).
+
+Забег: `hp_{i+1} = min(maxHp, hp_i - ExpectedDamage - ClimbPenaltyHp + ExpectedHeal + ExpectedLevelUpHp)`, где
+`ClimbPenaltyHp = unclimbablePenaltyHp (3, допущение) · [слой непроходим]`; `RunReport` накапливает `ClimbTime`, `ClimbPenaltyHp`, `UnclimbableLayers`.
+
+Новые инварианты: `ClimbabilityGuaranteed` (слои 0…59 × Base/Passive/Full), `ChainRespectsStepFraction`, `LayerAdjacency`,
+`ReferenceGapMatchesPlayer`, `MobilityAlwaysAvailable`, `ResourceValuesMatchProfile`; `BudgetNeverExceeded` - по трём бюджетам;
+`SpawnTableIntegrity` - три ресурса (запись мигрирована, ресурс пула > 0). Цели: `HarmfulMobilityShareInRange` (доля вредной mobility
+цепочки на слоях >= 30 в [10 %, 70 %]), `PlacementLossWithinTarget` (<= 10 % на слоях 0…40).
+
+Результат (seed 1337): проходимость до - 54 из 180 пар слой/сборка нарушены (цепочки нет, опоры раскиданы случайно), после - 0;
+PlacementLoss слоёв 0…40 <= 4 %.

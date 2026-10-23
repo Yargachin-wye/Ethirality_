@@ -30,7 +30,12 @@ namespace BalanceTests
                     Assert.NotNull(e.definition.Prefab, $"У {e.definition.name} нет prefab");
                     Assert.NotNull(e.definition.Prefab.GetComponentInChildren<Stats>(true),
                         $"У префаба {e.definition.Prefab.name} нет Stats");
-                    Assert.Greater(e.threatCost, 0f, $"{e.definition.name}: threatCost <= 0");
+                    Assert.IsTrue(e.IsMigrated, $"{e.definition.name}: запись не мигрирована (threat/food/mobility == 0)");
+                    Assert.IsTrue(e.ThreatValue > 0f || e.FoodValue > 0f || e.MobilityValue > 0f,
+                        $"{e.definition.name}: нет ни одного ресурса > 0");
+                    Assert.Greater(e.CostFor(e.kind), 0f, $"{e.definition.name}: ресурс пула {e.kind} <= 0");
+                    if (e.kind == EnemySpawnTable.SpawnKind.Mobility)
+                        Assert.AreEqual(0, e.maxPerLayer, $"{e.definition.name}: у опор не должно быть maxPerLayer");
                     Assert.Greater(e.weight, 0f, $"{e.definition.name}: weight <= 0");
                     Assert.LessOrEqual(e.unlockDifficulty, e.fullWeightDifficulty,
                         $"{e.definition.name}: unlock > fullWeight");
@@ -62,11 +67,107 @@ namespace BalanceTests
             foreach (var r in BalanceTestContext.Layers)
             {
                 if (r.Empty) continue;
-                Assert.LessOrEqual(r.Spent, r.Budget + 1e-3f,
-                    $"Слой {r.Index}: threatSpent {r.Spent} > threatBudget {r.Budget}");
-                Assert.LessOrEqual(r.FoodSpent, r.FoodBudget + 1e-3f,
-                    $"Слой {r.Index}: foodSpent {r.FoodSpent} > foodBudget {r.FoodBudget}");
+                Assert.LessOrEqual(r.SpentThreat, r.ThreatBudget + 1e-3f,
+                    $"Слой {r.Index}: spentThreat {r.SpentThreat} > threatBudget {r.ThreatBudget}");
+                Assert.LessOrEqual(r.SpentFood, r.FoodBudget + 1e-3f,
+                    $"Слой {r.Index}: spentFood {r.SpentFood} > foodBudget {r.FoodBudget}");
+                Assert.LessOrEqual(r.SpentMobility, r.MobilityBudget + 1e-3f,
+                    $"Слой {r.Index}: spentMobility {r.SpentMobility} > mobilityBudget {r.MobilityBudget}");
             }
+        }
+
+        [Test]
+        public void ClimbabilityGuaranteed()
+        {
+            var bad = new List<string>();
+            foreach (var r in BalanceTestContext.Layers)
+            {
+                if (r.Empty) continue;
+                foreach (var b in BalanceTestContext.Builds)
+                    if (!r.Metrics[b.Name].Climbable)
+                        bad.Add($"слой {r.Index}/{b.Name} (MaxGap {r.Metrics[b.Name].MaxGap:0.#}, MaxVerticalGap {b.MaxVerticalGap:0.#})");
+            }
+            Assert.IsEmpty(bad, "Нет цепочки опор с зазором <= MaxVerticalGap: " + string.Join(", ", bad));
+        }
+
+        [Test]
+        public void ChainRespectsStepFraction()
+        {
+            var s = BalanceTestContext.Scenario;
+            float cap = s.DifficultyProfile.StepCap;
+            foreach (var r in BalanceTestContext.Layers)
+            {
+                if (r.Empty) continue;
+                Assert.GreaterOrEqual(r.ChainLength, r.MinSupports, $"Слой {r.Index}: опор в цепочке меньше K");
+                Assert.LessOrEqual(r.ChainMaxStep, cap + 1e-3f, $"Слой {r.Index}: шаг цепочки {r.ChainMaxStep} > {cap}");
+            }
+        }
+
+        [Test]
+        public void LayerAdjacency()
+        {
+            var s = BalanceTestContext.Scenario;
+            float gap = s.WeakestMaxVerticalGap();
+            var layers = BalanceTestContext.Layers;
+            for (int i = 0; i < layers.Count; i++)
+            {
+                var r = layers[i];
+                if (r.Empty || r.ChainNodes.Count == 0) continue;
+                Assert.GreaterOrEqual(r.ChainNodes[0].y - r.YMin, s.Placement.SafeZoneHeight - 1e-3f,
+                    $"Слой {i}: первая опора ниже безопасной зоны");
+                if (i + 1 >= layers.Count || layers[i + 1].Empty || layers[i + 1].ChainNodes.Count == 0) continue;
+                float link = Vector2.Distance(r.ChainNodes[r.ChainNodes.Count - 1], layers[i + 1].ChainNodes[0]);
+                Assert.LessOrEqual(link, gap, $"Слой {i}->{i + 1}: разрыв стыка {link:0.#} > MaxVerticalGap {gap:0.#}");
+            }
+        }
+
+        [Test]
+        public void ReferenceGapMatchesPlayer()
+        {
+            var s = BalanceTestContext.Scenario;
+            var profile = s.DifficultyProfile;
+            float weakest = s.WeakestMaxVerticalGap();
+            Assert.LessOrEqual(profile.ReferenceMaxGap, weakest + 1e-4f, "referenceMaxGap больше досягаемости слабейшей сборки");
+            Assert.GreaterOrEqual(profile.ReferenceMaxGap, weakest - 0.5f, "referenceMaxGap устарел: обновите по MaxVerticalGap");
+            Assert.GreaterOrEqual(profile.ChainEntryOffset, s.Placement.SafeZoneHeight);
+            Assert.GreaterOrEqual(profile.ChainExitOffset, s.Placement.EdgeMargin);
+            Assert.GreaterOrEqual(profile.ChainEdgeReserve, s.Placement.EdgeMargin);
+            foreach (var b in BalanceTestContext.Builds)
+            {
+                Assert.Greater(b.ReachDash, 0f);
+                Assert.Greater(b.ReachHarpoon, 0f);
+                Assert.AreEqual(Mathf.Max(b.ReachDash, b.ReachHarpoon), b.MaxVerticalGap, 1e-5f);
+            }
+        }
+
+        [Test]
+        public void MobilityAlwaysAvailable()
+        {
+            foreach (var layerDef in BalanceTestContext.Scenario.LayerDefinitions)
+            {
+                bool ok = false;
+                foreach (var e in layerDef.SpawnTable.Entries)
+                    if (e.kind == EnemySpawnTable.SpawnKind.Mobility && e.unlockDifficulty <= 0f && e.retireDifficulty <= 0f)
+                        ok = true;
+                Assert.IsTrue(ok, $"{layerDef.name}: нет опоры, доступной при любой сложности");
+            }
+        }
+
+        [Test]
+        public void ResourceValuesMatchProfile()
+        {
+            var s = BalanceTestContext.Scenario;
+            var reference = BalanceTestContext.Builds[0];
+            foreach (var layerDef in s.LayerDefinitions)
+                foreach (var e in layerDef.SpawnTable.Entries)
+                {
+                    var d = EntityResourceModel.Derive(EnemyProfile.From(e.definition), e.kind, reference, s);
+                    string n = e.definition.name;
+                    Assert.AreEqual(d.Threat * EnemySpawnTable.Entry.Scale(e.threatScale), e.ThreatValue, 1e-3f, $"{n}: threat != profile × scale");
+                    Assert.AreEqual(d.Food * EnemySpawnTable.Entry.Scale(e.foodScale), e.FoodValue, 1e-3f, $"{n}: food != profile × scale");
+                    Assert.AreEqual(d.Mobility * EnemySpawnTable.Entry.Scale(e.mobilityScale), e.MobilityValue, 1e-3f, $"{n}: mobility != profile × scale");
+                    Assert.AreEqual(d.Kind, e.mobilityKind, $"{n}: mobilityKind");
+                }
         }
 
         [Test]
