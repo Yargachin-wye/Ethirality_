@@ -82,7 +82,7 @@ MonoBehaviour:
     role: 6
     threat: 5
     food: 0
-    mobility: 17.5
+    mobility: 6
     mobilityKind: 1
     threatScale: 3.3333333
     foodScale: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
     role: 1
     threat: 6
     food: 1
-    mobility: 17.5
+    mobility: 14
     mobilityKind: 1
     threatScale: 0.6666667
     foodScale: 1
@@ -114,7 +114,7 @@ MonoBehaviour:
     role: 4
     threat: 8
     food: 0
-    mobility: 17.5
+    mobility: 9
     mobilityKind: 1
     threatScale: 5.3333335
     foodScale: 1
@@ -162,7 +162,7 @@ MonoBehaviour:
     role: 1
     threat: 7
     food: 1
-    mobility: 17.5
+    mobility: 0
     mobilityKind: 1
     threatScale: 0.8484849
     foodScale: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
     role: 6
     threat: 4
     food: 0
-    mobility: 17.5
+    mobility: 14
     mobilityKind: 1
     threatScale: 1.0666667
     foodScale: 1

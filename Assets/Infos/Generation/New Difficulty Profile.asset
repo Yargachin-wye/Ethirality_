@@ -87,13 +87,19 @@ MonoBehaviour:
   minFoodPerArea: 0.012
   maxFoodPerArea: 0.03
   maxFoodBudget: 150
+  supportChain: 1
+  referenceMaxGap: 17.5
+  chainStepFraction: 0.8
+  chainPlanningSlack: 0.85
+  chainEntryOffset: 6.1
+  chainExitOffset: 2.1
+  chainEdgeReserve: 3
+  chainBoundarySpread: 0.3
+  maxMobilityDensity: 2.4
+  minMobilityDensity: 1.6
+  minRiskShare: 0
+  maxRiskShare: 0.5
   maxDifficultyDeltaPerLayer: 0.05
-  pacing:
-  - every: 4
-    offset: 3
-    threatMultiplier: 0.45
-    forcedLayer: {fileID: 11400000, guid: a5d5d2da966b6de4dbf961adda291f0c, type: 2}
-  - every: 10
-    offset: 9
-    threatMultiplier: 1.5
-    forcedLayer: {fileID: 11400000, guid: a5d5d2da966b6de4dbf961adda291f0c, type: 2}
+  layoutProfile: {fileID: 11400000, guid: 05b8a8d6496e81d44852fc600236fd8c, type: 2}
+  pacing: []
+  endlessThreatGrowth: 0.5
