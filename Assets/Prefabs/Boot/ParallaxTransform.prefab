@@ -185,7 +185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8549345960942153445
 Transform:
   m_ObjectHideFlags: 0
@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effect: {x: 0.001, y: 0.001}
-  material: {fileID: 2100000, guid: d22824f9881728c44aa7a78696171015, type: 2}
-  cam: {fileID: 8549345960942153445}
+  material: {fileID: 2100000, guid: 12d09c78b3f2f1a49ab781b97cf15d7f, type: 2}
+  cam: {fileID: 0}
 --- !u!114 &7458251879012898050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effect: {x: 0.002, y: 0.002}
   material: {fileID: 2100000, guid: 3ca6cf32e4ed72a49b046f8b2bd5e2a8, type: 2}
-  cam: {fileID: 8549345960942153445}
+  cam: {fileID: 0}
 --- !u!114 &2445818508194433391
 MonoBehaviour:
   m_ObjectHideFlags: 0

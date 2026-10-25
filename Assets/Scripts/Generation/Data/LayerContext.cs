@@ -14,6 +14,7 @@ namespace Generation
         public float FoodBudget { get; }
         public float MobilityBudget => Climb?.MobilityBudget ?? 0f;
         public ClimbPlan Climb { get; }
+        public LayoutPlan Layout { get; }
         public LayerDefinition Definition { get; }
         public Random Random { get; }
         public List<SpawnRequest> Spawns { get; } = new();
@@ -36,8 +37,9 @@ namespace Generation
         public EnemySpawnTable SpawnTable => Definition.SpawnTable;
 
         public LayerContext(int index, Rect bounds, float difficulty, float threatBudget, float foodBudget, LayerDefinition definition, Random random,
-            ClimbPlan climb = null)
+            ClimbPlan climb = null, LayoutPlan layout = null)
         {
+            Layout = layout;
             Index = index;
             Bounds = bounds;
             Difficulty = difficulty;

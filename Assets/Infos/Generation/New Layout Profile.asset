@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8a2466a781698499e9cf2dc44fb34b, type: 3}
+  m_Name: New Layout Profile
+  m_EditorClassIdentifier: 
+  shapes:
+  - shape: 1
+    weight: 3
+    minDifficulty: 0
+    maxDifficulty: 1
+  - shape: 2
+    weight: 3
+    minDifficulty: 0
+    maxDifficulty: 1
+  - shape: 3
+    weight: 2
+    minDifficulty: 0.15
+    maxDifficulty: 1
+  - shape: 4
+    weight: 2
+    minDifficulty: 0.3
+    maxDifficulty: 1
+  amplitudeRange: {x: 0.35, y: 0.6}
+  pathJitter: 0.25
+  avoidRepeat: 1
+  foodTrailShare: 0.4
+  clusterThreatShare: 0.6
+  gateGap: 4.5
+  flankHalfWidth: 5
+  flankSpacing: 7
+  sentryDistance: 6.5
+  decoyFood: 4
+  decoyGuards: 3

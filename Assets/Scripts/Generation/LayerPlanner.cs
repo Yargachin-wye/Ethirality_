@@ -59,8 +59,9 @@ namespace Generation
 
             float food = profile.EvaluateFood(difficulty, width * height);
 
+            var layout = LayoutPlan.Create(seed, i, profile.EvaluateDifficulty, profile.LayoutProfile);
             return new LayerContext(i, bounds, difficulty, threat, food, definition, random,
-                PlanClimb(seed, i, bounds, difficulty, profile, definition));
+                PlanClimb(seed, i, bounds, difficulty, profile, definition), layout);
         }
 
         public static float BoundaryU(int seed, int boundaryIndex)

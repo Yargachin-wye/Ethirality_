@@ -45,6 +45,8 @@ namespace Generation
 
             for (int k = n - 2; k >= 0; k--) suffix[k] = suffix[k + 1] + dxMax[k];
 
+            var layout = layer.Layout;
+            bool shaped = layout != null && layout.UsesShapedPath;
             var xs = new float[n];
             float xEnd = Mathf.Clamp(climb.EndX, xLo, xHi);
             xs[0] = Mathf.Clamp(climb.StartX, xLo, xHi);
@@ -59,7 +61,15 @@ namespace Generation
                 float lo = Mathf.Max(xs[k - 1] - dxMax[k - 1], xEnd - suffix[k], xLo);
                 float hi = Mathf.Min(xs[k - 1] + dxMax[k - 1], xEnd + suffix[k], xHi);
                 float t = (float) random.NextDouble();
-                xs[k] = lo > hi ? (lo + hi) / 2f : Mathf.Lerp(lo, hi, t);
+                if (lo > hi) xs[k] = (lo + hi) / 2f;
+                else if (shaped)
+                {
+                    float u = (ys[k] - y0) / Mathf.Max(0.001f, y1 - y0);
+                    float target = layout.TargetX(u, climb.StartX, xEnd, (xHi - xLo) / 2f);
+                    float spread = (hi - lo) / 2f * layout.Profile.PathJitter * (t * 2f - 1f);
+                    xs[k] = Mathf.Clamp(target + spread, lo, hi);
+                }
+                else xs[k] = Mathf.Lerp(lo, hi, t);
             }
 
             var risky = new List<int>();

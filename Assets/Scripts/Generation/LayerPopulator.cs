@@ -35,6 +35,10 @@ namespace Generation
             result.MobilityPlaced += chainPlaced - chainThreats;
             result.ThreatPlaced += chainThreats;
 
+            var decorated = LayoutDecorator.Apply(layer, placement, threats, food);
+            result.ThreatPlaced += decorated.ThreatsPlaced;
+            result.FoodPlaced += decorated.FoodPlaced;
+
             foreach (var def in supports)
                 if (placement.TryPlace(layer, def, attempts)) result.MobilityPlaced++;
 

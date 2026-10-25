@@ -51,6 +51,9 @@ namespace Generation
         private float maxRiskShare = 0.5f;
         [SerializeField, Min(0.001f), Tooltip("Макс. прирост сложности между соседними слоями (pressure budget)")]
         private float maxDifficultyDeltaPerLayer = 0.05f;
+        [Header("Формы слоя")]
+        [SerializeField, Tooltip("Веса форм и параметры кластеров; пусто = значения по умолчанию")]
+        private LayoutProfile layoutProfile;
         [SerializeField] private PacingBeat[] pacing =
         {
             new() {every = 4, offset = 3, threatMultiplier = 0.45f},
@@ -62,6 +65,7 @@ namespace Generation
 
         public int LayerCount => layerCount;
         public float MaxDifficultyDeltaPerLayer => maxDifficultyDeltaPerLayer;
+        public LayoutProfile LayoutProfile => layoutProfile;
         public bool SupportChain => supportChain;
         public float ReferenceMaxGap => referenceMaxGap;
         public float ChainStepFraction => chainStepFraction;
