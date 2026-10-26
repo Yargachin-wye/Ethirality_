@@ -14,6 +14,7 @@
         public const string EnemyDead2Sound = "EnemyDead2Sound";
         public const string PlayerDmgSound = "PlayerDmgSound";
         public const string PlayerDeadSound = "PlayerDeadSound";
+        public const string PlayerHitSound = "PlayerHitSound";
         public const string LaserShot = "LaserShot";
         public const string EatSound = "EatSound";
         public const string DamageHitSound = "DamageHitSound";
@@ -36,6 +37,7 @@
             EnemyDead2Sound,
             PlayerDmgSound,
             PlayerDeadSound,
+            PlayerHitSound,
             LaserShot,
             EatSound,
             DamageHitSound,

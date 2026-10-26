@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Audio;
+using Constants;
+using EditorAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -43,7 +46,11 @@ namespace CharacterComponents.CharacterStat
             [NonSerialized] public readonly List<ParticleSystem> Pool = new();
         }
 
+        private static string[] collection = AudioConst.AllSounds;
+
         [SerializeField] private Burst[] bursts = Array.Empty<Burst>();
+        [Tooltip("Played on every hit, including the lethal one. Leave empty to disable")]
+        [SerializeField, Dropdown("collection")] private string hitSound = AudioConst.PlayerHitSound;
         [Tooltip("Used for damage without a source (dead zone, poison etc.)")]
         [SerializeField] private bool playWithoutSource = true;
         [SerializeField, HideInInspector] private Stats stats;
@@ -75,6 +82,9 @@ namespace CharacterComponents.CharacterStat
 
         private void OnHit(HitInfo hit)
         {
+            if (!string.IsNullOrEmpty(hitSound))
+                AudioManager.Instance.PlaySound(hitSound, AudioChannel.VFX, transform.position);
+
             if (!hit.HasSource && !playWithoutSource) return;
 
             Vector2 center = hitCollider ? hitCollider.bounds.center : transform.position;
