@@ -76,7 +76,7 @@ namespace Projectiles
                 return;
             }
 
-            triggerStats.Damage(Definition.Damage);
+            triggerStats.Damage(Definition.Damage, transform.position, rb2D.velocity);
 
             if (Definition.IsDestroyOnTrigger)
             {

@@ -67,7 +67,7 @@ namespace CharacterComponents.Moving
             {
                 var stats = hit.GetComponent<Stats>();
                 if (stats == null || stats == character.Stats || stats.Fraction != Fraction.Player) continue;
-                stats.Damage(dmg);
+                stats.Damage(dmg, transform.position);
             }
 
             _armed = false;

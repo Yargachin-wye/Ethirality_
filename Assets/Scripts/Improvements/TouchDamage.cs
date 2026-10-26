@@ -41,7 +41,7 @@ namespace Improvements
 
             if (triggerStats.Fraction == Fraction.Player)
                 AudioManager.Instance.PlaySound(AudioConst.DamageHitSound, AudioChannel.VFX, transform.position);
-            triggerStats.Damage(dmg);
+            triggerStats.Damage(dmg, transform.position);
 
             if (isDestroyOnTrigger)
             {

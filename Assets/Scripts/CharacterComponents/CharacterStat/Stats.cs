@@ -31,6 +31,7 @@ namespace CharacterComponents.CharacterStat
         public Fraction Fraction => character.Fraction;
         public Action OnDeadAction;
         public Action<int> OnDmgAction;
+        public Action<HitInfo> OnHitAction;
         public Action<int> OnCureAction;
 
         public int CurrentHealth => _currentHealth;
@@ -65,9 +66,19 @@ namespace CharacterComponents.CharacterStat
             }
         }
 
-        public bool Damage(int val)
+        public bool Damage(int val) => ApplyDamage(new HitInfo(val));
+
+        public bool Damage(int val, Vector2 sourcePosition, Vector2 direction = default)
+        {
+            if (direction.sqrMagnitude < 0.0001f) direction = (Vector2)transform.position - sourcePosition;
+            return ApplyDamage(new HitInfo(val, sourcePosition, direction));
+        }
+
+        private bool ApplyDamage(HitInfo hit)
         {
             if (isInvulnerable) return false;
+            int val = hit.Damage;
+            OnHitAction?.Invoke(hit);
             _currentHealth -= val;
             PopupManager.Show(transform.position, val, PopupType.Damage, Fraction);
 

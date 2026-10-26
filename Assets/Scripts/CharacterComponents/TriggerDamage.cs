@@ -40,7 +40,7 @@ namespace CharacterComponents
 
             if (triggerStats.Fraction == Fraction.Player && !string.IsNullOrEmpty(hitSound))
                 AudioManager.Instance.PlaySound(hitSound, AudioChannel.VFX, transform.position);
-            triggerStats.Damage(dmg);
+            triggerStats.Damage(dmg, transform.position);
 
             if (isDestroyOnTrigger)
             {

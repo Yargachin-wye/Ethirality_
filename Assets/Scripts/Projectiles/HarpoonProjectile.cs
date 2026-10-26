@@ -61,7 +61,7 @@ namespace Projectiles
                 Rigidbody2D rb2Down = _owner.GetComponent<Rigidbody2D>();
                 Rigidbody2D rb2Dtr = _trigger.GetComponent<Rigidbody2D>();
 
-                _triggerStats.Damage(Definition.Damage);
+                _triggerStats.Damage(Definition.Damage, transform.position, transform.right);
 
                 if (_hasOwner && rb2Down != null)
                 {

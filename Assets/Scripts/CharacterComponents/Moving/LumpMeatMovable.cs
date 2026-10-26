@@ -177,12 +177,12 @@ namespace CharacterComponents.Moving
                 }
                 else
                 {
-                    stats.Damage(dashDmg);
+                    stats.Damage(dashDmg, transform.position, character.rb2D.velocity);
                 }
             }
             else
             {
-                stats.Damage(dashDmg);
+                stats.Damage(dashDmg, transform.position, character.rb2D.velocity);
             }
         }
 
