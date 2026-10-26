@@ -13,8 +13,8 @@ namespace UI
         protected string[] PanelsCollection = UiConst.Panels;
         [SerializeField, Dropdown("PanelsCollection")]
         protected string panelName;
-        [SerializeField] private GameObject panel;
-        [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] protected GameObject panel;
+        [SerializeField] protected CanvasGroup canvasGroup;
         protected bool IsActive = false;
         protected virtual bool PausesGameplay => false;
         
@@ -48,6 +48,7 @@ namespace UI
         protected abstract void OnPanelDisable();
         protected abstract void OnPanelEnable();
 
+        protected virtual void HidePanel() => panel.SetActive(false);
 
         public virtual void OpenPanel(OpenUiPanelEvent data)
         {
@@ -60,7 +61,7 @@ namespace UI
             }
             else
             {
-                if (panel.activeSelf) panel.SetActive(false);
+                if (panel.activeSelf) HidePanel();
                 if (PausesGameplay) GameplayPause.Release(this);
                 OnPanelDisable();
                 IsActive = false;

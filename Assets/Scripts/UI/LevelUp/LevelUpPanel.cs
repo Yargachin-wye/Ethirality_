@@ -34,6 +34,8 @@ namespace UI.LevelUp
         [SerializeField] private Sprite spriteHp;
         [SerializeField] private Sprite spriteRandom;
         [SerializeField] private Sprite spriteBlocked;
+        [Space]
+        [SerializeField] private LevelUpPanelAnimation appearance = new LevelUpPanelAnimation();
 
         private ImprovementDefinition _currentLevelUp;
         private Reward _reward;
@@ -52,6 +54,8 @@ namespace UI.LevelUp
             levelUpSlotRandom.selectBtn.onClick.AddListener(SelectRandomLevelUp);
 
             endBtn.onClick.AddListener(EndSelect);
+
+            appearance.Init(panel, canvasGroup);
         }
 
         protected override void OnPanelDisable()
@@ -60,12 +64,32 @@ namespace UI.LevelUp
 
         protected override void OnPanelEnable()
         {
+            appearance.Show();
         }
 
+        protected override void HidePanel()
+        {
+            if (appearance.IsHiding) return;
+            if (!IsActive)
+            {
+                panel.SetActive(false);
+                return;
+            }
+
+            appearance.Hide(() => panel.SetActive(false));
+        }
 
         private void OnDestroy()
         {
+            appearance.Kill();
             GameplayPause.Release(this);
+        }
+
+        private void ShowEndButton()
+        {
+            if (endBtn.gameObject.activeSelf) return;
+            endBtn.gameObject.SetActive(true);
+            appearance.Pop(endBtn.transform);
         }
 
         protected void OnLevelUp(LevelUpEvent data)
@@ -131,7 +155,7 @@ namespace UI.LevelUp
         {
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            endBtn.gameObject.SetActive(true);
+            ShowEndButton();
 
             levelUpSlotHp.Select(true);
             levelUpSlot.Select(false);
@@ -144,7 +168,7 @@ namespace UI.LevelUp
             if (!IsActive) return;
             if (levelUpSlot.IsBlocked) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            endBtn.gameObject.SetActive(true);
+            ShowEndButton();
 
             levelUpSlotHp.Select(false);
             levelUpSlot.Select(true);
@@ -157,7 +181,7 @@ namespace UI.LevelUp
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             if (levelUpSlotRandom.IsBlocked) return;
-            endBtn.gameObject.SetActive(true);
+            ShowEndButton();
 
             levelUpSlotHp.Select(false);
             levelUpSlot.Select(false);
