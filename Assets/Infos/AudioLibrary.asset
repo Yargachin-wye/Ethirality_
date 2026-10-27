@@ -94,4 +94,9 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     pitchFactor: 0.1
+  - name: PlayerDmgSound
+    clip: {fileID: 8300000, guid: 1044a0d7967a30244a93253c498a9972, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
   musicTracks: []
