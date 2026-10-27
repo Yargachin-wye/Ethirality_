@@ -1,7 +1,5 @@
-﻿using System;
-using Bootstrapper;
+﻿using Bootstrapper;
 using Definitions;
-using UI;
 
 namespace CharacterComponents.Food
 {
@@ -11,20 +9,8 @@ namespace CharacterComponents.Food
         {
             if (characterEater.Fraction == Fraction.Player)
             {
-                UiCompass.Instance.RemoveExit(transform);
                 StartCoroutine(GameplayManager.Instance.StopGameplay());
             }
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            UiCompass.Instance.AddExit(transform);
-        }
-
-        private void OnEnable()
-        {
-            UiCompass.Instance.AddExit(transform);
         }
 
         public override void Init()
