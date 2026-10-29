@@ -68,29 +68,50 @@ namespace Generation
             public int FoodQuota;
             public int ThreatsPlaced;
             public int FoodPlaced;
+            public CharacterDefinition Motif;
+            public bool? MotifRanged;
 
             public bool ThreatLeft => ThreatsPlaced < ThreatQuota && Threats.Count > 0;
             public bool FoodLeft => FoodPlaced < FoodQuota && Food.Count > 0;
         }
 
-        private static bool PlaceThreat(Ctx c, Vector2 point, bool preferRanged = false)
+        private static void BeginFormation(Ctx c, bool? ranged)
         {
-            if (!c.ThreatLeft) return false;
-            var random = c.Layer.Random;
-            for (int attempt = 0; attempt < 3; attempt++)
-            {
-                int idx = random.Next(c.Threats.Count);
-                if (preferRanged && attempt == 0)
-                    for (int i = 0; i < c.Threats.Count; i++)
-                        if (c.Rules.IsRanged(c.Threats[i])) { idx = i; break; }
+            c.MotifRanged = ranged;
+            c.Motif = PickMotif(c);
+        }
 
-                if (!c.Rules.TryPlaceAt(c.Layer, c.Threats[idx], point)) continue;
-                c.Threats.RemoveAt(idx);
-                c.ThreatsPlaced++;
-                return true;
+        private static CharacterDefinition PickMotif(Ctx c)
+        {
+            var counts = new Dictionary<CharacterDefinition, int>();
+            CharacterDefinition best = null, bestAny = null;
+            int bestCount = 0, bestAnyCount = 0;
+            foreach (var def in c.Threats)
+            {
+                counts.TryGetValue(def, out int n);
+                counts[def] = ++n;
+                if (n > bestAnyCount) { bestAny = def; bestAnyCount = n; }
+                if (c.MotifRanged.HasValue && c.Rules.IsRanged(def) != c.MotifRanged.Value) continue;
+                if (n > bestCount) { best = def; bestCount = n; }
             }
 
-            return false;
+            return best != null ? best : bestAny;
+        }
+
+        private static bool PlaceThreat(Ctx c, Vector2 point)
+        {
+            if (!c.ThreatLeft) return false;
+            int idx = c.Motif != null ? c.Threats.IndexOf(c.Motif) : -1;
+            if (idx < 0)
+            {
+                c.Motif = PickMotif(c);
+                idx = c.Motif != null ? c.Threats.IndexOf(c.Motif) : -1;
+            }
+
+            if (idx < 0 || !c.Rules.TryPlaceAt(c.Layer, c.Threats[idx], point)) return false;
+            c.Threats.RemoveAt(idx);
+            c.ThreatsPlaced++;
+            return true;
         }
 
         private static bool PlaceFood(Ctx c, Vector2 point, bool force = false)
@@ -107,6 +128,7 @@ namespace Generation
         {
             var chain = c.Layer.Chain;
             float half = c.Profile.GateGap / 2f;
+            BeginFormation(c, false);
             for (int k = 0; k + 1 < chain.Count && c.ThreatLeft; k += stride)
             {
                 Vector2 a = chain[k].Position, b = chain[k + 1].Position;
@@ -122,6 +144,7 @@ namespace Generation
         {
             var chain = c.Layer.Chain;
             var bounds = c.Layer.Bounds;
+            BeginFormation(c, true);
             for (int k = 1; k + 1 < chain.Count && c.ThreatLeft; k++)
             {
                 Vector2 prev = chain[k - 1].Position, p = chain[k].Position, next = chain[k + 1].Position;
@@ -129,7 +152,7 @@ namespace Generation
                 if (bend >= 0f) continue;
                 float outward = Mathf.Sign(p.x - (prev.x + next.x) / 2f);
                 float x = Mathf.Clamp(p.x + outward * c.Profile.SentryDistance, bounds.xMin, bounds.xMax);
-                PlaceThreat(c, new Vector2(x, p.y), true);
+                PlaceThreat(c, new Vector2(x, p.y));
             }
         }
 
@@ -139,6 +162,7 @@ namespace Generation
             float y0 = chain[0].Position.y, y1 = chain[chain.Count - 1].Position.y;
             float spacing = c.Profile.FlankSpacing;
             float side = c.Layer.Random.NextDouble() < 0.5 ? -1f : 1f;
+            BeginFormation(c, false);
             for (float y = y0 + spacing / 2f; y < y1 && c.ThreatLeft; y += spacing)
             {
                 float x = PathX(chain, y) + side * c.Profile.FlankHalfWidth;
@@ -168,6 +192,7 @@ namespace Generation
             if (placedFood == 0) return;
             int guards = c.Profile.DecoyGuards;
             float phase = (float) c.Layer.Random.NextDouble() * Mathf.PI * 2f;
+            BeginFormation(c, false);
             for (int i = 0; i < guards && c.ThreatLeft; i++)
             {
                 float angle = phase + i * Mathf.PI * 2f / guards;

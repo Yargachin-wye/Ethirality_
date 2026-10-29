@@ -49,6 +49,16 @@ namespace Generation
         [SerializeField, Range(0, 6), Tooltip("Охранники приманки на ложной ветке Fork")]
         private int decoyGuards = 3;
 
+        [Header("Стаи (заполнитель вне формаций)")]
+        [SerializeField, Tooltip("Размер стаи однотипных угроз (min, max); (1, 1) = равномерный разброс. Дальнобойные всегда по одному")]
+        private Vector2Int threatPackSize = new(2, 4);
+        [SerializeField, Min(0.5f), Tooltip("Радиус стаи угроз вокруг её центра")]
+        private float threatPackRadius = 3.5f;
+        [SerializeField, Tooltip("Размер кучки однотипной еды (min, max); (1, 1) = равномерный разброс")]
+        private Vector2Int foodPackSize = new(3, 6);
+        [SerializeField, Min(0.5f), Tooltip("Радиус кучки еды вокруг её центра")]
+        private float foodPackRadius = 3f;
+
         public ShapeEntry[] Shapes => shapes;
         public Vector2 AmplitudeRange => amplitudeRange;
         public float PathJitter => pathJitter;
@@ -61,6 +71,10 @@ namespace Generation
         public float SentryDistance => sentryDistance;
         public int DecoyFood => decoyFood;
         public int DecoyGuards => decoyGuards;
+        public Vector2Int ThreatPackSize => threatPackSize;
+        public float ThreatPackRadius => threatPackRadius;
+        public Vector2Int FoodPackSize => foodPackSize;
+        public float FoodPackRadius => foodPackRadius;
 
         private static LayoutProfile _fallback;
 

@@ -42,11 +42,11 @@ namespace Generation
             foreach (var def in supports)
                 if (placement.TryPlace(layer, def, attempts)) result.MobilityPlaced++;
 
-            foreach (var def in threats)
-                if (placement.TryPlace(layer, def, attempts)) result.ThreatPlaced++;
-
-            foreach (var def in food)
-                if (placement.TryPlace(layer, def, attempts)) result.FoodPlaced++;
+            var profile = layer.Layout != null ? layer.Layout.Profile : LayoutProfile.Fallback;
+            result.ThreatPlaced += PackPlacer.Place(layer, placement, threats, profile.ThreatPackSize,
+                profile.ThreatPackRadius, attempts);
+            result.FoodPlaced += PackPlacer.Place(layer, placement, food, profile.FoodPackSize,
+                profile.FoodPackRadius, attempts);
 
             return result;
         }

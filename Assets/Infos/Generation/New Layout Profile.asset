@@ -40,3 +40,7 @@ MonoBehaviour:
   sentryDistance: 6.5
   decoyFood: 4
   decoyGuards: 3
+  threatPackSize: {x: 2, y: 4}
+  threatPackRadius: 3.5
+  foodPackSize: {x: 3, y: 6}
+  foodPackRadius: 3

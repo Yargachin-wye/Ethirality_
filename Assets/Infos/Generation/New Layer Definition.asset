@@ -18,5 +18,5 @@ MonoBehaviour:
   heightRange: {x: 100, y: 100}
   weight: 1
   minDifficulty: 0
-  maxDifficulty: 1
+  maxDifficulty: 0.5
   threatMultiplier: 1

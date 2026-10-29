@@ -101,5 +101,13 @@ MonoBehaviour:
   maxRiskShare: 0.5
   maxDifficultyDeltaPerLayer: 0.05
   layoutProfile: {fileID: 11400000, guid: 05b8a8d6496e81d44852fc600236fd8c, type: 2}
-  pacing: []
+  pacing:
+  - every: 4
+    offset: 3
+    threatMultiplier: 0.5
+    forcedLayer: {fileID: 0}
+  - every: 10
+    offset: 9
+    threatMultiplier: 1.3
+    forcedLayer: {fileID: 0}
   endlessThreatGrowth: 0.5

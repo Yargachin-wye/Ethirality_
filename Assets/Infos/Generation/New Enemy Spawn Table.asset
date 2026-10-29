@@ -140,7 +140,7 @@ MonoBehaviour:
     unlockDifficulty: 0.2
     fullWeightDifficulty: 0.45
     retireDifficulty: 0
-    maxPerLayer: 0
+    maxPerLayer: 16
   - definition: {fileID: 11400000, guid: d0c00bb346814fa4a2a5d2d4969751b7, type: 2}
     kind: 0
     role: 6
@@ -156,7 +156,7 @@ MonoBehaviour:
     unlockDifficulty: 0.35
     fullWeightDifficulty: 0.6
     retireDifficulty: 0
-    maxPerLayer: 0
+    maxPerLayer: 10
   - definition: {fileID: 11400000, guid: 542270a9838d470ba9462b32c3de11e0, type: 2}
     kind: 0
     role: 1
