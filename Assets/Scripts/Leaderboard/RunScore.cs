@@ -73,7 +73,7 @@ namespace Leaderboard
         public bool diagnostic;
 
         public bool CanBeLocalBest => valid && !diagnostic && endReason == RunEndReason.Death
-            && heightUnits >= 0 && !string.IsNullOrEmpty(runId)
+            && heightUnits > 0 && !string.IsNullOrEmpty(runId)
             && !string.IsNullOrEmpty(gameVersion) && !string.IsNullOrEmpty(rulesetId);
 
         public bool SameTable(LocalRunResult other) => other != null

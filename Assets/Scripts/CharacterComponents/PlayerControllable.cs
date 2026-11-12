@@ -39,6 +39,7 @@ namespace CharacterComponents
 #if UNITY_EDITOR
             if (RunReplayProbe.TryQueue(this, new RunInput { kind = RunInputKind.Shot, x = v2.x, y = v2.y })) return;
 #endif
+            RunRecorder.RecordInput(this, new RunInput { kind = RunInputKind.Shot, x = v2.x, y = v2.y });
             onShotEvent?.Invoke(v2 - (Vector2)transform.position);
         }
 
@@ -47,6 +48,7 @@ namespace CharacterComponents
 #if UNITY_EDITOR
             if (RunReplayProbe.TryQueue(this, new RunInput { kind = RunInputKind.Dash, x = v2.x, y = v2.y })) return;
 #endif
+            RunRecorder.RecordInput(this, new RunInput { kind = RunInputKind.Dash, x = v2.x, y = v2.y });
             onDashEvent?.Invoke(v2);
         }
 
@@ -56,6 +58,8 @@ namespace CharacterComponents
             if (RunReplayProbe.TryQueue(this, new RunInput
                 { kind = RunInputKind.Freeze, pressed = freez, x = v2.x, y = v2.y })) return;
 #endif
+            RunRecorder.RecordInput(this, new RunInput
+                { kind = RunInputKind.Freeze, pressed = freez, x = v2.x, y = v2.y });
             onFreezeEvent?.Invoke(freez, v2);
         }
 
@@ -64,6 +68,7 @@ namespace CharacterComponents
 #if UNITY_EDITOR
             if (RunReplayProbe.TryQueue(this, new RunInput { kind = RunInputKind.Look, x = v2.x, y = v2.y })) return;
 #endif
+            RunRecorder.RecordInput(this, new RunInput { kind = RunInputKind.Look, x = v2.x, y = v2.y });
             onLookEvent?.Invoke(v2);
         }
 

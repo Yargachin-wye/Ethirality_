@@ -37,6 +37,9 @@ namespace Generator
 
         private void Start()
         {
+            // A ranked session pins the seed granted by the server before generation.
+            var ranked = RankedRunService.Current;
+            if (ranked != null) seed = ranked.seed;
             GenerateWorld();
         }
 
@@ -92,7 +95,8 @@ namespace Generator
                 if (probe != null) probe.Begin(_player);
 #endif
                 if (GameSession.Instance != null && GameSession.Instance.State.Mode == GameMode.OpenWorld)
-                    gameObject.AddComponent<OpenWorldRun>().Begin(_player, seed, diagnostic);
+                    gameObject.AddComponent<OpenWorldRun>()
+                        .Begin(_player, seed, diagnostic, RankedRunService.Current);
             }
 
             _generating = false;

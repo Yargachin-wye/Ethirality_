@@ -9,6 +9,7 @@
         public const string GameOver = "GameOverPanel";
         public const string ChoosingNextLevel = "ChoosingNextLevelPanel";
         public const string Guides = "Guides";
+        public const string Leaderboard = "LeaderboardPanel";
 
         public static readonly string[] Panels =
         {
@@ -18,7 +19,8 @@
             Settings,
             GameOver,
             ChoosingNextLevel,
-            Guides
+            Guides,
+            Leaderboard
         };
     }
 

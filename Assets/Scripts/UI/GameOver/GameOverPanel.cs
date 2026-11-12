@@ -26,10 +26,18 @@ namespace UI.GameOver
 
         protected override void OnPanelDisable()
         {
-            
+            RankedRunService.OnStatusChanged -= OnRankedStatus;
         }
 
         protected override void OnPanelEnable()
+        {
+            RankedRunService.OnStatusChanged += OnRankedStatus;
+            Refresh();
+        }
+
+        private void OnRankedStatus(RankedRunStatus status) => Refresh();
+
+        private void Refresh()
         {
             var result = LocalRunStore.LastResult;
             runResultText.gameObject.SetActive(result != null);
@@ -43,6 +51,16 @@ namespace UI.GameOver
                 : LocalRunStore.LastWasPersonalBest ? "Новый локальный рекорд!" : "Локальный результат";
             runResultText.text = $"{label}\nВысота: {RunResultText.Height(result.heightUnits)}\n"
                 + $"Версия: {result.gameVersion}";
+
+            string activeRunId = RankedRunService.Current != null
+                ? RankedRunService.Current.runId
+                : RankedRunService.LastFinishedRunId;
+            if (result.runId == activeRunId)
+            {
+                string verdict = RunResultText.Verdict(
+                    RankedRunService.Status, RankedRunService.LastRejectReason);
+                if (verdict != null) runResultText.text += "\n" + verdict;
+            }
         }
 
         private void ExitToMenu()

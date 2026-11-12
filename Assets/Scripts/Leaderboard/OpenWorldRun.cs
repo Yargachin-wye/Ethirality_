@@ -11,6 +11,7 @@ namespace Leaderboard
     {
         public static OpenWorldRun Active { get; private set; }
         public long HeightUnits => _score?.HeightUnits ?? 0;
+        public string RunId => _result?.runId;
         public string GameVersion => _result?.gameVersion;
         public bool IsDiagnostic => _result != null && _result.diagnostic;
         private Character _player;
@@ -20,17 +21,18 @@ namespace Leaderboard
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics() => Active = null;
 
-        public void Begin(Character player, int seed, bool diagnostic)
+        public void Begin(Character player, int seed, bool diagnostic,
+            RankedRunSession session = null)
         {
             if (GameSession.Instance == null || GameSession.Instance.State.Mode != GameMode.OpenWorld)
                 throw new InvalidOperationException("Only OpenWorld runs can produce a leaderboard result.");
             if (_score != null) throw new InvalidOperationException("A run can only start once.");
             if (Active != null) Active.Finish(RunEndReason.SceneExit);
             _player = player;
-            _score = new RunScore(player.transform.position.y);
+            _score = new RunScore(player.rb2D.position.y);
             _result = new LocalRunResult
             {
-                runId = Guid.NewGuid().ToString("N"),
+                runId = session != null ? session.runId : Guid.NewGuid().ToString("N"),
                 gameVersion = Application.version,
                 buildId = Application.buildGUID,
                 rulesetId = RunScore.RulesetId,
@@ -39,6 +41,9 @@ namespace Leaderboard
             };
             LocalRunStore.ClearLastResult();
             Active = this;
+            // Ranked runs stream evidence to the server; diagnostic runs never do.
+            if (session != null && !diagnostic)
+                player.gameObject.AddComponent<RunRecorder>().Begin(player, session);
         }
 
         private void FixedUpdate() => Observe();

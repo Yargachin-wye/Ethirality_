@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using GameAnalyticsSDK;
+using Leaderboard;
 using UniRx;
 using UniRxEvents.GamePlay;
 using UniRxEvents.Ui;
@@ -68,12 +70,23 @@ namespace Bootstrapper
             }
         }
 
+        // runId links GA events to server runs for the S5 population reconcile.
+        private static IDictionary<string, object> RunFields()
+        {
+            string runId = OpenWorldRun.Active != null
+                ? OpenWorldRun.Active.RunId
+                : LocalRunStore.LastResult != null ? LocalRunStore.LastResult.runId : null;
+            if (string.IsNullOrEmpty(runId)) return null;
+            return new Dictionary<string, object> { { "runId", runId } };
+        }
+
         public void GameStart()
         {
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Start,
                 $"{GameSession.Instance.State.Mode}_run",
-                GameSession.Instance.State.TrainingStage);
+                GameSession.Instance.State.TrainingStage,
+                RunFields());
         }
 
         public void GameOver()
@@ -81,7 +94,8 @@ namespace Bootstrapper
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Complete,
                 $"{GameSession.Instance.State.Mode}_run",
-                GameSession.Instance.State.TrainingStage);
+                GameSession.Instance.State.TrainingStage,
+                RunFields());
         }
 
         public void StartRound()
@@ -109,7 +123,8 @@ namespace Bootstrapper
                 "null",
                 0,
                 "health",
-                "health"
+                "health",
+                RunFields()
             );
         }
         
@@ -122,7 +137,8 @@ namespace Bootstrapper
                     "null",
                     0,
                     "random_upgrade",
-                    ResManager.Instance.Improvements[id].ImprovementName
+                    ResManager.Instance.Improvements[id].ImprovementName,
+                    RunFields()
                 );
                 return;
             }
@@ -132,7 +148,8 @@ namespace Bootstrapper
                 "null",
                 0,
                 "upgrade",
-                ResManager.Instance.Improvements[id].ImprovementName
+                ResManager.Instance.Improvements[id].ImprovementName,
+                RunFields()
             );
         }
     }

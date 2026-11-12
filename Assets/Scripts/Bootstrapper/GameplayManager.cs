@@ -51,6 +51,8 @@ namespace Bootstrapper
         {
             // Capture the terminal position once, before the delay, reset or scene unload.
             OpenWorldRun.Active?.Finish(RunEndReason.Death);
+            if (RankedRunService.HasActive)
+                StartCoroutine(RankedRunService.FinishAsync(RunEndReason.Death));
 #if UNITY_EDITOR
             RunReplayProbe.Active?.EndSegment("death");
 #endif
@@ -78,6 +80,8 @@ namespace Bootstrapper
             if (_ending) return;
             _ending = true;
             OpenWorldRun.Active?.Finish(RunEndReason.SceneExit);
+            if (RankedRunService.HasActive)
+                StartCoroutine(RankedRunService.FinishAsync(RunEndReason.SceneExit));
 #if UNITY_EDITOR
             RunReplayProbe.Active?.EndSegment("exit to menu");
 #endif

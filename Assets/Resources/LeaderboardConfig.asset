@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2baad964840f564998e6ea7df0d93c7, type: 3}
+  m_Name: LeaderboardConfig
+  m_EditorClassIdentifier: 
+  supabaseUrl: https://eqvvonxvcdldgvkzdzjq.supabase.co
+  anonKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxdnZvbnh2Y2RsZGd2a3pkempxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1MTg3MzMsImV4cCI6MjExMDA5NDczM30.Ub8PwT9IuJ9oCrFWGM8tRzI1s1hRNE-gq26T4S7kbyo

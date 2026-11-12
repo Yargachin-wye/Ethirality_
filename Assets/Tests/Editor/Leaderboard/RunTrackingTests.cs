@@ -97,6 +97,162 @@ namespace LeaderboardTests
         }
 
         [Test]
+        public void HeightIsNeverNegativeAndFloorsPartialUnits()
+        {
+            var run = new RunScore(-5);
+            run.Observe(-20);
+            Assert.AreEqual(0, run.HeightUnits);
+            run.Observe(-4.9999);
+            Assert.AreEqual(0, run.HeightUnits);
+            run.Observe(-4.985);
+            Assert.AreEqual(1, run.HeightUnits);
+        }
+
+        [Test]
+        public void InvalidStartPositionIsRejected()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new RunScore(double.NaN));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new RunScore(double.PositiveInfinity));
+        }
+
+        [Test]
+        public void InvalidatedRunKeepsPeakButCannotBecomeRecord()
+        {
+            var run = new RunScore(0);
+            run.Observe(7);
+            run.Observe(double.NaN);
+            run.Observe(50);
+            run.Finish(60);
+            Assert.AreEqual(700, run.HeightUnits);
+            var result = Result(run.HeightUnits);
+            result.valid = run.IsValid;
+            Assert.IsFalse(new LocalRunHistory().Record(result));
+        }
+
+        [Test]
+        public void RecordsSurviveSerializationAndStayIndependentPerVersion()
+        {
+            var history = new LocalRunHistory();
+            var old = Result(900);
+            old.gameVersion = "1.0.0";
+            var current = Result(300);
+            history.Record(old);
+            history.Record(current);
+            var loaded = UnityEngine.JsonUtility.FromJson<LocalRunHistory>(UnityEngine.JsonUtility.ToJson(history));
+            Assert.AreEqual(900, loaded.BestHeight(old));
+            Assert.AreEqual(300, loaded.BestHeight(current));
+            Assert.IsTrue(loaded.Record(Result(301)));
+            Assert.AreEqual(900, loaded.BestHeight(old));
+            Assert.AreEqual(2, loaded.bestResults.Count);
+        }
+
+        [Test]
+        public void LowerResultInNewVersionIsStillItsOwnRecord()
+        {
+            var history = new LocalRunHistory();
+            history.Record(Result(5000));
+            var next = Result(10);
+            next.gameVersion = "1.2.0";
+            Assert.IsTrue(history.Record(next));
+            Assert.AreEqual(10, history.BestHeight(next));
+        }
+
+        [Test]
+        public void ResultsWithoutVersionOrRulesetAreNotRecords()
+        {
+            var history = new LocalRunHistory();
+            var noVersion = Result(100);
+            noVersion.gameVersion = "";
+            var noRules = Result(100);
+            noRules.rulesetId = null;
+            var noId = Result(100);
+            noId.runId = null;
+            Assert.IsFalse(history.Record(noVersion));
+            Assert.IsFalse(history.Record(noRules));
+            Assert.IsFalse(history.Record(noId));
+            Assert.IsEmpty(history.bestResults);
+        }
+
+        [Test]
+        public void LocalStorageIsBoundedAndKeepsNewestTables()
+        {
+            var history = new LocalRunHistory();
+            for (int i = 0; i < 70; i++)
+            {
+                var result = Result(100);
+                result.seed = i;
+                Assert.IsTrue(history.Record(result));
+            }
+            Assert.AreEqual(64, history.bestResults.Count);
+            var oldest = Result(100);
+            oldest.seed = 0;
+            var newest = Result(100);
+            newest.seed = 69;
+            Assert.AreEqual(0, history.BestHeight(oldest));
+            Assert.AreEqual(100, history.BestHeight(newest));
+        }
+
+        [Test]
+        public void TrainingIsIsolatedFromOpenWorldState()
+        {
+            var session = new GameSessionState(4);
+            session.StartOpenWorld();
+            session.Current.Hp = 2;
+            session.Current.UpgradeIds.Add(9);
+            session.StartTraining();
+            Assert.AreEqual(GameMode.Training, session.Current.Mode);
+            Assert.AreEqual(4, session.Current.Hp);
+            Assert.IsEmpty(session.Current.UpgradeIds);
+            Assert.AreEqual(0, session.Current.TrainingStage);
+            session.StartOpenWorld();
+            Assert.AreEqual(GameMode.OpenWorld, session.Current.Mode);
+            Assert.IsFalse(session.TrainingStagePending);
+        }
+
+        [Test]
+        public void EndedSessionHasNoModeAndInitialResources()
+        {
+            var session = new GameSessionState(5);
+            session.StartOpenWorld();
+            session.Current.Hp = 1;
+            session.End();
+            Assert.AreEqual(GameMode.None, session.Current.Mode);
+            Assert.AreEqual(5, session.Current.Hp);
+            Assert.IsEmpty(session.Current.UpgradeIds);
+            Assert.IsFalse(session.TrainingStagePending);
+            Assert.IsFalse(session.TrainingCompleted);
+            Assert.IsFalse(session.CompleteTrainingStage(3));
+        }
+
+        [Test]
+        public void SessionRejectsInvalidConfiguration()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GameSessionState(0));
+            var session = new GameSessionState(4);
+            session.StartTraining();
+            Assert.Throws<ArgumentOutOfRangeException>(() => session.CompleteTrainingStage(0));
+        }
+
+        [Test]
+        public void PendingTrainingStageCannotBeCompletedTwice()
+        {
+            var session = new GameSessionState(4);
+            session.StartTraining();
+            Assert.IsTrue(session.CompleteTrainingStage(3));
+            Assert.IsFalse(session.CompleteTrainingStage(3));
+            Assert.AreEqual(1, session.Current.TrainingStage);
+        }
+
+        [Test]
+        public void RunsWithoutProgressAreNotRecords()
+        {
+            var history = new LocalRunHistory();
+            Assert.IsFalse(history.Record(Result(0)));
+            Assert.IsFalse(history.Record(Result(-5)));
+            Assert.IsEmpty(history.bestResults);
+        }
+
+        [Test]
         public void HistoryOwnsACopyOfTheResult()
         {
             var history = new LocalRunHistory();
