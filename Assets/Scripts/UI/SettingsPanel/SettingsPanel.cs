@@ -1,5 +1,6 @@
 ﻿using System;
 using Audio;
+using Bootstrapper;
 using Constants;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -96,8 +97,7 @@ namespace UI.SettingsPanel
         {
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            MessageBroker.Default.Publish(new StopRoundEvent());
-            MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.MainMenu });
+            GameplayManager.Instance.ExitToMenu();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Audio;
 using Constants;
+using Leaderboard;
+using TMPro;
 using UniRx;
 using UniRxEvents.Ui;
 using UnityEngine;
@@ -12,10 +14,13 @@ namespace UI.GameOver
     {
         [Space]
         [SerializeField] private Button backToMenuBtn;
+        [SerializeField] private TMP_Text runResultText;
 
         public override void Awake()
         {
             base.Awake();
+            if (runResultText == null)
+                runResultText = RunResultText.Create(panel.transform, "Run Result", 140, 140);
             backToMenuBtn.onClick.AddListener(ExitToMenu);
         }
 
@@ -26,7 +31,18 @@ namespace UI.GameOver
 
         protected override void OnPanelEnable()
         {
-            
+            var result = LocalRunStore.LastResult;
+            runResultText.gameObject.SetActive(result != null);
+            if (result == null) return;
+            if (!result.valid)
+            {
+                runResultText.text = "Результат забега недоступен";
+                return;
+            }
+            string label = result.diagnostic ? "Тестовый забег"
+                : LocalRunStore.LastWasPersonalBest ? "Новый локальный рекорд!" : "Локальный результат";
+            runResultText.text = $"{label}\nВысота: {RunResultText.Height(result.heightUnits)}\n"
+                + $"Версия: {result.gameVersion}";
         }
 
         private void ExitToMenu()

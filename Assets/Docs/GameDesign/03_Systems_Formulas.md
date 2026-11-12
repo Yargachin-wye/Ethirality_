@@ -110,7 +110,7 @@ seed_i = (seed · 73856093) XOR (i · 19349663) XOR 0x5bd1e995     (unchecked in
 Damage(v): если isInvulnerable → ничего
            hp −= v ; если hp ≤ 0 ∧ !isImmortal → Dead()
 Cure(v):   hp = min(hp + v, maxHp)
-игрок: hp зеркалится в SaveSystem при каждом изменении
+игрок: hp зеркалится в GameSession.State при каждом изменении (только память)
 ```
 
 ## 3.9 Рывок и съедение — `LumpMeatMovable`

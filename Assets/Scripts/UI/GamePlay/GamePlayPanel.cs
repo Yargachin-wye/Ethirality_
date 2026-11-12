@@ -1,4 +1,6 @@
 using UniRx;
+using Leaderboard;
+using TMPro;
 using UniRxEvents.GamePlay;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +17,16 @@ namespace UI.GamePlay
         [SerializeField] private GameObject shotTimer;
         [Space]
         [SerializeField] private GameObject deadZoneAlarm;
+        [SerializeField] private TMP_Text runHeightText;
+        private long _shownHeight = -1;
+        private OpenWorldRun _shownRun;
 
         public override void Awake()
         {
             base.Awake();
+            if (runHeightText == null)
+                runHeightText = RunResultText.Create(panel.transform, "Run Height", 65, 44);
+            runHeightText.gameObject.SetActive(false);
             MessageBroker.Default
                 .Receive<PlayerInDeadZoneEvent>()
                 .Subscribe(data => OnPlayerInDeadZone(data));
@@ -41,6 +49,17 @@ namespace UI.GamePlay
         private void StartRound()
         {
             deadZoneAlarm.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (!IsActive) return;
+            var run = OpenWorldRun.Active;
+            runHeightText.gameObject.SetActive(run != null);
+            if (run == null || (run == _shownRun && run.HeightUnits == _shownHeight)) return;
+            _shownRun = run;
+            _shownHeight = run.HeightUnits;
+            runHeightText.text = $"Высота: {RunResultText.Height(run.HeightUnits)}";
         }
 
         private void OnPlayerInDeadZone(PlayerInDeadZoneEvent data)

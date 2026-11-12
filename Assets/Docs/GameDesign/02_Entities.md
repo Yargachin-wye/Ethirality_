@@ -26,7 +26,7 @@
 
 | Параметр | Значение | Компонент |
 |---|---|---|
-| startHp / maxHp | 4 / 7 | `Stats` (старт реально берётся из `SaveSystem.defaultSaveData.hp = 4`) |
+| startHp / maxHp | 4 / 7 | `Stats` (старт реально берётся из `GameSession.startingHp = 4`) |
 | Масса / drag / gravity | 2 / 0.5 / 1 | `Rigidbody2D` |
 | dashDmg / powerDash / dashTime / dashDelay | 1 / 50 (Δv = 25) / 0.7 с / 3 с | `LumpMeatMovable` |
 | decelerationRate (freeze) | 0.95 | `LumpMeatMovable` |

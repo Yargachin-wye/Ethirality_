@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bootstrapper;
-using Bootstrapper.Saves;
 using CharacterComponents.Animations;
 using Definitions;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace CharacterComponents
         private List<Twister> _twisters = new();
         private float _twistersAngle;
 
-        private SaveSystem Saves => SaveSystem.Instance;
+        private RunState Run => GameSession.Instance.State;
 
         private IDisposable _addNewImprovementSubscription;
         private IDisposable _addHpSubscription;
@@ -58,7 +57,7 @@ namespace CharacterComponents
                 .Receive<SwapImprovementsEvent>()
                 .Subscribe(data => OnSwapImprovements(data));
 
-            foreach (var impResId in Saves.saveData.playerUpgradeResIds)
+            foreach (var impResId in Run.UpgradeIds)
             {
                 var data = ResManager.Instance.Improvements[impResId];
                 AddImprovement(data);
@@ -106,7 +105,7 @@ namespace CharacterComponents
 
         public void AddNewImprovement(ImprovementDefinition data)
         {
-            Saves.saveData.playerUpgradeResIds.Add(data.ResId);
+            Run.UpgradeIds.Add(data.ResId);
             AddImprovement(data);
         }
 
@@ -180,8 +179,7 @@ namespace CharacterComponents
 
         private void OnDestroyImprovement(Improvement improvement, bool isRemove)
         {
-            if (isRemove && Saves.saveData.playerUpgradeResIds.Contains(improvement.Definition.ResId))
-                Saves.saveData.playerUpgradeResIds.Remove(improvement.Definition.ResId);
+            if (isRemove) Run.UpgradeIds.Remove(improvement.Definition.ResId);
 
             improvements.Remove(improvement);
             RemoveMoving(improvement.gameObject);

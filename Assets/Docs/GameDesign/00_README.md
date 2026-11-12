@@ -19,6 +19,7 @@ Edit-mode тесты.** Если тест-цель начала предупре
 | `04_Balance_Model.md` | Расчётная модель баланса: метрики, константы, инварианты, цели, процедура проверки |
 | `05_Dependency_Graph.md` | Граф зависимостей параметров: что от чего зависит и где это лежит |
 | `06_Assumptions_Findings.md` | Реестр неявных допущений, противоречий и рекомендаций с приоритетами |
+| `07_Leaderboard_Plan.md` | План рейтинга OpenWorld: проверка результатов на сервере, привязка к версиям и этапы внедрения |
 | `../Balance/BalanceReport.md`, `layers.csv` | **Генерируемые** артефакты: фактические числа, извлечённые из ассетов, и результат симуляции |
 
 ## Где живут числа (источники правды)
@@ -32,7 +33,7 @@ Edit-mode тесты.** Если тест-цель начала предупре
 | Параметры сущностей | префабы в `Assets/Prefabs/Characters/**`, `Prefabs/Improvements/*` | hp, урон, кулдауны |
 | Снаряды | `Assets/Infos/Projectiles/*.asset` | урон, скорость, силы |
 | Улучшения (мета) | `Assets/Infos/Improvements/*.asset` | maxLevel, isPassive |
-| Стартовое состояние | `Boot.unity` → `SaveSystem.defaultSaveData` | hp 4 |
+| Стартовое состояние | `Boot.unity` → `GameSession.startingHp` | hp 4 |
 | Модель баланса | `Assets/Infos/Balance/OpenWorld.asset` (`BalanceScenario`) | константы модели и цели |
 
 ## Инструменты

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Audio;
 using Bootstrapper;
-using Bootstrapper.Saves;
 using Constants;
 using Definitions;
 using UniRx;
@@ -118,7 +117,7 @@ namespace UI.LevelUp
         private bool RandomImprovement(out ImprovementDefinition imp)
         {
             Dictionary<int, int> flags = new Dictionary<int, int>();
-            foreach (var upgradeId in SaveSystem.Instance.saveData.playerUpgradeResIds)
+            foreach (var upgradeId in GameSession.Instance.State.UpgradeIds)
             {
                 if (!flags.ContainsKey(upgradeId))
                 {

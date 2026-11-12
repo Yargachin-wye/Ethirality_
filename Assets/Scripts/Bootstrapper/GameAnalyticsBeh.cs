@@ -1,4 +1,3 @@
-using Bootstrapper.Saves;
 using GameAnalyticsSDK;
 using UniRx;
 using UniRxEvents.GamePlay;
@@ -64,8 +63,8 @@ namespace Bootstrapper
             {
                 GameAnalytics.NewProgressionEvent(
                     GAProgressionStatus.Fail, 
-                    "round",
-                    SaveSystem.Instance.saveData.currentDifficulty);
+                    $"{GameSession.Instance.State.Mode}_round",
+                    GameSession.Instance.State.TrainingStage);
             }
         }
 
@@ -73,24 +72,24 @@ namespace Bootstrapper
         {
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Start,
-                "run",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                $"{GameSession.Instance.State.Mode}_run",
+                GameSession.Instance.State.TrainingStage);
         }
 
         public void GameOver()
         {
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Complete,
-                "run",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                $"{GameSession.Instance.State.Mode}_run",
+                GameSession.Instance.State.TrainingStage);
         }
 
         public void StartRound()
         {
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Start,
-                "round",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                $"{GameSession.Instance.State.Mode}_round",
+                GameSession.Instance.State.TrainingStage);
             _isRound = true;
         }
 
@@ -98,8 +97,8 @@ namespace Bootstrapper
         {
             GameAnalytics.NewProgressionEvent(
                 GAProgressionStatus.Complete,
-                "round",
-                SaveSystem.Instance.saveData.currentDifficulty);
+                $"{GameSession.Instance.State.Mode}_round",
+                GameSession.Instance.State.TrainingStage);
             _isRound = false;
         }
         

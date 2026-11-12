@@ -1,6 +1,5 @@
 ﻿using Audio;
 using Bootstrapper;
-using Bootstrapper.Saves;
 using Constants;
 using UniRx;
 using UniRxEvents.Ui;
@@ -21,8 +20,6 @@ namespace UI.MainMenu
         [Space]
         [SerializeField] private Button restartBtn;
         [SerializeField] private Button guidesBtn;
-        [SerializeField] private Button restartYesBtn;
-        [SerializeField] private Button restartNoBtn;
         [SerializeField] private GameObject restartPanel;
 
         public override void Awake()
@@ -33,9 +30,9 @@ namespace UI.MainMenu
             exitBtn.onClick.AddListener(ExitGame);
 
             guidesBtn.onClick.AddListener(OpenGuidesPanel);
-            restartBtn.onClick.AddListener(() => OpenRestartRunPanel(true));
-            restartYesBtn.onClick.AddListener(RestartRun);
-            restartNoBtn.onClick.AddListener(() => OpenRestartRunPanel(false));
+            // There is no resumable run and therefore no "delete progress / restart" action.
+            if (restartBtn != null) restartBtn.gameObject.SetActive(false);
+            if (restartPanel != null) restartPanel.SetActive(false);
         }
 
         private void OpenGuidesPanel()
@@ -44,26 +41,13 @@ namespace UI.MainMenu
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.Guides });
         }
 
-        private void OpenRestartRunPanel(bool isActive)
-        {
-            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            restartPanel.SetActive(isActive);
-        }
-
-        private void RestartRun()
-        {
-            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            SaveSystem.Instance.ResetGameData();
-            StartGamePlay();
-        }
-
         protected override void OnPanelDisable()
         {
         }
 
         protected override void OnPanelEnable()
         {
-            restartPanel.SetActive(false);
+            if (restartPanel != null) restartPanel.SetActive(false);
         }
 
         private void ExitGame()
@@ -84,6 +68,7 @@ namespace UI.MainMenu
         {
             if (!IsActive) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
+            GameSession.Instance.Session.End();
             MessageBroker.Default.Publish(new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
         }
     }

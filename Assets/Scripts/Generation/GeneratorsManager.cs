@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Bootstrapper;
 using CharacterComponents;
 using Generation;
+using Leaderboard;
 using Spawner;
 using UnityEngine;
 using Utilities;
@@ -58,6 +60,9 @@ namespace Generator
 
         private IEnumerator Initialize()
         {
+#if UNITY_EDITOR
+            var probe = RunReplayProbe.Prepare(gameObject, ref seed);
+#endif
             Level = new LevelData(seed);
             _cursorY = 0f;
             _nextLayerIndex = 0;
@@ -81,6 +86,13 @@ namespace Generator
                 foreach (var point in Level.PlayerSpawns) playerSpawner.AddSpawnPoint(point);
                 _player = playerSpawner.Spawn();
                 _lastPlayerY = _player.transform.position.y;
+                bool diagnostic = false;
+#if UNITY_EDITOR
+                diagnostic = probe != null;
+                if (probe != null) probe.Begin(_player);
+#endif
+                if (GameSession.Instance != null && GameSession.Instance.State.Mode == GameMode.OpenWorld)
+                    gameObject.AddComponent<OpenWorldRun>().Begin(_player, seed, diagnostic);
             }
 
             _generating = false;

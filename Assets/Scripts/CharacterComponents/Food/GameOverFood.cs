@@ -9,7 +9,7 @@ namespace CharacterComponents.Food
         {
             if (characterEater.Fraction == Fraction.Player)
             {
-                StartCoroutine(GameplayManager.Instance.StopGameplay());
+                if (GameplayManager.Instance != null) GameplayManager.Instance.StopGameplay();
             }
         }
 

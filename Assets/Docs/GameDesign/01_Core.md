@@ -40,15 +40,16 @@
 
 | Ресурс | Диапазон | Источники (+) | Стоки (−) | Где хранится |
 |---|---|---|---|---|
-| HP | 0…`maxHp` (7), старт 4 | еда рывком (+`hpCure`), выбор «+1 HP» на LevelUp | снаряды, контактные угрозы, `DeadZone` (1/с вне границ), `Poison` | `Stats` ↔ `SaveSystem.saveData.hp` (персистентно между сценами) |
+| HP | 0…`maxHp` (7), старт 4 | еда рывком (+`hpCure`), выбор «+1 HP» на LevelUp | снаряды, контактные угрозы, `DeadZone` (1/с вне границ), `Poison` | `Stats` ↔ `GameSession.State.Hp` (только в памяти, между сценами одной сессии) |
 | Кулдаун рывка | `dashDelay` с | время | каждый Dash/Push | `LumpMeatMovable` |
 | Кулдаун гарпуна | `shootDelay` с | время | каждый выстрел | `Shooter` |
-| Улучшения | список `playerUpgradeResIds` | LevelUp | `Improvement.Remove()` (щит с `isDestroyOnTrigger`) | `SaveSystem` |
+| Улучшения | список `RunState.UpgradeIds` | LevelUp | `Improvement.Remove()` (щит с `isDestroyOnTrigger`) | `GameSession` (только в памяти) |
 
 ## Условия конца
-- **Поражение**: `Stats.Damage` → HP ≤ 0 у игрока → `GameOverEvent` → через 1 с `ResetGameData()` (HP = 4,
-  улучшения очищены, `currentDifficulty = 0`) → лобби.
-- **Победа/переход** (только ручные сцены): съесть `GameOverKey` → `currentDifficulty++` → экран выбора.
+- **Поражение**: `Stats.Damage` → HP ≤ 0 у игрока → `GameOverEvent` → через 1 с лобби и `GameSession.Session.End()`
+  (состояние забега сброшено: HP = `startingHp`, улучшения пусты, этап обучения 0).
+- **Завершение урока обучения** (только ручные сцены): съесть `GameOverKey` → следующий этап в памяти → экран выбора.
+  Сохранений на диске нет; новый забег всегда стартует с исходного состояния.
 - **OpenWorld**: конца нет; после слоя `layerCount − 1` (29) включается «бесконечный» множитель угрозы.
 
 ## Что игра НЕ делает (важно для модели)

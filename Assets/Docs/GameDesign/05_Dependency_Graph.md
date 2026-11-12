@@ -80,7 +80,7 @@ flowchart LR
 
 | Дубль | Где | Правило |
 |---|---|---|
-| Стартовое HP игрока | `Stats.startHp` (4) и `SaveSystem.defaultSaveData.hp` (4) | авторитет — `SaveSystem`; `Stats.startHp` у игрока не используется |
+| Стартовое HP игрока | `Stats.startHp` (4) и `GameSession.startingHp` (4) | авторитет — `GameSession`; `Stats.startHp` у игрока не используется |
 | Планирование слоя | `GeneratorsManager` и симулятор | обязаны звать `LayerPlanner.Plan` (проверяется тестом детерминизма) |
 | `PlacementRules` | сцена и `BalanceScenario.placement` | при правке в сцене обновить сценарий (оба сейчас = значения по умолчанию) |
 | Сложность | `currentDifficulty` (сцены) и `d_i` (слои) | не связаны — см. `06`, A3 |

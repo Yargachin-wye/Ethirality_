@@ -1,6 +1,6 @@
 ﻿using System;
 using Audio;
-using Bootstrapper.Saves;
+using Bootstrapper;
 using Constants;
 using Definitions;
 using EditorAttributes;
@@ -44,7 +44,7 @@ namespace CharacterComponents.CharacterStat
         {
             if (Fraction == Fraction.Player)
             {
-                _currentHealth = SaveSystem.Instance.saveData.hp;
+                _currentHealth = GameSession.Instance.State.Hp;
             }
             else
             {
@@ -82,7 +82,7 @@ namespace CharacterComponents.CharacterStat
             _currentHealth -= val;
             PopupManager.Show(transform.position, val, PopupType.Damage, Fraction);
 
-            if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
+            if (Fraction == Fraction.Player) GameSession.Instance.State.Hp = _currentHealth;
 
             if (_currentHealth <= 0 && !isImmortal)
             {
@@ -102,7 +102,7 @@ namespace CharacterComponents.CharacterStat
             _currentHealth += val;
             if (_currentHealth > MaxHealth) _currentHealth = MaxHealth;
             PopupManager.Show(transform.position, _currentHealth - before, PopupType.Heal, Fraction);
-            if (Fraction == Fraction.Player) SaveSystem.Instance.saveData.hp = _currentHealth;
+            if (Fraction == Fraction.Player) GameSession.Instance.State.Hp = _currentHealth;
 
             OnCureAction?.Invoke(val);
         }
