@@ -120,7 +120,7 @@ namespace Leaderboard
             var req = Request("POST", FunctionsUrl(path), body, true);
             yield return req.SendWebRequest();
             var result = Collect(req);
-            if (result.status == 401)
+            if (result.status == 401 && !IsPayloadRejection(result))
             {
                 _accessToken = null; // token expired; re-auth once
                 yield return EnsureSignedIn(v => authed = v);
@@ -144,7 +144,7 @@ namespace Leaderboard
             var req = Request("GET", FunctionsUrl(path), null, true);
             yield return req.SendWebRequest();
             var result = Collect(req);
-            if (result.status == 401)
+            if (result.status == 401 && !IsPayloadRejection(result))
             {
                 _accessToken = null;
                 yield return EnsureSignedIn(v => authed = v);
@@ -155,6 +155,11 @@ namespace Leaderboard
             }
             done(result);
         }
+
+        // The server also answers 401 "bad_hmac" for a chunk it refuses; that
+        // is not an expired session and must not trigger a new anonymous user.
+        private static bool IsPayloadRejection(Result result) =>
+            result.body != null && result.body.Contains("bad_hmac");
 
         // Queues a request body into the WAL and lets the pump deliver it.
         // expiresAtUtc bounds how long resends stay meaningful.
@@ -187,6 +192,8 @@ namespace Leaderboard
                     || result.status == 403)
                 {
                     // Delivered, idempotent replay, or permanently refused.
+                    if (!result.ok)
+                        Debug.LogWarning($"LeaderboardClient dropped {entry.path}: {result.status} {result.body}");
                     _pending.RemoveAt(0);
                     SaveWal();
                 }

@@ -23,6 +23,7 @@ namespace UI.ChoosingNextLevel
         [SerializeField] private Button backBtn;
         [SerializeField] private Image fieldDifficulty;
         [SerializeField] private Button rankedStartBtn;
+        [SerializeField] private Button leaderboardBtn;
         [SerializeField] private TMP_Text rankedStatusText;
         private bool _loading;
         private TMP_Text _trainingLabel;
@@ -49,6 +50,21 @@ namespace UI.ChoosingNextLevel
             }
             rankedStartBtn.onClick.RemoveAllListeners();
             rankedStartBtn.onClick.AddListener(StartRanked);
+
+            // Leaderboard opens as a panel; same code-built fallback look.
+            if (leaderboardBtn == null)
+            {
+                var source = rankedStartBtn.GetComponent<RectTransform>();
+                leaderboardBtn = Instantiate(rankedStartBtn, rankedStartBtn.transform.parent);
+                leaderboardBtn.name = "LeaderboardBtn";
+                leaderboardBtn.interactable = true;
+                leaderboardBtn.GetComponent<RectTransform>().anchoredPosition =
+                    source.anchoredPosition - new Vector2(0, 2f * (source.rect.height + 12f));
+                var label = leaderboardBtn.GetComponentInChildren<TMP_Text>(true);
+                if (label != null) label.text = "Топ";
+            }
+            leaderboardBtn.onClick.RemoveAllListeners();
+            leaderboardBtn.onClick.AddListener(OpenLeaderboard);
             if (rankedStatusText == null)
             {
                 var sourceLabel = openWorldLevelBtn.GetComponentInChildren<TMP_Text>(true);
@@ -115,6 +131,14 @@ namespace UI.ChoosingNextLevel
 
         // Ranked start asks the server for runId/seed first; generation uses
         // that seed via GeneratorsManager.
+        private void OpenLeaderboard()
+        {
+            if (!IsActive || _loading) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
+            MessageBroker.Default.Publish(
+                new OpenUiPanelEvent { PanelName = UiConst.Leaderboard });
+        }
+
         private void StartRanked()
         {
             if (!IsActive || _loading) return;

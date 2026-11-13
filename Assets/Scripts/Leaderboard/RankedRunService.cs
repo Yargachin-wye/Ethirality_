@@ -167,8 +167,18 @@ namespace Leaderboard
             string path = $"runs/{session.runId}/finish";
             client.Enqueue(path, finishBody, session.expiresAtUtc);
 
+            // The WAL delivers chunks strictly before finish; posting finish
+            // directly would overtake them and be verified without any chunks.
+            float waited = 0f;
+            while (client.PendingCount > 0 && waited < 20f)
+            {
+                waited += 0.25f;
+                yield return new WaitForSecondsRealtime(0.25f);
+            }
+
             LeaderboardClient.Result result = null;
-            yield return client.SignedPost(path, finishBody, r => result = r);
+            if (client.PendingCount == 0)
+                yield return client.SignedGet($"runs/{session.runId}", r => result = r);
             if (result != null && result.ok)
             {
                 var parsed = JsonUtility.FromJson<FinishResponse>(result.body);
@@ -178,6 +188,8 @@ namespace Leaderboard
             {
                 SetStatus(RankedRunStatus.Failed);
             }
+            if (result == null || !result.ok)
+                Debug.LogWarning($"Ranked finish not accepted: {result?.status} {result?.error ?? result?.body}");
             // Transport failure: the WAL keeps retrying until expiresAtUtc.
             LastFinishedRunId = session.runId;
             Current = null;
@@ -200,6 +212,7 @@ namespace Leaderboard
                 case "verified": SetStatus(RankedRunStatus.Verified); break;
                 case "rejected": SetStatus(RankedRunStatus.Rejected); break;
                 case "review": SetStatus(RankedRunStatus.Review); break;
+                case "pending": break;
                 default: SetStatus(RankedRunStatus.Failed); break;
             }
         }

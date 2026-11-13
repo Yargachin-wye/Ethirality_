@@ -13,15 +13,17 @@ using Utilities;
 
 namespace UI.LeaderboardPanel
 {
-    // Top-100 for the current ranked board plus the player's own row. Builds
-    // its UI in code (like RunResultText) so it works without prefab changes;
-    // states: loading, no-network, archived board.
+    // Top-100 for the current ranked board plus the player's own row.
+    // Visual tree can be edited in the scene: use the component's context
+    // menu "Build Panel UI" once to generate the default layout, then tweak
+    // it like any other panel. If `panel` is left unassigned the default
+    // layout is built at runtime instead.
     public class LeaderboardPanel : BasePanelUi
     {
-        private TMP_Text _titleText;
-        private TMP_Text _contentText;
-        private TMP_Text _statusText;
-        private Button _closeBtn;
+        [SerializeField] private TMP_Text titleText;
+        [SerializeField] private TMP_Text statusText;
+        [SerializeField] private TMP_Text contentText;
+        [SerializeField] private Button closeBtn;
 
         [Serializable] private sealed class BoardInfo
         {
@@ -59,8 +61,9 @@ namespace UI.LeaderboardPanel
         {
             if (string.IsNullOrEmpty(panelName)) panelName = UiConst.Leaderboard;
             if (panel == null) BuildUi();
+            else AutoWire();
             base.Awake();
-            _closeBtn.onClick.AddListener(Close);
+            if (closeBtn != null) closeBtn.onClick.AddListener(Close);
         }
 
         protected override void OnPanelDisable()
@@ -74,24 +77,25 @@ namespace UI.LeaderboardPanel
 
         private void Refresh()
         {
-            _contentText.text = "";
+            if (contentText != null) contentText.text = "";
             var client = LeaderboardClient.Instance;
             string boardId = RankedRunService.Current != null
                 ? RankedRunService.Current.leaderboardId
                 : RankedRunService.LastLeaderboardId;
-            if (client == null || !client.Configured || boardId == null)
+            if (string.IsNullOrEmpty(boardId)) boardId = "current";
+            if (client == null || !client.Configured)
             {
-                _titleText.text = "Рейтинг";
-                _statusText.text = "Таблица лидеров недоступна";
+                titleText.text = "Рейтинг";
+                statusText.text = "Таблица лидеров недоступна";
                 return;
             }
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                _titleText.text = "Рейтинг";
-                _statusText.text = "Нет сети";
+                titleText.text = "Рейтинг";
+                statusText.text = "Нет сети";
                 return;
             }
-            _statusText.text = "Загрузка…";
+            statusText.text = "Загрузка…";
             StartCoroutine(Load(client, boardId));
         }
 
@@ -103,24 +107,24 @@ namespace UI.LeaderboardPanel
             if (!IsActive) yield break;
             if (result == null || !result.ok)
             {
-                _titleText.text = "Рейтинг";
-                _statusText.text = "Не удалось загрузить таблицу";
+                titleText.text = "Рейтинг";
+                statusText.text = "Не удалось загрузить таблицу";
                 yield break;
             }
             var parsed = JsonUtility.FromJson<BoardResponse>(result.body);
             if (parsed?.leaderboard == null)
             {
-                _statusText.text = "Не удалось загрузить таблицу";
+                statusText.text = "Не удалось загрузить таблицу";
                 yield break;
             }
             var board = parsed.leaderboard;
-            _titleText.text = $"{board.ruleset_id} · seed {board.seed}";
+            titleText.text = $"{board.ruleset_id} · seed {board.seed}";
             if (board.status != "open")
             {
-                _statusText.text = board.status == "archived"
+                statusText.text = board.status == "archived"
                     ? "Таблица в архиве" : "Таблица закрывается";
             }
-            else _statusText.text = "";
+            else statusText.text = "";
 
             var sb = new StringBuilder(4096);
             if (parsed.top == null || parsed.top.Length == 0)
@@ -138,7 +142,7 @@ namespace UI.LeaderboardPanel
                 if (!parsed.self.@public)
                     sb.Append("\n(на проверке — в общем топе не виден)");
             }
-            _contentText.text = sb.ToString();
+            contentText.text = sb.ToString();
         }
 
         private void Close()
@@ -147,6 +151,38 @@ namespace UI.LeaderboardPanel
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
             MessageBroker.Default.Publish(
                 new OpenUiPanelEvent { PanelName = UiConst.ChoosingNextLevel });
+        }
+
+        // Finds default children by name when fields were not assigned in the
+        // inspector. Rename freely if you assign the fields manually.
+        private void AutoWire()
+        {
+            if (titleText == null) titleText = FindText("Title");
+            if (statusText == null) statusText = FindText("Status");
+            if (contentText == null) contentText = FindText("Content");
+            if (closeBtn == null)
+                closeBtn = panel.transform.Find("CloseBtn")?.GetComponent<Button>();
+        }
+
+        private TMP_Text FindText(string childName)
+        {
+            var child = panel.transform.Find(childName);
+            return child != null ? child.GetComponent<TMP_Text>() : null;
+        }
+
+        [ContextMenu("Build Panel UI")]
+        private void BuildUiMenuItem()
+        {
+            if (panel != null)
+            {
+                Debug.Log("LeaderboardPanel: panel already assigned");
+                return;
+            }
+            BuildUi();
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         private void BuildUi()
@@ -162,12 +198,12 @@ namespace UI.LeaderboardPanel
             var bg = panel.GetComponent<Image>();
             bg.color = new Color(0f, 0f, 0f, 0.9f);
 
-            _titleText = RunResultText.Create(rect, "Title", 40, 60);
-            _statusText = RunResultText.Create(rect, "Status", 100, 40);
-            _statusText.fontSizeMax = _statusText.fontSize = 20;
-            _contentText = RunResultText.Create(rect, "Content", 160, 400);
-            _contentText.alignment = TextAlignmentOptions.TopLeft;
-            _contentText.fontSizeMax = _contentText.fontSize = 22;
+            titleText = RunResultText.Create(rect, "Title", 40, 60);
+            statusText = RunResultText.Create(rect, "Status", 100, 40);
+            statusText.fontSizeMax = statusText.fontSize = 20;
+            contentText = RunResultText.Create(rect, "Content", 160, 400);
+            contentText.alignment = TextAlignmentOptions.TopLeft;
+            contentText.fontSizeMax = contentText.fontSize = 22;
 
             var closeGo = new GameObject("CloseBtn", typeof(RectTransform), typeof(Image), typeof(Button));
             closeGo.transform.SetParent(rect, false);
@@ -176,7 +212,7 @@ namespace UI.LeaderboardPanel
             closeRect.pivot = new Vector2(0.5f, 0f);
             closeRect.anchoredPosition = new Vector2(0, 40);
             closeRect.sizeDelta = new Vector2(220, 60);
-            _closeBtn = closeGo.GetComponent<Button>();
+            closeBtn = closeGo.GetComponent<Button>();
             var closeLabel = RunResultText.Create(closeRect, "Label", 0, 60);
             closeLabel.text = "Назад";
             closeLabel.raycastTarget = false;

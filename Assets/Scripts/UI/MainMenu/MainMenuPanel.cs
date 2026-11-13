@@ -18,7 +18,6 @@ namespace UI.MainMenu
         [SerializeField] private Button settingsBtn;
         [SerializeField] private Button exitBtn;
         [Space]
-        [SerializeField] private Button restartBtn;
         [SerializeField] private Button guidesBtn;
         [SerializeField] private GameObject restartPanel;
 
@@ -30,8 +29,6 @@ namespace UI.MainMenu
             exitBtn.onClick.AddListener(ExitGame);
 
             guidesBtn.onClick.AddListener(OpenGuidesPanel);
-            // There is no resumable run and therefore no "delete progress / restart" action.
-            if (restartBtn != null) restartBtn.gameObject.SetActive(false);
             if (restartPanel != null) restartPanel.SetActive(false);
         }
 

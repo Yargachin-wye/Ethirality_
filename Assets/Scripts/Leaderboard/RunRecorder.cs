@@ -77,6 +77,9 @@ namespace Leaderboard
             _seq = 0;
             _lastHp = _stats != null ? _stats.CurrentHealth : 0;
             _current = NewChunk();
+            // The server derives height from the first checkpoint, so it must be the spawn
+            // position that OpenWorldRun uses as its start.
+            _current.checkpoints.Add(new RunCheckpointEntry { tick = 0, state = Capture() });
 
             if (_stats != null)
             {

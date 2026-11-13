@@ -103,12 +103,12 @@ namespace Leaderboard
                 var c = list[i].state;
                 sb.Append('{');
                 sb.Append("\"alive\":").Append(c.alive ? "true" : "false");
-                sb.Append(",\"angularVelocity\":").Append(JsNumber(c.angularVelocity));
-                sb.Append(",\"dashCooldown\":").Append(JsNumber(c.dashCooldown));
+                sb.Append(",\"angularVelocity\":").Append(Q(c.angularVelocity));
+                sb.Append(",\"dashCooldown\":").Append(Q(c.dashCooldown));
                 sb.Append(",\"dashing\":").Append(c.dashing ? "true" : "false");
                 sb.Append(",\"frozen\":").Append(c.frozen ? "true" : "false");
                 sb.Append(",\"hp\":").Append(c.hp);
-                sb.Append(",\"rotation\":").Append(JsNumber(c.rotation));
+                sb.Append(",\"rotation\":").Append(Q(c.rotation));
                 sb.Append(",\"tick\":").Append(list[i].tick);
                 sb.Append(",\"upgrades\":[");
                 for (int u = 0; u < c.upgrades.Length; u++)
@@ -117,10 +117,10 @@ namespace Leaderboard
                     sb.Append(c.upgrades[u]);
                 }
                 sb.Append(']');
-                sb.Append(",\"vx\":").Append(JsNumber(c.vx));
-                sb.Append(",\"vy\":").Append(JsNumber(c.vy));
-                sb.Append(",\"x\":").Append(JsNumber(c.x));
-                sb.Append(",\"y\":").Append(JsNumber(c.y));
+                sb.Append(",\"vx\":").Append(Q(c.vx));
+                sb.Append(",\"vy\":").Append(Q(c.vy));
+                sb.Append(",\"x\":").Append(Q(c.x));
+                sb.Append(",\"y\":").Append(Q(c.y));
                 sb.Append('}');
             }
             sb.Append(']');
@@ -199,6 +199,24 @@ namespace Leaderboard
             return sb.ToString();
         }
 
+        // Mono formats 16-17 significant digits inexactly, so JS and Unity would
+        // disagree on the hashed bytes. Checkpoint values are quantised to 1e-4
+        // first; such doubles have short, exactly formattable representations.
+        public static string Q(double value) =>
+            JsNumber(Math.Round(value, 4, MidpointRounding.AwayFromZero));
+
+        // Mono's "R" is not guaranteed to be the shortest round-trip form, which
+        // JS always produces; search the minimal precision explicitly.
+        private static string ShortestRoundTrip(double value)
+        {
+            for (int p = 0; p < 16; p++)
+            {
+                string s = value.ToString("E" + p, CultureInfo.InvariantCulture);
+                if (double.Parse(s, CultureInfo.InvariantCulture) == value) return s;
+            }
+            return value.ToString("E16", CultureInfo.InvariantCulture);
+        }
+
         // ECMAScript Number::toString: shortest round-trip digits, decimal
         // notation inside [1e-6, 1e21), exponential outside. Must match what
         // JSON.stringify emits on the server for the same parsed value.
@@ -207,7 +225,7 @@ namespace Leaderboard
             if (double.IsNaN(value) || double.IsInfinity(value)) return "null";
             if (value == 0) return "0";
 
-            string shortest = value.ToString("R", CultureInfo.InvariantCulture);
+            string shortest = ShortestRoundTrip(value);
             bool negative = shortest[0] == '-';
             if (negative) shortest = shortest.Substring(1);
 

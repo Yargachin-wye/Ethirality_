@@ -94,7 +94,6 @@ namespace CharacterComponents.Moving
         public void Look(Vector2 direction)
         {
             if (direction.magnitude >= 0.5f) _lookDirection = -direction;
-            if (_isFreeze) Debug.Log($"[AimDbg] t={Time.time:F2} Look in={direction} stored={_lookDirection} rbRot={character.rb2D.rotation:F1}");
 
             if (direction.magnitude < Inputer.JoysickMinMagnitude)
             {

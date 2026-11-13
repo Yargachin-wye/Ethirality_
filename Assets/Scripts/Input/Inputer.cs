@@ -105,7 +105,6 @@ namespace Managers
 
             var dev = context.control.device;
             bool ignored = dev.displayName.Contains("vJoy") || dev.name.Contains("vJoy");
-            Debug.Log($"[AimDbg] t={Time.time:F2} Joystick ignored={ignored} phase={context.phase} value={context.ReadValue<Vector2>()} dev={dev.name} display={dev.displayName} iface={dev.description.interfaceName} product={dev.description.product}");
             if (ignored) return;
             _lookDirection = context.ReadValue<Vector2>();
             if (context.control.IsActuated()) _detouchPosition = _lookDirection;

@@ -1,5 +1,6 @@
 // Edge Function `leaderboards` — TZ section 3.
 //   GET /leaderboards/{id}?offset&limit
+//   GET /leaderboards/current      -> resolves to the newest open board
 // Top-100 of verified entries plus the caller's own entry and rank.
 // Entries whose run was moved to `review` by the cron scan are hidden.
 
@@ -32,8 +33,7 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const parts = url.pathname.split("/").filter(Boolean);
     if (parts[0] === "leaderboards") parts.shift();
-    const boardId = parts[0];
-    if (!boardId) return err(404, "not_found");
+    if (!parts[0]) return err(404, "not_found");
 
     const offset = Math.max(0, parseInt(url.searchParams.get("offset") ?? "0") || 0);
     const limit = Math.min(
@@ -43,11 +43,26 @@ Deno.serve(async (req) => {
 
     const db = serviceClient();
 
-    const { data: board } = await db
-      .from("leaderboards")
-      .select("id, ruleset_id, seed, status, closes_at")
-      .eq("id", boardId)
-      .maybeSingle();
+    let boardId = parts[0];
+    let board;
+    if (boardId === "current") {
+      const { data } = await db
+        .from("leaderboards")
+        .select("id, ruleset_id, seed, status, closes_at")
+        .eq("status", "open")
+        .order("closes_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      board = data;
+      if (board) boardId = board.id;
+    } else {
+      const { data } = await db
+        .from("leaderboards")
+        .select("id, ruleset_id, seed, status, closes_at")
+        .eq("id", boardId)
+        .maybeSingle();
+      board = data;
+    }
     if (!board) return err(404, "not_found");
 
     // public top: verified runs only
@@ -62,7 +77,7 @@ Deno.serve(async (req) => {
 
     const top = (rows ?? []).map((r, i) => ({
       rank: offset + i + 1,
-      nickname: (r.players as { nickname: string | null }).nickname,
+      nickname: (r.players as unknown as { nickname: string | null }).nickname,
       heightUnits: r.height_units,
       achievedAt: r.achieved_at,
     }));
@@ -92,8 +107,8 @@ Deno.serve(async (req) => {
           rank: (count ?? 0) + 1,
           heightUnits: myEntry.height_units,
           achievedAt: myEntry.achieved_at,
-          verdict: (myEntry.runs as { verdict: string }).verdict,
-          public: (myEntry.runs as { verdict: string }).verdict === "verified",
+          verdict: (myEntry.runs as unknown as { verdict: string }).verdict,
+          public: (myEntry.runs as unknown as { verdict: string }).verdict === "verified",
         };
       }
     }
