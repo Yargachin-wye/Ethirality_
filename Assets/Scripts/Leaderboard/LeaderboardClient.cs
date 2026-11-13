@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace Leaderboard
 {
-    // UnityWebRequest + anonymous Supabase auth + a WAL outbox in
+    // UnityWebRequest + Supabase email-OTP auth + a WAL outbox in
     // persistentDataPath so chunks cut off by a crash or network loss are
     // re-sent until the session expires. Nothing here blocks the UI.
     public sealed class LeaderboardClient : MonoBehaviour
@@ -16,8 +16,15 @@ namespace Leaderboard
         public bool IsReady => !string.IsNullOrEmpty(_accessToken);
         public int PendingCount => _pending.Count;
 
+        public bool IsSignedIn => !string.IsNullOrEmpty(_refreshToken);
+        public string Email { get; private set; }
+        public event Action OnAuthChanged;
+
         private LeaderboardConfig _config;
         private string _accessToken;
+        private string _refreshToken;
+        private DateTime _accessExpiresUtc;
+        private bool _refreshing;
         private readonly List<WalEntry> _pending = new List<WalEntry>();
         private Coroutine _pump;
 
@@ -36,9 +43,35 @@ namespace Leaderboard
             public List<WalEntry> entries = new List<WalEntry>();
         }
 
+        [Serializable] private sealed class AuthUser
+        {
+            public string email;
+        }
+
         [Serializable] private sealed class AuthResponse
         {
             public string access_token;
+            public string refresh_token;
+            public int expires_in;
+            public AuthUser user;
+        }
+
+        [Serializable] private sealed class OtpRequest
+        {
+            public string email;
+            public bool create_user;
+        }
+
+        [Serializable] private sealed class VerifyRequest
+        {
+            public string type;
+            public string email;
+            public string token;
+        }
+
+        [Serializable] private sealed class RefreshRequest
+        {
+            public string refresh_token;
         }
 
         [Serializable] private sealed class ErrorResponse
@@ -78,6 +111,8 @@ namespace Leaderboard
             Instance = this;
             DontDestroyOnLoad(gameObject);
             _config = LeaderboardConfig.Resolve();
+            var saved = AuthSessionStore.Load();
+            if (saved != null) { _refreshToken = saved.refreshToken; Email = saved.email; }
             LoadWal();
         }
 
@@ -90,20 +125,96 @@ namespace Leaderboard
 
         // ---------- auth
 
-        private IEnumerator EnsureSignedIn(Action<bool> done)
+        // Passwordless sign-in: RequestCode mails a 6-digit code, VerifyCode
+        // exchanges it for a session. Only a refresh token is persisted.
+        public IEnumerator RequestCode(string email, Action<Result> done)
         {
-            if (IsReady) { done(true); yield break; }
-            if (_config == null) { done(false); yield break; }
-            // Anonymous sign-in; the server binds a players row to this user id.
-            var req = Request("POST", _config.SupabaseUrl + "/auth/v1/signup", "{}");
+            if (_config == null) { done(new Result { error = "not configured" }); yield break; }
+            var req = Request("POST", _config.SupabaseUrl + "/auth/v1/otp",
+                JsonUtility.ToJson(new OtpRequest { email = email, create_user = true }));
+            yield return req.SendWebRequest();
+            done(Collect(req));
+        }
+
+        public IEnumerator VerifyCode(string email, string code, Action<Result> done)
+        {
+            if (_config == null) { done(new Result { error = "not configured" }); yield break; }
+            var req = Request("POST", _config.SupabaseUrl + "/auth/v1/verify",
+                JsonUtility.ToJson(new VerifyRequest { type = "email", email = email, token = code }));
             yield return req.SendWebRequest();
             var result = Collect(req);
-            if (result.ok)
+            if (result.ok) ApplySession(JsonUtility.FromJson<AuthResponse>(result.body), email);
+            done(result);
+        }
+
+        public IEnumerator SignOut()
+        {
+            if (_config != null && IsReady)
             {
-                var auth = JsonUtility.FromJson<AuthResponse>(result.body);
-                _accessToken = auth != null ? auth.access_token : null;
+                // scope=local ends only this device's session.
+                var req = Request("POST", _config.SupabaseUrl + "/auth/v1/logout?scope=local", null, true);
+                yield return req.SendWebRequest();
+                req.Dispose();
             }
-            done(IsReady);
+            ClearSession();
+        }
+
+        private bool HasFreshAccessToken =>
+            IsReady && DateTime.UtcNow < _accessExpiresUtc.AddSeconds(-30);
+
+        private void ApplySession(AuthResponse auth, string fallbackEmail)
+        {
+            if (auth == null || string.IsNullOrEmpty(auth.access_token)
+                || string.IsNullOrEmpty(auth.refresh_token)) return;
+            _accessToken = auth.access_token;
+            _refreshToken = auth.refresh_token;
+            _accessExpiresUtc = DateTime.UtcNow.AddSeconds(auth.expires_in > 0 ? auth.expires_in : 3600);
+            string email = auth.user != null && !string.IsNullOrEmpty(auth.user.email)
+                ? auth.user.email : fallbackEmail ?? Email;
+            bool changed = email != Email;
+            Email = email;
+            AuthSessionStore.Save(_refreshToken, Email);
+            if (changed) OnAuthChanged?.Invoke();
+        }
+
+        private void ClearSession()
+        {
+            _accessToken = null;
+            _refreshToken = null;
+            Email = null;
+            AuthSessionStore.Clear();
+            OnAuthChanged?.Invoke();
+        }
+
+        private IEnumerator EnsureSignedIn(Action<bool> done)
+        {
+            if (_config == null) { done(false); yield break; }
+            if (HasFreshAccessToken) { done(true); yield break; }
+            if (!IsSignedIn) { done(false); yield break; }
+            yield return Refresh(done);
+        }
+
+        // Serialized so parallel calls never spend a rotating refresh token twice.
+        private IEnumerator Refresh(Action<bool> done)
+        {
+            if (_refreshing)
+            {
+                while (_refreshing) yield return null;
+                done(HasFreshAccessToken);
+                yield break;
+            }
+            _refreshing = true;
+            var req = Request("POST", _config.SupabaseUrl + "/auth/v1/token?grant_type=refresh_token",
+                JsonUtility.ToJson(new RefreshRequest { refresh_token = _refreshToken }));
+            yield return req.SendWebRequest();
+            var result = Collect(req);
+            if (result.ok) ApplySession(JsonUtility.FromJson<AuthResponse>(result.body), null);
+            // A refused token (revoked, expired, reused) cannot recover: sign out.
+            else if (result.status >= 400 && result.status < 500 && result.status != 429)
+                ClearSession();
+            _accessToken = result.ok ? _accessToken : null;
+            _refreshing = false;
+            done(result.ok && HasFreshAccessToken);
         }
 
         // ---------- public calls (yielded from service code)

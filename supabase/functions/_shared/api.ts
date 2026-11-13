@@ -23,10 +23,12 @@ export function serviceClient(): SupabaseClient {
 }
 
 export interface AuthedUser {
-  userId: string; // auth.users.id of the anonymous sign-in
+  userId: string; // auth.users.id of the registered (email) account
 }
 
-// Validates the anonymous JWT carried in Authorization: Bearer.
+// Validates the user JWT carried in Authorization: Bearer. Anonymous
+// sessions and accounts without an email are refused: ranked play requires
+// a registered account.
 export async function authedUser(req: Request): Promise<AuthedUser | null> {
   const auth = req.headers.get("Authorization");
   if (!auth?.startsWith("Bearer ")) return null;
@@ -34,7 +36,7 @@ export async function authedUser(req: Request): Promise<AuthedUser | null> {
     auth: { persistSession: false },
   });
   const { data, error } = await client.auth.getUser(auth.slice(7));
-  if (error || !data.user) return null;
+  if (error || !data.user || data.user.is_anonymous || !data.user.email) return null;
   return { userId: data.user.id };
 }
 

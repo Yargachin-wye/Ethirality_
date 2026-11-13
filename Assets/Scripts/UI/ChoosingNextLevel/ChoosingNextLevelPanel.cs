@@ -7,6 +7,7 @@ using Leaderboard;
 using TMPro;
 using UniRx;
 using UniRxEvents.GamePlay;
+using UI.Auth;
 using UniRxEvents.Ui;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,7 @@ namespace UI.ChoosingNextLevel
         [SerializeField] private Button rankedStartBtn;
         [SerializeField] private Button leaderboardBtn;
         [SerializeField] private TMP_Text rankedStatusText;
+        [SerializeField] private Button accountBtn;
         private bool _loading;
         private TMP_Text _trainingLabel;
 
@@ -65,6 +67,19 @@ namespace UI.ChoosingNextLevel
             }
             leaderboardBtn.onClick.RemoveAllListeners();
             leaderboardBtn.onClick.AddListener(OpenLeaderboard);
+
+            if (accountBtn == null)
+            {
+                var source = leaderboardBtn.GetComponent<RectTransform>();
+                accountBtn = Instantiate(leaderboardBtn, leaderboardBtn.transform.parent);
+                accountBtn.name = "SignOutBtn";
+                accountBtn.GetComponent<RectTransform>().anchoredPosition =
+                    source.anchoredPosition - new Vector2(0, source.rect.height + 12f);
+                var label = accountBtn.GetComponentInChildren<TMP_Text>(true);
+                if (label != null) label.text = "Выйти из аккаунта";
+            }
+            accountBtn.onClick.RemoveAllListeners();
+            accountBtn.onClick.AddListener(SignOut);
             if (rankedStatusText == null)
             {
                 var sourceLabel = openWorldLevelBtn.GetComponentInChildren<TMP_Text>(true);
@@ -103,10 +118,42 @@ namespace UI.ChoosingNextLevel
             var client = LeaderboardClient.Instance;
             bool configured = client != null && client.Configured;
             bool online = Application.internetReachability != NetworkReachability.NotReachable;
+            bool signedIn = configured && client.IsSignedIn;
             rankedStartBtn.interactable = configured && online && !_loading;
             if (rankedStatusText != null)
                 rankedStatusText.text = !configured ? "Рейтинг недоступен"
-                    : !online ? "Нет сети" : "";
+                    : !online ? "Нет сети"
+                    : signedIn ? client.Email : "Для рейтинга нужен вход";
+            if (accountBtn != null) accountBtn.gameObject.SetActive(signedIn);
+        }
+
+        // Runs `next` once the player is signed in, asking for a login first.
+        private void RequireSignIn(System.Action next)
+        {
+            var client = LeaderboardClient.Instance;
+            if (client == null || !client.Configured) return;
+            if (client.IsSignedIn) { next(); return; }
+            AuthModal.Show(ok =>
+            {
+                RefreshRankedState();
+                if (ok && this != null && IsActive) next();
+            });
+        }
+
+        private void SignOut()
+        {
+            if (!IsActive || _loading) return;
+            AudioManager.Instance.PlayUISound(AudioConst.UiClick);
+            var client = LeaderboardClient.Instance;
+            if (client != null) StartCoroutine(SignOutRoutine(client));
+        }
+
+        private IEnumerator SignOutRoutine(LeaderboardClient client)
+        {
+            accountBtn.interactable = false;
+            yield return client.StartCoroutine(client.SignOut());
+            accountBtn.interactable = true;
+            RefreshRankedState();
         }
 
         private void StartTraining()
@@ -135,15 +182,15 @@ namespace UI.ChoosingNextLevel
         {
             if (!IsActive || _loading) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            MessageBroker.Default.Publish(
-                new OpenUiPanelEvent { PanelName = UiConst.Leaderboard });
+            RequireSignIn(() => MessageBroker.Default.Publish(
+                new OpenUiPanelEvent { PanelName = UiConst.Leaderboard }));
         }
 
         private void StartRanked()
         {
             if (!IsActive || _loading) return;
             AudioManager.Instance.PlayUISound(AudioConst.UiClick);
-            StartCoroutine(StartRankedRoutine());
+            RequireSignIn(() => StartCoroutine(StartRankedRoutine()));
         }
 
         private IEnumerator StartRankedRoutine()

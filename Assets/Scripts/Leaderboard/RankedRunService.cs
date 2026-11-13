@@ -95,7 +95,7 @@ namespace Leaderboard
             Action<bool> done)
         {
             var client = LeaderboardClient.Instance;
-            if (client == null || !client.Configured)
+            if (client == null || !client.Configured || !client.IsSignedIn)
             {
                 SetStatus(RankedRunStatus.Failed);
                 done(false);
