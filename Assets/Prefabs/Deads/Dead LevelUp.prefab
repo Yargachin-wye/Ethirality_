@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3136847114605881880}
   - component: {fileID: 7224492107824794557}
   - component: {fileID: 7562976943903894858}
+  - component: {fileID: 1343727236022606029}
   m_Layer: 0
   m_Name: LevelUp_3
   m_TagString: Untagged
@@ -148,6 +149,36 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.24
+--- !u!114 &1343727236022606029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3115607842150277794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.25, y: -0.5, z: 0}
+  - {x: -0.25, y: 0.5, z: 0}
+  - {x: 0.25000003, y: 0.5, z: 0}
+  - {x: 0.25000003, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -12650
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.25, y: 0.5, z: 0}
 --- !u!1 &3171492716829553554
 GameObject:
   m_ObjectHideFlags: 0

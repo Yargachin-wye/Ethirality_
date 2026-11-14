@@ -111,7 +111,7 @@ MonoBehaviour:
     pitch: 0.9
     pitchFactor: 0
   - name: GameplayAmbient
-    clip: {fileID: 8300000, guid: 03ba9c3b62f76434699aa3fb0bac538e, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 529a38f99d5639944a861424e10f09aa, type: 3}
+    volume: 0.212
     pitch: 0
     pitchFactor: 0

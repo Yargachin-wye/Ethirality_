@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 4450975415416032563}
   - component: {fileID: 4631328050444989796}
   - component: {fileID: 5444577604842621459}
+  - component: {fileID: 7821927127593004217}
   m_Layer: 0
   m_Name: defender_1
   m_TagString: Untagged
@@ -296,6 +297,36 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7821927127593004217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863764768333911081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.40625, y: -0.21875, z: 0}
+  - {x: -0.40625, y: 0.21875, z: 0}
+  - {x: 0.40625, y: 0.21875, z: 0}
+  - {x: 0.40625, y: -0.21875, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -12574
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.40625, y: 0.21875, z: 0}
 --- !u!1 &3205905756740523100
 GameObject:
   m_ObjectHideFlags: 0

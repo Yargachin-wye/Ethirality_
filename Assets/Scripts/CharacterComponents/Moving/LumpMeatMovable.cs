@@ -93,7 +93,7 @@ namespace CharacterComponents.Moving
 
         public void Look(Vector2 direction)
         {
-            if (direction.magnitude >= 0.5f) _lookDirection = -direction;
+            _lookDirection = -direction;
 
             if (direction.magnitude < Inputer.JoysickMinMagnitude)
             {

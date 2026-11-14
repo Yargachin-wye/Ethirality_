@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 3269589623020758916}
   - component: {fileID: 2296435072379404478}
   - component: {fileID: 4536846700133063260}
+  - component: {fileID: 6542693419918800716}
   m_Layer: 0
   m_Name: eyes_18
   m_TagString: Untagged
@@ -296,6 +297,36 @@ CircleCollider2D:
   m_Offset: {x: 0.45378256, y: 0.20534295}
   serializedVersion: 2
   m_Radius: 0.1313389
+--- !u!114 &6542693419918800716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158345633776884098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.95708513, y: -0.9570852, z: 0}
+  - {x: -0.95708513, y: 0.9570852, z: 0}
+  - {x: 0.95708525, y: 0.9570852, z: 0}
+  - {x: 0.95708525, y: -0.9570852, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -12842
+  m_LocalBounds:
+    m_Center: {x: 0.000000059604645, y: 0, z: 0}
+    m_Extent: {x: 0.9570852, y: 0.9570852, z: 0}
 --- !u!1 &1417224367984553301
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,17 +14,17 @@ Shader "Custom/SmoothWarp"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" "RenderPipeline"="UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
         ZWrite Off
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct appdata
             {
@@ -40,24 +40,29 @@ Shader "Custom/SmoothWarp"
                 float4 color : COLOR;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-            sampler2D _NoiseTex;
-            float4 _NoiseTex_ST;
-            float _Amplitude, _Frequency, _Speed, _NoiseAmount, _ScrollSpeed;
-            float4 _ScrollDir;
-            fixed4 _Color;
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+            TEXTURE2D(_NoiseTex);
+            SAMPLER(sampler_NoiseTex);
+
+            CBUFFER_START(UnityPerMaterial)
+                float4 _MainTex_ST;
+                float4 _NoiseTex_ST;
+                float _Amplitude, _Frequency, _Speed, _NoiseAmount, _ScrollSpeed;
+                float4 _ScrollDir;
+                float4 _Color;
+            CBUFFER_END
 
             v2f vert(appdata v)
             {
                 v2f o;
-                o.pos = UnityObjectToClipPos(v.vertex);
+                o.pos = TransformObjectToHClip(v.vertex.xyz);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.color = v.color * _Color;
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 float t = _Time.y * _Speed;
 
@@ -67,13 +72,13 @@ Shader "Custom/SmoothWarp"
                 warp.y = cos(i.uv.x * _Frequency * 6.2831 + t * 1.3) * _Amplitude;
 
                 // Optional noise warp for a more organic look
-                float2 n = tex2D(_NoiseTex, i.uv * _NoiseTex_ST.xy + float2(t * 0.05, -t * 0.03)).rg * 2 - 1;
+                float2 n = SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, i.uv * _NoiseTex_ST.xy + float2(t * 0.05, -t * 0.03)).rg * 2 - 1;
                 warp += n * _Amplitude * _NoiseAmount * 2;
 
                 float2 uv = i.uv + warp + _ScrollDir.xy * (_Time.y * _ScrollSpeed);
-                return tex2D(_MainTex, uv) * i.color;
+                return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv) * i.color;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

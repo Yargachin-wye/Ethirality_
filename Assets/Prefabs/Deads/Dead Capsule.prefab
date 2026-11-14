@@ -1253,6 +1253,7 @@ GameObject:
   - component: {fileID: 5505749135429516021}
   - component: {fileID: 7012494264881237614}
   - component: {fileID: 2443498172800202843}
+  - component: {fileID: 7365256822908997102}
   m_Layer: 0
   m_Name: capsule_13
   m_TagString: Untagged
@@ -1389,6 +1390,36 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7365256822908997102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182146769485675353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.5, y: -0.90625, z: 0}
+  - {x: -0.5, y: 0.90625, z: 0}
+  - {x: 0.5, y: 0.90625, z: 0}
+  - {x: 0.5, y: -0.90625, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -12126
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.90625, z: 0}
 --- !u!1 &8473615098407772437
 GameObject:
   m_ObjectHideFlags: 0

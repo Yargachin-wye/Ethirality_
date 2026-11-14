@@ -200,6 +200,7 @@ MonoBehaviour:
   shootDelay: 4
   detectionRange: 12
   shotSound: LaserShot
+  homingTurnRate: 0
 --- !u!114 &800559225619712956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3547433003539698168}
   - component: {fileID: 7204961860442423665}
+  - component: {fileID: 4284897838277141585}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -298,6 +300,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4284897838277141585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014159035460615691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.8125, y: -1.53125, z: 0}
+  - {x: -0.8125, y: 1.53125, z: 0}
+  - {x: 0.8125, y: 1.53125, z: 0}
+  - {x: 0.8125, y: -1.53125, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 33746
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.8125, y: 1.53125, z: 0}
 --- !u!1 &8574771692035133997
 GameObject:
   m_ObjectHideFlags: 0
@@ -5075,7 +5107,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 405f6f25d2f702f46b57476bf7713763, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5136,6 +5168,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6267830930521368476}
     m_Modifications:
+    - target: {fileID: 148726284970050643, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 405f6f25d2f702f46b57476bf7713763, type: 2}
+    - target: {fileID: 2242512988411819902, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 405f6f25d2f702f46b57476bf7713763, type: 2}
     - target: {fileID: 7214244515938730939, guid: 909acd956a9565845aa9a1d961881b9e, type: 3}
       propertyPath: m_Name
       value: Particle System Dmg

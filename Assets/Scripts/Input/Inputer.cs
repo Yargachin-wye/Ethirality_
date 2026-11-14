@@ -9,6 +9,7 @@ namespace Managers
     {
         [SerializeField] private UnityEngine.Camera _cameraMain;
         [SerializeField] private float tapDelay;
+        [SerializeField] private float dragRadius = 0.12f;
         public static float JoysickMinMagnitude = 0.9f;
         public event Action<bool, Vector2> OnInputFreeze;
         public event Action<Vector2> OnInputDash;
@@ -24,6 +25,7 @@ namespace Managers
         private Vector2 _touchPosition;
         private Vector2 _detouchPosition;
         private Vector2 _lookDirection;
+        private Vector2 _stickValue;
         private Vector2 _screenPosition;
 
         private void Awake()
@@ -66,8 +68,8 @@ namespace Managers
             _pressed = true;
             _tapTimer = tapDelay;
             _touchPosition = _screenPosition;
-            _detouchPosition = Vector2.zero;
-            _lookDirection = Vector2.zero;
+            _lookDirection = _stickValue;
+            _detouchPosition = _stickValue;
         }
 
         public void ReadScreenPosition(InputAction.CallbackContext context)
@@ -106,13 +108,20 @@ namespace Managers
             var dev = context.control.device;
             bool ignored = dev.displayName.Contains("vJoy") || dev.name.Contains("vJoy");
             if (ignored) return;
-            _lookDirection = context.ReadValue<Vector2>();
+            _lookDirection = _stickValue = context.ReadValue<Vector2>();
             if (context.control.IsActuated()) _detouchPosition = _lookDirection;
         }
         
         private void Update()
         {
             if (GameplayPause.IsPaused || !_pressed) return;
+
+            if (_stickValue == Vector2.zero)
+            {
+                var drag = _screenPosition - _touchPosition;
+                float radius = Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) * dragRadius);
+                _lookDirection = _detouchPosition = Vector2.ClampMagnitude(drag / radius, 1f);
+            }
 
             OnInputLook?.Invoke(_lookDirection);
 
