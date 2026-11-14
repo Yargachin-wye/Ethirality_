@@ -10,3 +10,9 @@
 ## Генерация мира
 - Пайплайн: `LayerPlanner.Plan` → `LayerPopulator.Populate` (`SupportChain` → `LayoutDecorator` → `PackPlacer`) → `RewardPlanner`.
 - Список `LayerDefinition` задаётся в двух местах: в сцене `Assets/Scenes/OpenWorld.unity` (`GeneratorsManager.layerDefinitions`) и в сценарии баланса `Assets/Infos/Balance/OpenWorld.asset`. Держите их синхронными.
+
+## Аудио
+- Имена звуков — константы в `AudioConst` (`Assets/Scripts/Constants/Constants.cs`), полный список — `AudioConst.AllSounds`. Библиотека — `Assets/Infos/AudioLibrary.asset`.
+- Конвенция имён: файл называется точно как константа (`PlayerDeadSound.wav`) и кидается в `Assets/Audio/SFX/`.
+- `Tools/Audio/Autofill Library` (`Audio.Editor.AudioLibraryTools`) — проходит по `AllSounds`, находит клипы по имени через `AssetDatabase.FindAssets` и проставляет `clip`; запись создаётся при отсутствии (`Ui*` → `uiSounds`, остальные → `vfxSounds`).
+- `Tools/Audio/Report Missing` — чеклист: имена из `AllSounds` без клипа/записи, строковые поля `*Sound` (`deadSound`/`dmgSound`/`hitSound`/`explosionSound`/…) на префабах без клипа в библиотеке, записи библиотеки вне `AllSounds`.

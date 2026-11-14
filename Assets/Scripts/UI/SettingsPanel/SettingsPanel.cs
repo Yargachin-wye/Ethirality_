@@ -37,6 +37,26 @@ namespace UI.SettingsPanel
 
             exitGameplayBtn.onClick.AddListener(ExitGameplay);
             backBtn.onClick.AddListener(ExitSettings);
+            BindVolumeSliders();
+        }
+
+        private void BindVolumeSliders()
+        {
+            var audio = AudioManager.Instance;
+            if (audio == null) return;
+            foreach (var slider in panel.GetComponentsInChildren<Slider>(true))
+            {
+                if (slider.name == "Music Slider")
+                {
+                    slider.SetValueWithoutNotify(audio.MusicVolume);
+                    slider.onValueChanged.AddListener(v => audio.MusicVolume = v);
+                }
+                else if (slider.name == "Sounds Slider")
+                {
+                    slider.SetValueWithoutNotify(audio.SfxVolume);
+                    slider.onValueChanged.AddListener(v => audio.SfxVolume = v);
+                }
+            }
         }
 
         private void Update()

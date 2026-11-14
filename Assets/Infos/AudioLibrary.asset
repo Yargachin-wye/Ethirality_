@@ -25,7 +25,7 @@ MonoBehaviour:
     pitchFactor: 0.2
   vfxSounds:
   - name: HarpoonShot
-    clip: {fileID: 8300000, guid: 28876e36a660fe841a18755cfaa9ea98, type: 3}
+    clip: {fileID: 8300000, guid: e4a88db7b1d31ef47b935fc70e31df75, type: 3}
     volume: 1
     pitch: 1
     pitchFactor: 0.1
@@ -99,4 +99,19 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     pitchFactor: 0.1
-  musicTracks: []
+  - name: MineExplosion
+    clip: {fileID: 8300000, guid: f063755c324825a47bcd82dca3487778, type: 3}
+    volume: 1
+    pitch: 1
+    pitchFactor: 0.1
+  musicTracks:
+  - name: UiAmbient
+    clip: {fileID: 8300000, guid: a29347dfdcfd7c942b9612a81ba723bc, type: 3}
+    volume: 1
+    pitch: 0.9
+    pitchFactor: 0
+  - name: GameplayAmbient
+    clip: {fileID: 8300000, guid: 03ba9c3b62f76434699aa3fb0bac538e, type: 3}
+    volume: 1
+    pitch: 0
+    pitchFactor: 0

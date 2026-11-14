@@ -20,8 +20,12 @@
         public const string DamageHitSound = "DamageHitSound";
         public const string LaserProjectileHit = "LaserProjectileHit";
         public const string LaserTriggerHit = "LaserTriggerHit";
-        
+        public const string MineExplosion = "MineExplosion";
+
         public const string UiClick = "UiClick";
+
+        public const string GameplayAmbient = "GameplayAmbient";
+        public const string UiAmbient = "UiAmbient";
 
         public static string[] AllSounds =
         {
@@ -43,8 +47,12 @@
             DamageHitSound,
             LaserProjectileHit,
             LaserTriggerHit,
+            MineExplosion,
 
-            UiClick
+            UiClick,
+
+            GameplayAmbient,
+            UiAmbient
         };
     }
 }

@@ -1,5 +1,8 @@
+using Audio;
 using CharacterComponents.CharacterStat;
+using Constants;
 using Definitions;
+using EditorAttributes;
 using UnityEngine;
 using Utilities;
 
@@ -7,11 +10,13 @@ namespace CharacterComponents.Moving
 {
     public class MineExplosion : BaseCharacterComponent
     {
+        private static string[] collection = AudioConst.AllSounds;
         [SerializeField] private float triggerRadius = 3f;
         [SerializeField] private float fuseTime = 1f;
         [SerializeField] private float explosionRadius = 2.5f;
         [SerializeField] private int dmg = 2;
         [SerializeField] private float checkInterval = 0.2f;
+        [SerializeField, Dropdown("collection")] private string explosionSound = AudioConst.MineExplosion;
         [SerializeField] private Color armedColor = new(1f, 0.15f, 0.15f, 1f);
         [SerializeField] private SpriteRenderer spriteRenderer;
 
@@ -63,6 +68,7 @@ namespace CharacterComponents.Moving
 
         private void Explode()
         {
+            AudioManager.Instance.PlaySound(explosionSound, AudioChannel.VFX, transform.position);
             foreach (var hit in Physics2D.OverlapCircleAll(transform.position, explosionRadius))
             {
                 var stats = hit.GetComponent<Stats>();
