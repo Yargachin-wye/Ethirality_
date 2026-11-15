@@ -11,6 +11,7 @@ namespace Managers
         [SerializeField] private float tapDelay;
         [SerializeField] private float dragRadius = 0.12f;
         public static float JoysickMinMagnitude = 0.9f;
+        public float DragRadiusPixels => Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) * dragRadius);
         public event Action<bool, Vector2> OnInputFreeze;
         public event Action<Vector2> OnInputDash;
         public event Action<Vector2> OnInputShot;
@@ -18,6 +19,8 @@ namespace Managers
 
         public static Inputer Instance;
 
+        private const float StickDeadzone = 0.25f;
+        private bool _useStick;
         private bool _pressed = false;
         private bool _taped = false;
         private float _tapTimer = 0;
@@ -74,7 +77,9 @@ namespace Managers
 
         public void ReadScreenPosition(InputAction.CallbackContext context)
         {
-            _screenPosition = context.ReadValue<Vector2>();
+            var pos = context.ReadValue<Vector2>();
+            if (_useStick && (pos - _screenPosition).sqrMagnitude > 1f) _useStick = false;
+            _screenPosition = pos;
         }
 
         public void ReleasedTouch(InputAction.CallbackContext context)
@@ -108,18 +113,24 @@ namespace Managers
             var dev = context.control.device;
             bool ignored = dev.displayName.Contains("vJoy") || dev.name.Contains("vJoy");
             if (ignored) return;
-            _lookDirection = _stickValue = context.ReadValue<Vector2>();
-            if (context.control.IsActuated()) _detouchPosition = _lookDirection;
+            var value = context.ReadValue<Vector2>();
+            if (value.magnitude < StickDeadzone) value = Vector2.zero;
+            _lookDirection = _stickValue = value;
+            if (value != Vector2.zero)
+            {
+                _useStick = true;
+                _detouchPosition = value;
+            }
         }
         
         private void Update()
         {
             if (GameplayPause.IsPaused || !_pressed) return;
 
-            if (_stickValue == Vector2.zero)
+            if (!_useStick || _stickValue == Vector2.zero)
             {
                 var drag = _screenPosition - _touchPosition;
-                float radius = Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) * dragRadius);
+                float radius = DragRadiusPixels;
                 _lookDirection = _detouchPosition = Vector2.ClampMagnitude(drag / radius, 1f);
             }
 

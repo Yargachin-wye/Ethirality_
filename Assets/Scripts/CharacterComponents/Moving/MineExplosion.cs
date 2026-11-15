@@ -69,6 +69,7 @@ namespace CharacterComponents.Moving
         private void Explode()
         {
             AudioManager.Instance.PlaySound(explosionSound, AudioChannel.VFX, transform.position);
+            PixelExplosionFx.Spawn(transform.position, explosionRadius);
             foreach (var hit in Physics2D.OverlapCircleAll(transform.position, explosionRadius))
             {
                 var stats = hit.GetComponent<Stats>();

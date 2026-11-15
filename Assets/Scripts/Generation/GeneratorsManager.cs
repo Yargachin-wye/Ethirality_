@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bootstrapper;
@@ -6,6 +6,8 @@ using CharacterComponents;
 using Generation;
 using Leaderboard;
 using Spawner;
+using UniRx;
+using UniRxEvents.GamePlay;
 using UnityEngine;
 using Utilities;
 
@@ -25,6 +27,12 @@ namespace Generator
         private float generateAhead = 40f;
         [SerializeField, Min(0f), Tooltip("Удалять слои, верх которых ниже игрока на это расстояние")]
         private float despawnBehind = 30f;
+        [SerializeField, Min(0f), Tooltip("Игрок погибает, если упал ниже нижнего активного слоя на это расстояние")]
+        private float fallDeathMargin = 10f;
+        [SerializeField, Min(0.05f), Tooltip("Интервал урона (1 hp), пока игрок под миром")]
+        private float fallDmgDelay = 1f;
+        private float _fallDmgTimer;
+        private bool _isFalling;
 
         private readonly Queue<LayerContext> _activeLayers = new();
         private Character _player;
@@ -50,6 +58,7 @@ namespace Generator
             if (_player != null && _player.gameObject.activeInHierarchy)
                 _lastPlayerY = _player.transform.position.y;
 
+            CheckPlayerFell();
             DespawnPassedLayers();
 
             if (!_generating && _cursorY < _lastPlayerY + generateAhead)
@@ -130,6 +139,32 @@ namespace Generator
             _cursorY += layer.Bounds.height;
             _nextLayerIndex++;
             yield return null;
+        }
+
+        private void CheckPlayerFell()
+        {
+            if (_player == null || !_player.gameObject.activeInHierarchy || _activeLayers.Count == 0)
+            {
+                SetFalling(false);
+                return;
+            }
+
+            bool fell = _player.transform.position.y < _activeLayers.Peek().Bounds.yMin - fallDeathMargin;
+            SetFalling(fell);
+            if (!fell) return;
+
+            _fallDmgTimer -= Time.deltaTime;
+            if (_fallDmgTimer > 0) return;
+            _fallDmgTimer = fallDmgDelay;
+            _player.Stats.Damage(1);
+        }
+
+        private void SetFalling(bool value)
+        {
+            if (_isFalling == value) return;
+            _isFalling = value;
+            _fallDmgTimer = fallDmgDelay;
+            MessageBroker.Default.Publish(new PlayerInDeadZoneEvent { IsDeadZone = value });
         }
 
         private void DespawnPassedLayers()

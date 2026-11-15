@@ -107,7 +107,7 @@ MonoBehaviour:
   musicTracks:
   - name: UiAmbient
     clip: {fileID: 8300000, guid: a29347dfdcfd7c942b9612a81ba723bc, type: 3}
-    volume: 1
+    volume: 0.136
     pitch: 0.9
     pitchFactor: 0
   - name: GameplayAmbient
