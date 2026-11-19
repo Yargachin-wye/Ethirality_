@@ -18,6 +18,8 @@
 - Партиклы и LineRenderer используют `Assets/Settings/URP/URP-Particles-Unlit.mat`.
 - Повторный прогон миграции: `Tools/Rendering/Run URP 2D Lighting Migration` (`Ethereality.EditorTools.Urp2DLightingMigration.Run`) — идемпотентен; полезен при добавлении новых префабов.
 - `Custom/SmoothWarp` переписан под URP HLSL — builtin-шейдеры в URP не работают (розовый экран), при добавлении новых шейдеров писать только URP-совместимые.
+- Текст-шейдер `Custom/Text/Shimmer` (`Assets/Shaders/TextShimmer.shader`) — URP-порт TMP SDF (face/outline/underlay, stencil UI-масок, clip rect) + 4 эффекта перелива, режим — свойство `_EffectMode` (1 — блик, 2 — hue flow по тексту, 3 — аврора, 4 — медленная смена оттенка). Анимация через `_Time` (в Scene view — «Animated Materials»). Кастомный инспектор — `UI.Editor.TextFxShaderGUI`.
+- `Tools/Text FX` (`UI.Editor.TextFxTools`) — тулбокс: пресеты перелива, применение к выделенным `TMP_Text` (каждый текст получает свой материал), создание `.mat` в `Assets/Shaders/Materials/TextFx/`. Пресеты копируют свойства исходного материала (атлас, SDF-параметры) — работают с любым `TMP_FontAsset`.
 
 ## Аудио
 - Имена звуков — константы в `AudioConst` (`Assets/Scripts/Constants/Constants.cs`), полный список — `AudioConst.AllSounds`. Библиотека — `Assets/Infos/AudioLibrary.asset`.
