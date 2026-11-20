@@ -16,8 +16,10 @@ namespace UI.LeaderboardPanel
     // Top-100 for the current ranked board as individual slots: each player is
     // one row. Ranks 1..10 use `topSlots` — ten separate texts that can be
     // styled individually (drag your own TMP texts into the array, or restyle
-    // the generated SlotTop01..10 in the scene). Rows 11+ are clones of
-    // `slotTemplate`, so all regular rows share one look (same material/color).
+    // the generated SlotTop01..10 in the scene). The top slots are always
+    // visible: ranks without a player keep a placeholder (`emptyTopSlotText`).
+    // Rows 11+ are clones of `slotTemplate`, so all regular rows share one
+    // look (same material/color).
     // Visual tree can be edited in the scene: use the component's context
     // menu "Build Panel UI" once to generate the default layout, then tweak
     // it like any other panel. If `panel` is left unassigned the default
@@ -30,6 +32,8 @@ namespace UI.LeaderboardPanel
         [SerializeField] private TMP_Text statusText;
         // Ranks 1..10: one slot per rank, styled individually.
         [SerializeField] private TMP_Text[] topSlots = new TMP_Text[TopCount];
+        // Shown in top slots whose rank has no player yet.
+        [SerializeField] private string emptyTopSlotText = "—";
         // Rows 11+ (and fallback for missing top slots): cloned at runtime,
         // all clones share one style.
         [SerializeField] private TMP_Text slotTemplate;
@@ -145,25 +149,29 @@ namespace UI.LeaderboardPanel
         private void Populate(BoardResponse parsed)
         {
             ClearSlots();
-            if (parsed.top == null || parsed.top.Length == 0)
+            int count = parsed.top?.Length ?? 0;
+            int topCount = Mathf.Min(count, TopCount);
+            // Top slots are always visible: filled ranks show the entry, the
+            // rest stay as placeholders.
+            for (int i = 0; i < TopCount; i++)
             {
-                ShowSlot(GetRegularSlot(), "Пока пусто — стань первым.");
-            }
-            else
-            {
-                int count = parsed.top.Length;
-                int topCount = Mathf.Min(count, TopCount);
-                for (int i = 0; i < topCount; i++)
+                if (i < topCount)
                 {
                     var e = parsed.top[i];
                     ShowSlot(GetTopSlot(i), FormatEntry(e.rank, e.nickname, e.heightUnits));
                 }
-                for (int i = topCount; i < count; i++)
+                else
                 {
-                    var e = parsed.top[i];
-                    ShowSlot(GetRegularSlot(), FormatEntry(e.rank, e.nickname, e.heightUnits));
+                    ShowSlot(GetTopSlot(i), $"{i + 1}. {emptyTopSlotText}");
                 }
             }
+            for (int i = topCount; i < count; i++)
+            {
+                var e = parsed.top[i];
+                ShowSlot(GetRegularSlot(), FormatEntry(e.rank, e.nickname, e.heightUnits));
+            }
+            if (count == 0)
+                ShowSlot(GetRegularSlot(), "Пока пусто - стань первым.");
             if (parsed.self == null) return;
             // The self row is skipped when it is already shown in the top slots.
             bool shownInTop = parsed.self.@public && parsed.top != null &&
@@ -179,7 +187,7 @@ namespace UI.LeaderboardPanel
         private static string FormatEntry(int rank, string nickname, long heightUnits)
         {
             string name = string.IsNullOrEmpty(nickname) ? "Игрок" : nickname;
-            return $"{rank}. {name} — {RunResultText.Height(heightUnits)}";
+            return $"{rank}. {name} - {RunResultText.Height(heightUnits)}";
         }
 
         private void Close()

@@ -1,11 +1,19 @@
 // TMP SDF text for URP with iridescent FX.
 // Same math as TextMeshPro/Mobile/Distance Field (face / outline / underlay,
 // stencil for UI masks, clip rect), ported to URP HLSL, plus animated effects:
+// The outline is drawn by atlas dilation (sampling around the glyph), so it
+// works with bitmap atlases and small text/canvas scales where the SDF ring
+// thresholds go negative and flood the quad.
 //   0 - none (plain SDF)
 //   1 - shine sweep: bright band running across the text
-//   2 - hue flow: colors flowing along the text
-//   3 - aurora: hue flow + running highlight
-//   4 - hue shift: whole text slowly changes color
+//   2 - palette flow: colors flowing along the text
+//   3 - aurora: palette flow + running highlight
+//   4 - palette shift: whole text slowly cycles the palette
+//   5 - noise sparkle: animated shimmer patches from fbm noise
+//   6 - iridescent noise: palette colors driven by fbm noise
+//   7 - plasma: classic flowing waves through the palette
+// The flow modes (2,3,4,6,7) cycle through the FX color palette
+// (_FxColor1..4, _FxColorCount stops); _HueShift offsets along the palette.
 // Animation uses _Time (enable "Animated Materials" in the Scene view to preview).
 // Editor tools: Tools/Text FX (UI.Editor.TextFxTools).
 
@@ -58,18 +66,24 @@ Shader "Custom/Text/Shimmer"
         [HideInInspector] _ColorMask ("Color Mask", Float) = 15
 
         // ---- Text FX ----
-        _EffectMode ("Effect Mode", Range(0,4)) = 3
+        _EffectMode ("Effect Mode", Range(0,7)) = 3
         _Intensity ("FX Intensity", Range(0,2)) = 1
         _Speed ("FX Speed", Range(0,10)) = 0.5
         _Tiling ("FX Tiling", Range(0.1,4)) = 1
         _FxAngle ("FX Angle", Range(-180,180)) = 0
         _HueShift ("Hue Shift", Range(0,1)) = 0
-        _Saturation ("Saturation", Range(0,1)) = 0.85
-        _Value ("Value", Range(0,2)) = 1.1
+        _FxColorCount ("FX Color Count", Range(1,4)) = 4
+        [HDR] _FxColor1 ("FX Color 1", Color) = (1,0.25,0.25,1)
+        [HDR] _FxColor2 ("FX Color 2", Color) = (1,0.85,0.2,1)
+        [HDR] _FxColor3 ("FX Color 3", Color) = (0.3,1,0.4,1)
+        [HDR] _FxColor4 ("FX Color 4", Color) = (0.35,0.5,1,1)
         _SweepWidth ("Sweep Width", Range(0.02,1)) = 0.25
         _SweepSoftness ("Sweep Softness", Range(0.1,10)) = 2
         _SweepBands ("Sweep Bands", Range(1,4)) = 2
         [HDR] _SweepColor ("Sweep Color", Color) = (1.6,1.6,1.6,1)
+        _NoiseScale ("Noise Scale", Range(0.5,30)) = 4
+        _NoiseOctaves ("Noise Octaves", Range(1,5)) = 3
+        _NoiseContrast ("Noise Contrast", Range(0.1,6)) = 2
     }
 
     SubShader
@@ -126,9 +140,12 @@ Shader "Custom/Text/Shimmer"
                 float _CullMode, _ColorMask;
                 // Text FX
                 float _EffectMode, _Intensity, _Speed, _Tiling, _FxAngle;
-                float _HueShift, _Saturation, _Value;
+                float _HueShift;
+                float _FxColorCount;
+                float4 _FxColor1, _FxColor2, _FxColor3, _FxColor4;
                 float _SweepWidth, _SweepSoftness, _SweepBands;
                 float4 _SweepColor;
+                float _NoiseScale, _NoiseOctaves, _NoiseContrast;
             CBUFFER_END
 
             struct vertex_t
@@ -158,10 +175,56 @@ Shader "Custom/Text/Shimmer"
                 #endif
             };
 
-            float3 HsvToRgb(float3 c)
+            // Color ramp through _FxColor1..4; t in 0..1 maps across _FxColorCount stops.
+            float3 FxPalette(float t)
             {
-                float3 p = abs(frac(c.xxx + float3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0);
-                return c.z * lerp(float3(1, 1, 1), saturate(p - 1.0), c.y);
+                int count = clamp((int)(_FxColorCount + 0.5), 1, 4);
+                t = saturate(t);
+                if (count == 1) return _FxColor1.rgb;
+                float seg = t * (count - 1);
+                int i = clamp((int)seg, 0, count - 2);
+                float f = frac(seg);
+                float3 c0 = _FxColor1.rgb;
+                float3 c1 = _FxColor2.rgb;
+                if (i == 1) { c0 = _FxColor2.rgb; c1 = _FxColor3.rgb; }
+                else if (i == 2) { c0 = _FxColor3.rgb; c1 = _FxColor4.rgb; }
+                return lerp(c0, c1, f);
+            }
+
+            // Procedural value noise + fbm for the noise FX modes.
+            float Hash21(float2 p)
+            {
+                p = frac(p * float2(123.34, 456.21));
+                p += dot(p, p + 45.32);
+                return frac(p.x * p.y);
+            }
+
+            float ValueNoise(float2 p)
+            {
+                float2 i = floor(p);
+                float2 f = frac(p);
+                float2 u = f * f * (3.0 - 2.0 * f);
+                float a = Hash21(i);
+                float b = Hash21(i + float2(1.0, 0.0));
+                float c = Hash21(i + float2(0.0, 1.0));
+                float d = Hash21(i + float2(1.0, 1.0));
+                return lerp(lerp(a, b, u.x), lerp(c, d, u.x), u.y);
+            }
+
+            float Fbm(float2 p, int octaves)
+            {
+                float v = 0.0;
+                float amp = 0.5;
+                float freq = 1.0;
+                [unroll]
+                for (int o = 0; o < 5; o++)
+                {
+                    if (o >= octaves) break;
+                    v += amp * ValueNoise(p * freq);
+                    freq *= 2.0;
+                    amp *= 0.5;
+                }
+                return v;
             }
 
             pixel_t vert(vertex_t input)
@@ -210,7 +273,6 @@ Shader "Custom/Text/Shimmer"
                 float4 outlineColor = _OutlineColor;
                 outlineColor.a *= opacity;
                 outlineColor.rgb *= outlineColor.a;
-                outlineColor = lerp(faceColor, outlineColor, sqrt(min(1.0, (outline * 2))));
 
                 #if (UNDERLAY_ON | UNDERLAY_INNER)
                 layerScale /= 1 + ((_UnderlaySoftness * _ScaleRatioC) * layerScale);
@@ -246,16 +308,29 @@ Shader "Custom/Text/Shimmer"
                 UNITY_SETUP_INSTANCE_ID(input);
 
                 float d = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.texcoord0.xy).a * input.param.x;
-                float4 c = input.faceColor * saturate(d - input.param.w);
-
+                // The TMP bias carries a fixed half-texel SDF fudge (-0.5) that
+                // dominates when the shader scale is small (bitmap fonts, scaled
+                // canvases, small text) and pushes the thresholds negative,
+                // flooding the whole quad with the outline color. Thresholds are
+                // clamped to 0, and the outline is drawn by dilation (sampling
+                // the atlas a few screen pixels around the glyph), which works
+                // with any atlas type (bitmap or SDF) at any scale.
                 #ifdef OUTLINE_ON
-                c = lerp(input.outlineColor, input.faceColor, saturate(d - input.param.z));
-                c *= saturate(d - input.param.y);
+                float2 dilate = float2(ddx(input.texcoord0.x), ddy(input.texcoord0.y)) * (_OutlineWidth * 8.0);
+                float outAlpha = d;
+                outAlpha = max(outAlpha, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.texcoord0.xy + dilate).a * input.param.x);
+                outAlpha = max(outAlpha, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.texcoord0.xy - dilate).a * input.param.x);
+                outAlpha = max(outAlpha, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.texcoord0.xy + float2(dilate.y, dilate.x)).a * input.param.x);
+                outAlpha = max(outAlpha, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.texcoord0.xy - float2(dilate.y, dilate.x)).a * input.param.x);
+                float faceMask = saturate(d - max(input.param.w, 0.0));
+                float4 c = lerp(input.outlineColor, input.faceColor, faceMask) * saturate(outAlpha - max(input.param.w, 0.0));
+                #else
+                float4 c = input.faceColor * saturate(d - max(input.param.w, 0.0));
                 #endif
 
                 #if UNDERLAY_ON
                 d = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.texcoord1.xy).a * input.underlayParam.x;
-                c += float4(_UnderlayColor.rgb * _UnderlayColor.a, _UnderlayColor.a) * saturate(d - input.underlayParam.y) * (1 - c.a);
+                c += float4(_UnderlayColor.rgb * _UnderlayColor.a, _UnderlayColor.a) * saturate(d - max(input.underlayParam.y, 0.0)) * (1 - c.a);
                 #endif
 
                 #if UNDERLAY_INNER
@@ -282,23 +357,46 @@ Shader "Custom/Text/Shimmer"
                     band = pow(band, _SweepSoftness);
                     tint = lerp(float3(1, 1, 1), _SweepColor.rgb, band * _Intensity);
                 }
-                else if (mode == 2 || mode == 3) // hue flow / aurora
+                else if (mode == 2 || mode == 3) // palette flow / aurora
                 {
-                    float hue = frac(p.x * _Tiling + _HueShift - t);
-                    float3 hueColor = HsvToRgb(float3(hue, _Saturation, _Value));
-                    tint = lerp(float3(1, 1, 1), hueColor, _Intensity);
-                    if (mode == 3) // aurora: moving highlight over the hue flow
+                    float pos = frac(p.x * _Tiling + _HueShift - t);
+                    float3 palColor = FxPalette(pos);
+                    tint = lerp(float3(1, 1, 1), palColor, _Intensity);
+                    if (mode == 3) // aurora: moving highlight over the palette flow
                     {
-                        float pos = frac(p.x * _SweepBands - t * 1.4);
-                        float band = saturate((1.0 - abs(pos - 0.5) * 2.0) / _SweepWidth);
+                        float bandPos = frac(p.x * _SweepBands - t * 1.4);
+                        float band = saturate((1.0 - abs(bandPos - 0.5) * 2.0) / _SweepWidth);
                         band = pow(band, _SweepSoftness);
                         tint *= 1.0 + band * _SweepColor.rgb * _Intensity;
                     }
                 }
-                else if (mode == 4) // hue shift
+                else if (mode == 4) // palette shift: whole text cycles the palette
                 {
-                    float hue = frac(_HueShift + t);
-                    tint = lerp(float3(1, 1, 1), HsvToRgb(float3(hue, _Saturation, _Value)), _Intensity);
+                    tint = lerp(float3(1, 1, 1), FxPalette(frac(_HueShift + t)), _Intensity);
+                }
+                else if (mode == 5) // noise sparkle: animated shimmer patches
+                {
+                    int octaves = clamp((int)(_NoiseOctaves + 0.5), 1, 5);
+                    float n = Fbm(p * _NoiseScale + float2(t * 0.7, t * 0.35), octaves);
+                    n = pow(saturate(n), _NoiseContrast);
+                    tint = lerp(float3(1, 1, 1), _SweepColor.rgb, n * _Intensity);
+                }
+                else if (mode == 6) // iridescent noise: palette colors driven by fbm
+                {
+                    int octaves = clamp((int)(_NoiseOctaves + 0.5), 1, 5);
+                    float n = Fbm(p * _NoiseScale + float2(t * 0.5, t * 0.3), octaves);
+                    float pos = frac(_HueShift + n * _Tiling - t * 0.2);
+                    tint = lerp(float3(1, 1, 1), FxPalette(pos), _Intensity);
+                }
+                else if (mode == 7) // plasma: flowing waves through the palette
+                {
+                    int octaves = clamp((int)(_NoiseOctaves + 0.5), 1, 5);
+                    float2 q = p * _NoiseScale;
+                    float v = sin(q.x + t * 1.3) + sin(q.y + t * 0.9)
+                            + sin((q.x + q.y) * 0.5 + t * 0.5)
+                            + Fbm(q + float2(t * 0.4, -t * 0.3), octaves) * 1.5;
+                    float pos = frac(_HueShift + v * 0.15 * _Tiling + t * 0.1);
+                    tint = lerp(float3(1, 1, 1), FxPalette(pos), _Intensity);
                 }
 
                 c.rgb *= tint;

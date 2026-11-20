@@ -20,12 +20,18 @@ namespace UI.Editor
         public float intensity = 1f;
         public float angle = 0f;
         public float hueShift = 0f;
-        public float saturation = 0.85f;
-        public float value = 1.1f;
+        public int colorCount = 4;
+        public Color fxColor1 = new Color(1f, 0.25f, 0.25f);
+        public Color fxColor2 = new Color(1f, 0.85f, 0.2f);
+        public Color fxColor3 = new Color(0.3f, 1f, 0.4f);
+        public Color fxColor4 = new Color(0.35f, 0.5f, 1f);
         public float sweepWidth = 0.25f;
         public float sweepSoftness = 2f;
         public float sweepBands = 2f;
         public Color sweepColor = Color.white;
+        public float noiseScale = 4f;
+        public float noiseOctaves = 3f;
+        public float noiseContrast = 2f;
         public bool outlineOn;
         public float outlineWidth = 0.12f;
         public float outlineSoftness = 0.15f;
@@ -39,12 +45,18 @@ namespace UI.Editor
             mat.SetFloat("_Intensity", intensity);
             mat.SetFloat("_FxAngle", angle);
             mat.SetFloat("_HueShift", hueShift);
-            mat.SetFloat("_Saturation", saturation);
-            mat.SetFloat("_Value", value);
+            mat.SetFloat("_FxColorCount", colorCount);
+            mat.SetColor("_FxColor1", fxColor1);
+            mat.SetColor("_FxColor2", fxColor2);
+            mat.SetColor("_FxColor3", fxColor3);
+            mat.SetColor("_FxColor4", fxColor4);
             mat.SetFloat("_SweepWidth", sweepWidth);
             mat.SetFloat("_SweepSoftness", sweepSoftness);
             mat.SetFloat("_SweepBands", sweepBands);
             mat.SetColor("_SweepColor", sweepColor);
+            mat.SetFloat("_NoiseScale", noiseScale);
+            mat.SetFloat("_NoiseOctaves", noiseOctaves);
+            mat.SetFloat("_NoiseContrast", noiseContrast);
             if (outlineOn)
             {
                 mat.EnableKeyword("OUTLINE_ON");
@@ -77,13 +89,17 @@ namespace UI.Editor
             {
                 name = "Радужный перелив",
                 description = "Цвета текут вдоль текста",
-                mode = 2, speed = 0.6f, tiling = 1f, saturation = 0.9f, value = 1.15f,
+                mode = 2, speed = 0.6f, tiling = 1f,
             },
             new TextFxPreset
             {
                 name = "Аврора",
                 description = "Перелив + бегущий яркий блик",
                 mode = 3, speed = 0.45f, tiling = 0.8f,
+                fxColor1 = new Color(0.3f, 0.9f, 1f),
+                fxColor2 = new Color(0.4f, 0.5f, 1f),
+                fxColor3 = new Color(0.75f, 0.35f, 1f),
+                fxColor4 = new Color(1f, 0.4f, 0.8f),
                 sweepBands = 2f, sweepWidth = 0.3f,
                 sweepColor = new Color(1.8f, 1.8f, 1.8f, 1f),
             },
@@ -100,7 +116,11 @@ namespace UI.Editor
             {
                 name = "Ледяное сияние",
                 description = "Медленная смена холодных оттенков",
-                mode = 4, speed = 0.12f, hueShift = 0.52f, saturation = 0.55f, value = 1.25f,
+                mode = 4, speed = 0.12f,
+                fxColor1 = new Color(0.75f, 0.95f, 1f),
+                fxColor2 = new Color(0.5f, 0.75f, 1f),
+                fxColor3 = new Color(0.3f, 0.55f, 0.95f),
+                fxColor4 = new Color(0.6f, 0.85f, 1f),
             },
             new TextFxPreset
             {
@@ -115,7 +135,36 @@ namespace UI.Editor
             {
                 name = "Закат",
                 description = "Тёплые тона, текущие по тексту",
-                mode = 2, speed = 0.35f, tiling = 0.7f, hueShift = 0.03f, saturation = 0.85f, value = 1f,
+                mode = 2, speed = 0.35f, tiling = 0.7f,
+                fxColor1 = new Color(1f, 0.9f, 0.5f),
+                fxColor2 = new Color(1f, 0.6f, 0.25f),
+                fxColor3 = new Color(1f, 0.35f, 0.3f),
+                fxColor4 = new Color(0.8f, 0.25f, 0.55f),
+            },
+            new TextFxPreset
+            {
+                name = "Шумовая искра",
+                description = "Мерцающие шумовые блики по тексту",
+                mode = 5, speed = 0.9f, noiseScale = 5f, noiseOctaves = 3f, noiseContrast = 2.5f,
+                sweepColor = new Color(2.2f, 2.1f, 1.7f, 1f),
+            },
+            new TextFxPreset
+            {
+                name = "Радужный шум",
+                description = "Переливающиеся шумовые пятна цвета",
+                mode = 6, speed = 0.6f, noiseScale = 3.5f, noiseOctaves = 3f,
+                tiling = 1.2f,
+            },
+            new TextFxPreset
+            {
+                name = "Плазма",
+                description = "Текучие волны по палитре",
+                mode = 7, speed = 0.8f, noiseScale = 2.5f, noiseOctaves = 2f,
+                tiling = 1f,
+                fxColor1 = new Color(0.2f, 0.55f, 1f),
+                fxColor2 = new Color(1f, 0.25f, 0.6f),
+                fxColor3 = new Color(1f, 0.7f, 0.2f),
+                fxColor4 = new Color(0.25f, 1f, 0.6f),
             },
         };
 
@@ -149,8 +198,20 @@ namespace UI.Editor
                 Debug.Log($"[TextFxTools] Материал создан: {path}");
         }
 
-        // Creates a material for the preset, copying all properties (atlas,
-        // SDF parameters, keywords) from the source material.
+        [MenuItem("Tools/Text FX/Create Materials for All Presets")]
+        public static void CreateAllPresetMaterials()
+        {
+            Material source = FindSourceMaterial();
+            int created = 0;
+            foreach (var preset in Presets)
+            {
+                if (CreateMaterialAsset(preset, source) != null) created++;
+            }
+            Debug.Log($"[TextFxTools] Создано/обновлено материалов: {created}/{Presets.Length}.");
+        }
+
+        // Creates a material for the preset, copying all matching properties
+        // (atlas, SDF parameters) from the source material.
         public static Material CreateMaterial(TextFxPreset preset, Material source)
         {
             var shader = Shader.Find(ShaderName);
@@ -159,8 +220,20 @@ namespace UI.Editor
                 Debug.LogError($"[TextFxTools] Шейдер '{ShaderName}' не найден. Проверьте Assets/Shaders/TextShimmer.shader.");
                 return null;
             }
-            var mat = source != null ? new Material(source) : new Material(shader);
-            if (mat.shader != shader) mat.shader = shader;
+            // Note: `new Material(source)` creates a material variant (m_Parent)
+            // whose shader cannot be changed and whose overrides are not always
+            // serialized — build a standalone material instead.
+            var mat = new Material(shader);
+            if (source != null)
+                mat.CopyMatchingPropertiesFromMaterial(source);
+            // The atlas is often only an internal sub-asset reference on the font
+            // material and may not survive the copy — take it from the font itself.
+            if (mat.GetTexture("_MainTex") == null)
+            {
+                var font = FindSourceFont();
+                if (font != null && font.atlasTexture != null)
+                    mat.SetTexture("_MainTex", font.atlasTexture);
+            }
             preset.Apply(mat);
             return mat;
         }
@@ -233,7 +306,28 @@ namespace UI.Editor
                                  "Выделите текст с нужным шрифтом или назначьте атлас вручную.");
 
             EnsureFolder(MaterialsDir);
-            string path = AssetDatabase.GenerateUniqueAssetPath($"{MaterialsDir}/TextFx_{preset.name}.mat");
+            string path = $"{MaterialsDir}/TextFx_{preset.name}.mat";
+            var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (existing != null && existing.parent == null)
+            {
+                // Standalone material: update in place so references stay valid.
+                existing.shader = mat.shader;
+                existing.CopyPropertiesFromMaterial(mat);
+                existing.shaderKeywords = mat.shaderKeywords;
+                UnityEngine.Object.DestroyImmediate(mat);
+                AssetDatabase.SaveAssets();
+                Selection.activeObject = existing;
+                return path;
+            }
+            if (existing != null)
+            {
+                // Material variant: shader/properties cannot be persisted in
+                // place — replace the asset (references to it are lost).
+                Debug.LogWarning($"[TextFxTools] Материал '{path}' является вариантом (m_Parent) и не может быть " +
+                                 "обновлён на месте — он будет заменён новым ассетом.");
+                AssetDatabase.DeleteAsset(path);
+            }
+            path = AssetDatabase.GenerateUniqueAssetPath(path);
             AssetDatabase.CreateAsset(mat, path);
             AssetDatabase.SaveAssets();
             Selection.activeObject = mat;
@@ -254,6 +348,17 @@ namespace UI.Editor
             if (TMP_Settings.defaultFontAsset != null)
                 return TMP_Settings.defaultFontAsset.material;
             return null;
+        }
+
+        // Font matching the source material (selected text first, else default).
+        public static TMP_FontAsset FindSourceFont()
+        {
+            var selected = Selection.gameObjects
+                .Select(go => go.GetComponent<TMP_Text>())
+                .FirstOrDefault(t => t != null);
+            if (selected != null && selected.font != null)
+                return selected.font;
+            return TMP_Settings.defaultFontAsset;
         }
 
         private static void EnsureFolder(string path)
@@ -330,7 +435,11 @@ namespace UI.Editor
             if (mode == 1) return "блик";
             if (mode == 2) return "перелив по тексту";
             if (mode == 3) return "аврора";
-            return "смена цвета";
+            if (mode == 4) return "смена цвета";
+            if (mode == 5) return "шумовой блик";
+            if (mode == 6) return "радужный шум";
+            if (mode == 7) return "плазма";
+            return "без эффекта";
         }
     }
 }
